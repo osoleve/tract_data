@@ -15,16 +15,18 @@ st.set_page_config(layout="wide")
 st.title("Census Tract Analysis Dashboard")
 
 
-
-
-# Weight sliders in sidebar
-st.sidebar.header("Combination Weights")
-poverty_weight = st.sidebar.slider("Poverty Weight", 0.0, 1.0, 1.0, key="pw")
-food_weight = st.sidebar.slider("Food Insecurity Weight", 0.0, 1.0, 1.0, key="fw")
-vehicle_weight = st.sidebar.slider("Vehicle Weight", 0.0, 1.0, 1.0, key="vw")
-vehicle_num_toggle = st.sidebar.checkbox(
-    "Include Households with Fewer Vehicles than Members", key="vnt"
-)
+# Replace the standalone sidebar widgets with a form
+with st.sidebar.form("weights_form"):
+    st.header("Combination Weights")
+    poverty_weight = st.slider("Poverty Weight", 0.0, 1.0, 1.0, key="pw")
+    food_weight = st.slider("Food Insecurity Weight", 0.0, 1.0, 1.0, key="fw")
+    vehicle_weight = st.slider("Vehicle Weight", 0.0, 1.0, 0.33, key="vw")
+    vehicle_num_toggle = st.checkbox(
+        "Include Households with Fewer Vehicles than Members", key="vnt"
+    )
+    # Added new slider for controlling color scale max value.
+    scale_max = st.slider("Max Scale Value", 0.0, 100.0, 25.0, key="sm")
+    submit_form = st.form_submit_button("Apply Weights")
 
 
 def weighted_harmonic_mean(values, weights):
@@ -34,6 +36,7 @@ def weighted_harmonic_mean(values, weights):
     values, weights = zip(*valid_pairs)
     weights = [w / sum(weights) for w in weights]  # Normalize weights
     return 1 / sum(w / (v * sum(weights)) for v, w in zip(values, weights))
+
 
 @st.cache_data
 def load_and_process_data():
@@ -78,8 +81,11 @@ def load_and_process_data():
 
     return tract
 
+
 @st.cache_data
-def post_process_data(_tract_data, vehicle_num_toggle, poverty_weight, vehicle_weight, food_weight):
+def post_process_data(
+    _tract_data, vehicle_num_toggle, poverty_weight, vehicle_weight, food_weight
+):
     if not vehicle_num_toggle:
         _tract_data["pct_vehicle"] = _tract_data["pct_no_vehicle"]
     else:
@@ -92,78 +98,79 @@ def post_process_data(_tract_data, vehicle_num_toggle, poverty_weight, vehicle_w
         ),
         axis=1,
     )
-    _tract_data["pct_vehicle"] = _tract_data["pct_vehicle"].where(_tract_data["pct_vehicle"] != 0, pd.NA)
+    _tract_data["pct_vehicle"] = _tract_data["pct_vehicle"].where(
+        _tract_data["pct_vehicle"] != 0, pd.NA
+    )
     _tract_data["pct_food_insecure"] = _tract_data["pct_food_insecure"].astype(float)
     return _tract_data
 
 
-def create_plots(tract_data):
-    import branca.colormap as cm
+def make_map(df, col, map_title, vmax):
+    import json
+    import plotly.express as px
+    import pandas as pd
 
-    mc = tract_data["combined_pct"].max()
-
-    def make_map(df, col, map_title, vmax):
-        base_map = folium.Map(
-            location=[(35.25 + 36.7) / 2, 0.5 + (-82 - 79) / 2],
-            zoom_start=9,
-            min_lat=35.25,
-            max_lat=36.7,
-            min_lon=-82,
-            max_lon=-79,
-            tiles="cartodbpositron",
-        )
-        df["idx"] = df.tract_no
-        folium.GeoJson(
-            data=df.set_index("idx").__geo_interface__,
-            name=map_title,
-            style_function=lambda x: {
-                "fillColor": cm.linear.RdYlGn_11(
-                    1 - (x["properties"][col] / vmax)
-                ),
-                "color": "black",
-                "weight": 0.25,
-                "fillOpacity": 0.4,
-            },
-            tooltip=folium.GeoJsonTooltip(
-                fields=[
-                    "_county",
-                    "tract_no",
-                    "combined_pct",
-                    "pct_poverty",
-                    "pct_food_insecure",
-                    "pct_vehicle",
-                ],
-                aliases=[
-                    "County:",
-                    "Tract:",
-                    "Combined (%):",
-                    "Poverty (%):",
-                    "Food Insecure (%):",
-                    "Lack Vehicles (%):",
-                ],
-                style=(
-                    "background-color: white; border: 1px solid #999; "
-                    "padding: 5px; border-radius: 4px; font-size: 13px;"
-                ),
-                localize=True,
-                labels=True,
-            ),
-        ).add_to(base_map)
-        return base_map
-
-    st_folium(
-        make_map(tract_data, "combined_pct", "Combined Need", mc),
-        height=800,
-        width=1600,
+    # Calculate map center using geometry centroids
+    center_lat = df.geometry.centroid.y.mean()
+    center_lon = df.geometry.centroid.x.mean()
+    # Convert GeoDataFrame to GeoJSON
+    geojson = json.loads(df.to_json())
+    
+    # Create custom hover text with conditional display of pct_vehicle
+    df["custom_hover"] = df.apply(
+        lambda row: f"<b>Census Tract </b>{row['tract_no']}<br>"
+                    f"{row['_county']} County<br>"
+                    f"<b>Combined (%):</b> {row['combined_pct']:0.2f}<br><br>"
+                    f"<b>Poverty (%):</b> {row['pct_poverty']:0.2f}<br>"
+                    f"{(f'<b>Lack Vehicles (%):</b> {row['pct_vehicle']:0.2f}<br>' if pd.notnull(row['pct_vehicle']) else '')}"
+                    f"<b>Food Insecure (%):</b> {row['pct_food_insecure']:0.2f}",
+        axis=1
     )
+    
+    fig = px.choropleth_mapbox(
+        df,
+        geojson=geojson,
+        locations=df.index,
+        color=col,
+        hover_name="tract_no",
+        # Use diverging color scale instead of sequential
+        color_continuous_scale=px.colors.diverging.RdYlGn[::-1],
+        range_color=(0, vmax),
+        mapbox_style="carto-positron",
+        zoom=9,
+        center={"lat": center_lat, "lon": center_lon},
+        height=800,
+        hover_data={"custom_hover":""}
+    )
+    # Remove previous tooltip variable and apply the custom hover template
+    fig.update_traces(hovertemplate="%{customdata[0]}<extra></extra>")
+    fig.update_layout(
+        hoverlabel=dict(
+            bgcolor="black", font_size=12, font_family="Arial", font_color="white"
+        )
+    )
+    fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
+    return fig
 
 
 # Main app logic
 try:
     if "tracts" not in st.session_state:
-        st.session_state['tracts'] = load_and_process_data()
-    st.session_state['tracts'] = post_process_data(st.session_state['tracts'], vehicle_num_toggle, poverty_weight, vehicle_weight, food_weight)
-    fig = create_plots(st.session_state['tracts'])
-
+        st.session_state["tracts"] = load_and_process_data()
+    if submit_form or "map" not in st.session_state:
+        st.session_state["tracts"] = post_process_data(
+            st.session_state["tracts"],
+            vehicle_num_toggle,
+            poverty_weight,
+            vehicle_weight,
+            food_weight,
+        )
+        # Use the slider value for vmax
+        vmax = scale_max
+        fig = make_map(
+            st.session_state["tracts"], "combined_pct", "Combined Need", vmax
+        )
+        st.session_state["map"] = fig
+        st.plotly_chart(fig, use_container_width=True)
 except Exception as e:
     st.error(f"Error processing data: {str(e)}")
