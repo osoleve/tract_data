@@ -103,55 +103,53 @@ def create_plots(tract_data):
     mc = tract_data["combined_pct"].max()
 
     def make_map(df, col, map_title, vmax):
-        if "map" not in st.session_state or st.session_state.map is None:
-            base_map = folium.Map(
-                location=[(35.25 + 36.7) / 2, 0.5 + (-82 - 79) / 2],
-                zoom_start=9,
-                min_lat=35.25,
-                max_lat=36.7,
-                min_lon=-82,
-                max_lon=-79,
-                # tiles="cartodbpositron",
-            )
-            df["idx"] = df.tract_no
-            folium.GeoJson(
-                data=df.set_index("idx").__geo_interface__,
-                name=map_title,
-                style_function=lambda x: {
-                    "fillColor": cm.linear.RdYlGn_11(
-                        1 - (x["properties"][col] / vmax)
-                    ),
-                    "color": "black",
-                    "weight": 0.25,
-                    "fillOpacity": 0.4,
-                },
-                tooltip=folium.GeoJsonTooltip(
-                    fields=[
-                        "_county",
-                        "tract_no",
-                        "combined_pct",
-                        "pct_poverty",
-                        "pct_food_insecure",
-                        "pct_vehicle",
-                    ],
-                    aliases=[
-                        "County:",
-                        "Tract:",
-                        "Combined (%):",
-                        "Poverty (%):",
-                        "Food Insecure (%):",
-                        "Lack Vehicles (%):",
-                    ],
-                    style=(
-                        "background-color: white; border: 1px solid #999; "
-                        "padding: 5px; border-radius: 4px; font-size: 13px;"
-                    ),
-                    localize=True,
-                    labels=True,
+        base_map = folium.Map(
+            location=[(35.25 + 36.7) / 2, 0.5 + (-82 - 79) / 2],
+            zoom_start=9,
+            min_lat=35.25,
+            max_lat=36.7,
+            min_lon=-82,
+            max_lon=-79,
+            tiles="cartodbpositron",
+        )
+        df["idx"] = df.tract_no
+        folium.GeoJson(
+            data=df.set_index("idx").__geo_interface__,
+            name=map_title,
+            style_function=lambda x: {
+                "fillColor": cm.linear.RdYlGn_11(
+                    1 - (x["properties"][col] / vmax)
                 ),
-            ).add_to(base_map)
-            st.session_state.map = base_map
-        return st.session_state.map
+                "color": "black",
+                "weight": 0.25,
+                "fillOpacity": 0.4,
+            },
+            tooltip=folium.GeoJsonTooltip(
+                fields=[
+                    "_county",
+                    "tract_no",
+                    "combined_pct",
+                    "pct_poverty",
+                    "pct_food_insecure",
+                    "pct_vehicle",
+                ],
+                aliases=[
+                    "County:",
+                    "Tract:",
+                    "Combined (%):",
+                    "Poverty (%):",
+                    "Food Insecure (%):",
+                    "Lack Vehicles (%):",
+                ],
+                style=(
+                    "background-color: white; border: 1px solid #999; "
+                    "padding: 5px; border-radius: 4px; font-size: 13px;"
+                ),
+                localize=True,
+                labels=True,
+            ),
+        ).add_to(base_map)
+        return base_map
 
     st_folium(
         make_map(tract_data, "combined_pct", "Combined Need", mc),
