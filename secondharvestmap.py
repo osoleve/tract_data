@@ -1,8 +1,6 @@
 import streamlit as st
 import pandas as pd
 import pickle
-import folium
-from streamlit_folium import st_folium
 
 
 def tractce_to_tractno(tractce: str) -> str:
