@@ -12,19 +12,21 @@ def tractce_to_tractno(tractce: str) -> str:
 st.set_page_config(layout="wide")
 st.title("Census Tract Analysis Dashboard")
 
-
-# Replace the standalone sidebar widgets with a form
 with st.sidebar.form("weights_form"):
-    st.header("Combination Weights")
+    st.header("Feature Weights")
     poverty_weight = st.slider("Poverty Weight", 0.0, 1.0, 1.0, key="pw")
     food_weight = st.slider("Food Insecurity Weight", 0.0, 1.0, 1.0, key="fw")
     vehicle_weight = st.slider("Vehicle Weight", 0.0, 1.0, 0.33, key="vw")
+    st.header("Options")
     vehicle_num_toggle = st.checkbox(
         "Include Households with Fewer Vehicles than Members", key="vnt"
     )
-    # Added new slider for controlling color scale max value.
+    # new slider for controlling color scale max value.
     scale_max = st.slider("Max Scale Value", 0.0, 100.0, 25.0, key="sm")
-    submit_form = st.form_submit_button("Apply Weights")
+    st.header("File Upload")
+    client_coordinate_file = st.file_uploader("Lat/Long Coordinates of Clients", type=["csv", "txt", "xlsx"])
+    # file uploader for lat/long points
+    submit_form = st.form_submit_button("Update")
 
 
 def weighted_harmonic_mean(values, weights):
@@ -53,7 +55,7 @@ def load_and_process_data():
             r = r + "0"
         return l + "." + r
 
-    attributes = pd.read_csv("tract_data.csv")
+    attributes = pd.read_csv("data/tract_data.csv")
     attributes["tract_no"] = attributes.tract_no.astype(str).apply(fix_tract_no)
 
     tract = tract.merge(
@@ -109,6 +111,7 @@ def make_map(df, col, map_title, vmax):
     import pandas as pd
 
     # Calculate map center using geometry centroids
+    df.geometry.to_crs("EPSG:4326")
     center_lat = df.geometry.centroid.y.mean()
     center_lon = df.geometry.centroid.x.mean()
     # Convert GeoDataFrame to GeoJSON
@@ -120,8 +123,8 @@ def make_map(df, col, map_title, vmax):
                     f"{row['_county']} County<br>"
                     f"<b>Combined (%):</b> {row['combined_pct']:0.2f}<br><br>"
                     f"<b>Poverty (%):</b> {row['pct_poverty']:0.2f}<br>"
-                    f"{(f'<b>Lack Vehicles (%):</b> {row['pct_vehicle']:0.2f}<br>' if pd.notnull(row['pct_vehicle']) else '')}"
-                    f"<b>Food Insecure (%):</b> {row['pct_food_insecure']:0.2f}",
+                    f"<b>Food Insecurity (%):</b> {row['pct_food_insecure']:0.2f}"
+                    f"{(f'<b>Lack Vehicles (%):</b> {row['pct_vehicle']:0.2f}<br>' if pd.notnull(row['pct_vehicle']) else '')}",
         axis=1
     )
     
@@ -168,6 +171,18 @@ try:
         fig = make_map(
             st.session_state["tracts"], "combined_pct", "Combined Need", vmax
         )
+        # If a file is uploaded, process and add scatter markers from uploaded lat/long data
+        if client_coordinate_file:
+            df_points = pd.read_csv(client_coordinate_file)
+            latitudes = df_points["lat"].tolist()
+            longitudes = df_points["lon"].tolist()
+            fig.add_scattermapbox(
+                lat=latitudes,
+                lon=longitudes,
+                mode="markers",
+                marker={"size": 8, "color": "blue"},
+                name="Uploaded Addresses"
+            )
         st.session_state["map"] = fig
         st.plotly_chart(fig, use_container_width=True)
 except Exception as e:
