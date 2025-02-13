@@ -25,7 +25,9 @@ with st.sidebar.form("weights_form"):
     scale_max = st.slider("Max Scale Value", 0.0, 100.0, 25.0, key="sm")
     st.header("File Upload")
     client_coordinate_file = st.file_uploader("Lat/Long Coordinates of Clients", type=["csv", "txt", "xlsx"])
-    # file uploader for lat/long points
+    # New controls for scatter marker display
+    marker_size = st.slider("Scatter Marker Size", 1, 20, 8, key="ms")
+    marker_color = st.color_picker("Scatter Marker Color", "#0000ff", key="mc")
     submit_form = st.form_submit_button("Update")
 
 
@@ -141,6 +143,7 @@ def make_map(df, col, map_title, vmax):
         zoom=9,
         center={"lat": center_lat, "lon": center_lon},
         height=800,
+        opacity=0.5,
         hover_data={"custom_hover":""}
     )
     # Remove previous tooltip variable and apply the custom hover template
@@ -180,7 +183,7 @@ try:
                 lat=latitudes,
                 lon=longitudes,
                 mode="markers",
-                marker={"size": 8, "color": "blue"},
+                marker={"size": marker_size, "color": marker_color, "opacity": 0.8},
                 name="Uploaded Addresses"
             )
         st.session_state["map"] = fig
