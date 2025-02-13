@@ -3,3 +3,4 @@ pandas
 geopandas
 plotly
 streamlit-plotly-mapbox-events
+census
