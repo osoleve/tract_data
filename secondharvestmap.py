@@ -331,15 +331,27 @@ with st.expander("About this dashboard", expanded=False):
         Use the sliders to adjust how much each factor matters in the calculation. This lets you focus on specific concerns or balance all factors equally.
         Note that the weights are normalized to add up to 1.0 before the calculation.
         
-        #### Vehicle access
+        ##### Vehicle access
         Vehicle access is an order of magnitude lower than the other two rates, so I've set the default weight to 0.33. You can adjust this to fit your needs.
 
         You can choose to count:
-        - Just households with no vehicles
-        - Or include households with fewer vehicles than members
+        - Households with no vehicles
+        - Households with fewer vehicles than members
         
+        #### Client Locations
+        Upload a CSV or Excel file with client addresses or coordinates to display them on the map.
+        Address geocoding is experimental, please check that you get about as many markers as you expect and report any issues.
+        If supplying addresses, the fields are:
+        - Address1
+        - Address2 (optional)
+        - City
+        - Zip        
         #### Display
-        Lower the color scale maximum to make differences between areas more visible.
+        Tweak the map display settings to make the map easier for you to read, or adjust the map color range.
+        Options include:
+        - Map opacity
+        - Text size and color
+        - Marker size and color for uploaded client locations
         """)
     with col2:
     
