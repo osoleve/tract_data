@@ -1,0 +1,183 @@
+census_variable,census_variable_measure,description,active
+B08201,B08201_001E,Total Households,1
+B08201,B08201_002E,Total Households with No Vehicle Available,1
+B08201,B08201_003E,Total Households with 1 Vehicle Available,1
+B08201,B08201_004E,Total Households with 2 Vehicles Available,1
+B08201,B08201_005E,Total Households with 3 Vehicles Available,1
+B08201,B08201_006E,Total Households with 4 or More Vehicles Available,1
+B08201,B08201_007E,Total 1-Person Households,1
+B08201,B08201_008E,1-Person Households with No Vehicle Available,1
+B08201,B08201_009E,1-Person Households with 1 Vehicle Available,1
+B08201,B08201_010E,1-Person Households with 2 Vehicles Available,1
+B08201,B08201_011E,1-Person Households with 3 Vehicles Available,1
+B08201,B08201_012E,1-Person Households with 4 or More Vehicles Available,1
+B08201,B08201_013E,Total 2-Person Households,1
+B08201,B08201_014E,2-Person Households with No Vehicle Available,1
+B08201,B08201_015E,2-Person Households with 1 Vehicle Available,1
+B08201,B08201_016E,2-Person Households with 2 Vehicles Available,1
+B08201,B08201_017E,2-Person Households with 3 Vehicles Available,1
+B08201,B08201_018E,2-Person Households with 4 or More Vehicles Available,1
+B08201,B08201_019E,Total 3-Person Households,1
+B08201,B08201_020E,3-Person Households with No Vehicle Available,1
+B08201,B08201_021E,3-Person Households with 1 Vehicle Available,1
+B08201,B08201_022E,3-Person Households with 2 Vehicles Available,1
+B08201,B08201_023E,3-Person Households with 3 Vehicles Available,1
+B08201,B08201_024E,3-Person Households with 4 or More Vehicles Available,1
+B08201,B08201_025E,Total 4-or-More-Person Households,1
+B08201,B08201_026E,4-or-More-Person Households with No Vehicle Available,1
+B08201,B08201_027E,4-or-More-Person Households with 1 Vehicle Available,1
+B08201,B08201_028E,4-or-More-Person Households with 2 Vehicles Available,1
+B08201,B08201_029E,4-or-More-Person Households with 3 Vehicles Available,1
+B17020,B17020_001E,Total Population,1
+B17020,B17020_002E,Total Population Below Poverty Level,1
+B17020,B17020_003E,Below Poverty Level: Under 6 years old,1
+B17020,B17020_004E,Below Poverty Level: 6 to 11 years old,1
+B17020,B17020_005E,Below Poverty Level: 12 to 17 years old,1
+B17020,B17020_006E,Below Poverty Level: 18 to 59 years old,1
+B17020,B17020_007E,Below Poverty Level: 60 to 74 years old,1
+B17020,B17020_008E,Below Poverty Level: 75 to 84 years old,1
+B17020,B17020_009E,Below Poverty Level: 85 years old and over,1
+B17020,B17020_010E,Total Population at or above poverty level,0
+B17020,B17020_011E,At or above poverty level: Under 6 years old,0
+B17020,B17020_012E,At or above poverty level: 6 to 11 years old,0
+B17020,B17020_013E,At or above poverty level: 12 to 17 years old,0
+B17020,B17020_014E,At or above poverty level: 18 to 59 years old,0
+B17020,B17020_015E,At or above poverty level: 60 to 74 years old,0
+B17020,B17020_016E,At or above poverty level: 75 to 84 years old,0
+B17020,B17020_017E,At or above poverty level: 85 years old and over,0
+B17020B,B17020B_001E,Total Population,0
+B17020B,B17020B_002E,Total Population Below Poverty Level,0
+B17020B,B17020B_003E,Below Poverty Level: Under 6 years old,0
+B17020B,B17020B_004E,Below Poverty Level: 6 to 11 years old,0
+B17020B,B17020B_005E,Below Poverty Level: 12 to 17 years old,0
+B17020B,B17020B_006E,Below Poverty Level: 18 to 59 years old,0
+B17020B,B17020B_007E,Below Poverty Level: 60 to 74 years old,0
+B17020B,B17020B_008E,Below Poverty Level: 75 to 84 years old,0
+B17020B,B17020B_009E,Below Poverty Level: 85 years old and over,0
+B17020B,B17020B_010E,Total Population at or above poverty level,0
+B17020B,B17020B_011E,At or above poverty level: Under 6 years old,0
+B17020B,B17020B_012E,At or above poverty level: 6 to 11 years old,0
+B17020B,B17020B_013E,At or above poverty level: 12 to 17 years old,0
+B17020B,B17020B_014E,At or above poverty level: 18 to 59 years old,0
+B17020B,B17020B_015E,At or above poverty level: 60 to 74 years old,0
+B17020B,B17020B_016E,At or above poverty level: 75 to 84 years old,0
+B17020B,B17020B_017E,At or above poverty level: 85 years old and over,0
+B17020C,B17020C_001E,Total Population,0
+B17020C,B17020C_002E,Total Population Below Poverty Level,0
+B17020C,B17020C_003E,Below Poverty Level: Under 6 years old,0
+B17020C,B17020C_004E,Below Poverty Level: 6 to 11 years old,0
+B17020C,B17020C_005E,Below Poverty Level: 12 to 17 years old,0
+B17020C,B17020C_006E,Below Poverty Level: 18 to 59 years old,0
+B17020C,B17020C_007E,Below Poverty Level: 60 to 74 years old,0
+B17020C,B17020C_008E,Below Poverty Level: 75 to 84 years old,0
+B17020C,B17020C_009E,Below Poverty Level: 85 years old and over,0
+B17020C,B17020C_010E,Total Population at or above poverty level,0
+B17020C,B17020C_011E,At or above poverty level: Under 6 years old,0
+B17020C,B17020C_012E,At or above poverty level: 6 to 11 years old,0
+B17020C,B17020C_013E,At or above poverty level: 12 to 17 years old,0
+B17020C,B17020C_014E,At or above poverty level: 18 to 59 years old,0
+B17020C,B17020C_015E,At or above poverty level: 60 to 74 years old,0
+B17020C,B17020C_016E,At or above poverty level: 75 to 84 years old,0
+B17020C,B17020C_017E,At or above poverty level: 85 years old and over,0
+B17020D,B17020D_001E,Total Population,0
+B17020D,B17020D_002E,Total Population Below Poverty Level,0
+B17020D,B17020D_003E,Below Poverty Level: Under 6 years old,0
+B17020D,B17020D_004E,Below Poverty Level: 6 to 11 years old,0
+B17020D,B17020D_005E,Below Poverty Level: 12 to 17 years old,0
+B17020D,B17020D_006E,Below Poverty Level: 18 to 59 years old,0
+B17020D,B17020D_007E,Below Poverty Level: 60 to 74 years old,0
+B17020D,B17020D_008E,Below Poverty Level: 75 to 84 years old,0
+B17020D,B17020D_009E,Below Poverty Level: 85 years old and over,0
+B17020D,B17020D_010E,Total Population at or above poverty level,0
+B17020D,B17020D_011E,At or above poverty level: Under 6 years old,0
+B17020D,B17020D_012E,At or above poverty level: 6 to 11 years old,0
+B17020D,B17020D_013E,At or above poverty level: 12 to 17 years old,0
+B17020D,B17020D_014E,At or above poverty level: 18 to 59 years old,0
+B17020D,B17020D_015E,At or above poverty level: 60 to 74 years old,0
+B17020D,B17020D_016E,At or above poverty level: 75 to 84 years old,0
+B17020D,B17020D_017E,At or above poverty level: 85 years old and over,0
+B17020E,B17020E_001E,Total Population,0
+B17020E,B17020E_002E,Total Population Below Poverty Level,0
+B17020E,B17020E_003E,Below Poverty Level: Under 6 years old,0
+B17020E,B17020E_004E,Below Poverty Level: 6 to 11 years old,0
+B17020E,B17020E_005E,Below Poverty Level: 12 to 17 years old,0
+B17020E,B17020E_006E,Below Poverty Level: 18 to 59 years old,0
+B17020E,B17020E_007E,Below Poverty Level: 60 to 74 years old,0
+B17020E,B17020E_008E,Below Poverty Level: 75 to 84 years old,0
+B17020E,B17020E_009E,Below Poverty Level: 85 years old and over,0
+B17020E,B17020E_010E,Total Population at or above poverty level,0
+B17020E,B17020E_011E,At or above poverty level: Under 6 years old,0
+B17020E,B17020E_012E,At or above poverty level: 6 to 11 years old,0
+B17020E,B17020E_013E,At or above poverty level: 12 to 17 years old,0
+B17020E,B17020E_014E,At or above poverty level: 18 to 59 years old,0
+B17020E,B17020E_015E,At or above poverty level: 60 to 74 years old,0
+B17020E,B17020E_016E,At or above poverty level: 75 to 84 years old,0
+B17020E,B17020E_017E,At or above poverty level: 85 years old and over,0
+B17020F,B17020F_001E,Total Population,0
+B17020F,B17020F_002E,Total Population Below Poverty Level,0
+B17020F,B17020F_003E,Below Poverty Level: Under 6 years old,0
+B17020F,B17020F_004E,Below Poverty Level: 6 to 11 years old,0
+B17020F,B17020F_005E,Below Poverty Level: 12 to 17 years old,0
+B17020F,B17020F_006E,Below Poverty Level: 18 to 59 years old,0
+B17020F,B17020F_007E,Below Poverty Level: 60 to 74 years old,0
+B17020F,B17020F_008E,Below Poverty Level: 75 to 84 years old,0
+B17020F,B17020F_009E,Below Poverty Level: 85 years old and over,0
+B17020F,B17020F_010E,Total Population at or above poverty level,0
+B17020F,B17020F_011E,At or above poverty level: Under 6 years old,0
+B17020F,B17020F_012E,At or above poverty level: 6 to 11 years old,0
+B17020F,B17020F_013E,At or above poverty level: 12 to 17 years old,0
+B17020F,B17020F_014E,At or above poverty level: 18 to 59 years old,0
+B17020F,B17020F_015E,At or above poverty level: 60 to 74 years old,0
+B17020F,B17020F_016E,At or above poverty level: 75 to 84 years old,0
+B17020F,B17020F_017E,At or above poverty level: 85 years old and over,0
+B17020G,B17020G_001E,Total Population,0
+B17020G,B17020G_002E,Total Population Below Poverty Level,0
+B17020G,B17020G_003E,Below Poverty Level: Under 6 years old,0
+B17020G,B17020G_004E,Below Poverty Level: 6 to 11 years old,0
+B17020G,B17020G_005E,Below Poverty Level: 12 to 17 years old,0
+B17020G,B17020G_006E,Below Poverty Level: 18 to 59 years old,0
+B17020G,B17020G_007E,Below Poverty Level: 60 to 74 years old,0
+B17020G,B17020G_008E,Below Poverty Level: 75 to 84 years old,0
+B17020G,B17020G_009E,Below Poverty Level: 85 years old and over,0
+B17020G,B17020G_010E,Total Population at or above poverty level,0
+B17020G,B17020G_011E,At or above poverty level: Under 6 years old,0
+B17020G,B17020G_012E,At or above poverty level: 6 to 11 years old,0
+B17020G,B17020G_013E,At or above poverty level: 12 to 17 years old,0
+B17020G,B17020G_014E,At or above poverty level: 18 to 59 years old,0
+B17020G,B17020G_015E,At or above poverty level: 60 to 74 years old,0
+B17020G,B17020G_016E,At or above poverty level: 75 to 84 years old,0
+B17020G,B17020G_017E,At or above poverty level: 85 years old and over,0
+B17020H,B17020H_001E,Total Population,0
+B17020H,B17020H_002E,Total Population Below Poverty Level,0
+B17020H,B17020H_003E,Below Poverty Level: Under 6 years old,0
+B17020H,B17020H_004E,Below Poverty Level: 6 to 11 years old,0
+B17020H,B17020H_005E,Below Poverty Level: 12 to 17 years old,0
+B17020H,B17020H_006E,Below Poverty Level: 18 to 59 years old,0
+B17020H,B17020H_007E,Below Poverty Level: 60 to 74 years old,0
+B17020H,B17020H_008E,Below Poverty Level: 75 to 84 years old,0
+B17020H,B17020H_009E,Below Poverty Level: 85 years old and over,0
+B17020H,B17020H_010E,Total Population at or above poverty level,0
+B17020H,B17020H_011E,At or above poverty level: Under 6 years old,0
+B17020H,B17020H_012E,At or above poverty level: 6 to 11 years old,0
+B17020H,B17020H_013E,At or above poverty level: 12 to 17 years old,0
+B17020H,B17020H_014E,At or above poverty level: 18 to 59 years old,0
+B17020H,B17020H_015E,At or above poverty level: 60 to 74 years old,0
+B17020H,B17020H_016E,At or above poverty level: 75 to 84 years old,0
+B17020H,B17020H_017E,At or above poverty level: 85 years old and over,0
+B17020I,B17020I_001E,Total Population,0
+B17020I,B17020I_002E,Total Population Below Poverty Level,0
+B17020I,B17020I_003E,Below Poverty Level: Under 6 years old,0
+B17020I,B17020I_004E,Below Poverty Level: 6 to 11 years old,0
+B17020I,B17020I_005E,Below Poverty Level: 12 to 17 years old,0
+B17020I,B17020I_006E,Below Poverty Level: 18 to 59 years old,0
+B17020I,B17020I_007E,Below Poverty Level: 60 to 74 years old,0
+B17020I,B17020I_008E,Below Poverty Level: 75 to 84 years old,0
+B17020I,B17020I_009E,Below Poverty Level: 85 years old and over,0
+B17020I,B17020I_010E,Total Population at or above poverty level,0
+B17020I,B17020I_011E,At or above poverty level: Under 6 years old,0
+B17020I,B17020I_012E,At or above poverty level: 6 to 11 years old,0
+B17020I,B17020I_013E,At or above poverty level: 12 to 17 years old,0
+B17020I,B17020I_014E,At or above poverty level: 18 to 59 years old,0
+B17020I,B17020I_015E,At or above poverty level: 60 to 74 years old,0
+B17020I,B17020I_016E,At or above poverty level: 75 to 84 years old,0
+B17020I,B17020I_017E,At or above poverty level: 85 years old and over,0

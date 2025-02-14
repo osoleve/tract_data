@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import pickle
+from geopy.geocoders import Nominatim
+from geopy.extra.rate_limiter import RateLimiter
 
 
 def tractce_to_tractno(tractce: str) -> str:
@@ -41,8 +43,8 @@ For reference, there is an overlay displaying the county seats of the area.
                     
 ## Calculation details
 
-Scores are calculated at the census tract level. The calculation is the [harmonic mean](https://en.wikipedia.org/wiki/Harmonic_mean) of the individual rates, and you can adjust how much each factor is weighted by using the sliders below.  
-_Note: weights are normalized prior to calculation: e.g., if your weights are 0.5, 1.0, 0.5, the actual weights used will be 0.25, 0.5, 0.25._
+Scores are calculated at the census tract level. The calculation is the [weighted average](https://en.wikipedia.org/wiki/Harmonic_mean) of the individual rates, and you can adjust how much each factor is weighted by using the sliders below.  
+_Note: weights are normalized (add to 1.0) prior to calculation: e.g., if your weights are 0.5, 1.0, 0.5, the actual weights used will be 0.25, 0.5, 0.25._
                     
 `Lack of Vehicle Rate` is the percentage of households within each census tract that do not have access to a vehicle. A toggle is available to include households with fewer vehicles than members in this calculation.
 It's set at 0.33 initially based on magnitudes of the other two rates.
@@ -61,7 +63,10 @@ It's set at 0.33 initially based on magnitudes of the other two rates.
         "Include Households with Fewer Vehicles than Members", key="vnt"
     )
     st.header("File Upload")
-    st.session_state['client_coordinates'] = st.file_uploader("Lat/Long Coordinates of Clients", type=["csv", "txt", "xlsx"])
+    st.session_state['client_coordinates'] = st.file_uploader(
+        "Upload Client Data (either Lat/Lon or Address fields: Address1, Address2, City, State, Zip)",
+        type=["csv", "txt", "xlsx"]
+    )
     
     with st.expander("Settings", expanded=False):
         st.header("Measurement Settings")
@@ -178,6 +183,27 @@ def post_process_data(
     return _tract_data
 
 
+def process_client_coordinates(uploaded_file):
+    df = pd.read_csv(uploaded_file)
+    if "lat" in df.columns and "lon" in df.columns:
+        return df["lat"].tolist(), df["lon"].tolist()
+    required_fields = {"Address1", "City", "Zip"}
+    if required_fields.issubset(set(df.columns)):
+        # Initialize geocoder
+        geolocator = Nominatim(user_agent="myGeocoder")
+        geocode = RateLimiter(geolocator.geocode, min_delay_seconds=1)
+        def geocode_row(row):
+            address = f"{row['Address1']} " + (f"{row['Address2']} " if "Address2" in row and pd.notnull(row['Address2']) else "") + f"{row['City']}, North Carolina {row['Zip']}"
+            location = geocode(address)
+            if location:
+                return pd.Series([location.latitude, location.longitude])
+            return pd.Series([None, None])
+        df[['lat','lon']] = df.apply(geocode_row, axis=1)
+        return df["lat"].tolist(), df["lon"].tolist()
+    st.error("Uploaded file must contain either lat/lon columns or the required address fields.")
+    return [], []
+
+
 def make_map(df, col, map_title, vmax):
     import json
     import plotly.express as px
@@ -248,9 +274,7 @@ def make_map(df, col, map_title, vmax):
         )
         
     if st.session_state['client_coordinates']:
-        df_points = pd.read_csv(st.session_state['client_coordinates'], usecols=["lat", "lon"], sep=",")
-        latitudes = df_points["lat"].tolist()
-        longitudes = df_points["lon"].tolist()
+        latitudes, longitudes = process_client_coordinates(st.session_state['client_coordinates'])
         fig.add_scattermapbox(
             lat=latitudes,
             lon=longitudes,
@@ -280,18 +304,6 @@ try:
         fig = make_map(
             st.session_state["tracts"], "combined_pct", "Combined Need", vmax
         )
-        # If a file is uploaded, process and add scatter markers from uploaded lat/long data
-        if st.session_state['client_coordinates']:
-            df_points = pd.read_csv(st.session_state['client_coordinates'])
-            latitudes = df_points["lat"].tolist()
-            longitudes = df_points["lon"].tolist()
-            fig.add_scattermapbox(
-                lat=latitudes,
-                lon=longitudes,
-                mode="markers",
-                marker={"size": st.session_state.get("ms", 8), "color": st.session_state.get("mc", "#0000ff"), "opacity": 0.5},
-                name="Uploaded Addresses"
-            )
         st.session_state["map"] = fig
         st.plotly_chart(fig, use_container_width=True)
 except Exception as e:

@@ -2,28 +2,6 @@
 # dependencies = ["census", "pandas", "streamlit", "tqdm"]
 # ///
 
-# Forsyth County, North Carolina 067, Winston-Salem, 36.12, -80.1875
-# Surry County, North Carolina 171, Mount Airy, 36.4151, -80.6889
-# Randolph County, North Carolina 151, Asheboro, 35.6731, -81.1136
-# Davidson County, North Carolina 057, Lexington, 35.5622, -80.2591
-# Alamance County, North Carolina 001, Graham, 36.0654, -79.4105
-# Rockingham County, North Carolina 157, Wentworth, 36.3713, -79.7355
-# Davie County, North Carolina 059, Mocksville, 35.9005, -80.5886
-# Caldwell County, North Carolina 036, Lenoir, 35.9058, -81.5345
-# Watauga County, North Carolina 189, Boone, 36.2168, -81.6746
-# Wilkes County, North Carolina 193, Wilkesboro, 36.1585, -81.1098
-# Yadkin County, North Carolina 197, Yadkinville, 36.1346, -80.6774
-# Ashe County, North Carolina 009, Jefferson, 36.3871, -81.4630
-# Avery County, North Carolina 011, Newland, 36.0726, -81.9837
-# Burke County, North Carolina 023, Morganton, 35.7425, -81.6075
-# Caswell County, North Carolina 033, Yanceyville, 36.3653, -79.3335
-# Stokes County, North Carolina 169, Danbury, 36.4019, -80.1944
-# Alleghany County, North Carolina 005, Sparta, 36.3870, -81.1036
-# Chatham County, North Carolina 037, Pittsboro, 35.7214, -79.1770
-# Alexander County, North Carolina 003, Taylorsville, 35.9111, -81.1991
-# Iredell County, North Carolina 097, Statesville, 35.7831, -80.8890
-# Orange County, North Carolina 135, Hillsborough, 36.0784, -79.1008
-# Rowan County, North Carolina 159, Salisbury, 35.6695, -80.4742
 counties = [
     ["Guilford County", "081", "Greensboro", "36.0898", "-79.8297"],
     ["Forsyth County", "067", "Winston-Salem", "36.12", "-80.1875"],
@@ -49,38 +27,6 @@ counties = [
     ["Orange County", "135", "Hillsborough", "36.0784", "-79.1008"],
     ["Rowan County", "159", "Salisbury", "35.6695", "-80.4742"],
 ]
-
-# Household size by vehicles available
-# B08201
-# Estimate!!Total: 001E
-# Estimate!!Total:!!No vehicle available: 002E
-# Estimate!!Total:!!1 vehicle available: 003E
-# Estimate!!Total:!!2 vehicles available: 004E
-# Estimate!!Total:!!3 vehicles available: 005E
-# Estimate!!Total:!!4 or more vehicles available: 006E
-# Estimate!!Total:!!1-person household: 007E
-# Estimate!!Total:!!1-person household!!No vehicle available: 008E
-# Estimate!!Total:!!1-person household!!1 vehicle available: 009E
-# Estimate!!Total:!!1-person household!!2 vehicles available: 010E
-# Estimate!!Total:!!1-person household!!3 vehicles available: 011E
-# Estimate!!Total:!!1-person household!!4 or more vehicles available: 012E
-# Estimate!!Total:!!2-person household: 013E
-# Estimate!!Total:!!2-person household!!No vehicle available: 014E
-# Estimate!!Total:!!2-person household!!1 vehicle available: 015E
-# Estimate!!Total:!!2-person household!!2 vehicles available: 016E
-# Estimate!!Total:!!2-person household!!3 vehicles available: 017E
-# Estimate!!Total:!!2-person household!!4 or more vehicles available: 018E
-# Estimate!!Total:!!3-person household: 019E
-# Estimate!!Total:!!3-person household!!No vehicle available: 020E
-# Estimate!!Total:!!3-person household!!1 vehicle available: 021E
-# Estimate!!Total:!!3-person household!!2 vehicles available: 022E
-# Estimate!!Total:!!3-person household!!3 vehicles available: 023E
-# Estimate!!Total:!!3-person household!!4 or more vehicles available: 024E
-# Estimate!!Total:!!4-or-more-person household: 025E
-# Estimate!!Total:!!4-or-more-person household!!No vehicle available: 026E
-# Estimate!!Total:!!4-or-more-person household!!1 vehicle available: 027E
-# Estimate!!Total:!!4-or-more-person household!!2 vehicles available: 028E
-# Estimate!!Total:!!4-or-more-person household!!3 vehicles available: 029E
 
 from census import Census
 import streamlit as st
