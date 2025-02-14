@@ -16,11 +16,11 @@ st.title("Census Tract Analysis Dashboard")
 
 # Initialize default settings if not already set
 if "ms" not in st.session_state:
-    st.session_state["ms"] = 8
+    st.session_state["ms"] = 16
 if "mc" not in st.session_state:
     st.session_state["mc"] = "#0000ff"
 if "fontsize" not in st.session_state:
-    st.session_state["fontsize"] = 12
+    st.session_state["fontsize"] = 16
 if "show_settings" not in st.session_state:
     st.session_state["show_settings"] = False
 
@@ -73,9 +73,13 @@ It's set at 0.33 initially based on magnitudes of the other two rates.
         scale_max = st.slider("Color Scale Max Value", 10, 50, 25, step=1, key="sm")
         st.header("Map Settings")
         font_size = st.slider("Font Size", 8, 20, st.session_state.get("fontsize", 16), step=2, key="fs")
-        new_ms = st.slider("Scatter Marker Size", 1, 20, st.session_state.get("ms", 8))
+        # NEW: Font Color option for map labels
+        font_color = st.color_picker("Font Color", value=st.session_state.get("font_color", "#ffffff"), key="fc")
+        # NEW: Map Opacity option for choropleth layer
+        map_opacity = st.slider("Map Opacity", 0.1, 1.0, st.session_state.get("map_opacity", 0.25), step=0.05, key="mo")
+        new_ms = st.slider("Scatter Marker Size", 8, 48, st.session_state.get("ms", 16))
         new_mc = st.color_picker("Scatter Marker Color", st.session_state.get("mc", "#0000ff"))
-        # new slider for controlling color scale max value.
+        st.session_state.color_scale_max = scale_max
     submit_form = st.form_submit_button("Update")
     
 # After form submission, update session_state with the new settings values.
@@ -84,12 +88,16 @@ if submit_form:
     st.session_state.ms = new_ms
     st.session_state.mc = new_mc
     st.session_state.scale_max = scale_max
+    st.session_state.color_scale_max = scale_max
     st.session_state.font = font_size
     st.session_state.poverty_weight = poverty_weight
     st.session_state.food_weight = food_weight
     st.session_state.vehicle_weight = vehicle_weight
     st.session_state.vehicle_num_toggle = vehicle_num_toggle
     st.session_state.show_settings = False
+    # NEW: Save new font color and map opacity
+    st.session_state.font_color = font_color
+    st.session_state.map_opacity = map_opacity
 
 
 def weighted_harmonic_mean(values, weights):
@@ -224,7 +232,7 @@ def make_map(df, col, map_title, vmax):
     # Create custom hover text with conditional display of pct_vehicle
     df["custom_hover"] = df.apply(
         lambda row: f"<b>Census Tract </b>{row['tract']}<br>"
-                    f"{row['County']} County<br>"
+                    f"{row['County']}<br>"
                     f"<b>Combined (%):</b> {row['combined_pct']:0.2f}<br><br>"
                     f"<b>Poverty (%):</b> {row['pct_poverty']:0.2f}<br>"
                     f"<b>Food Insecurity (%):</b> {row['pct_food_insecure']:0.2f}"
@@ -241,11 +249,12 @@ def make_map(df, col, map_title, vmax):
         # Use diverging color scale instead of sequential
         color_continuous_scale=px.colors.diverging.RdYlGn[::-1],
         range_color=(0, vmax),
-        mapbox_style="carto-positron",
+        mapbox_style="carto-darkmatter",
         zoom=9,
         center={"lat": center_lat, "lon": center_lon},
         height=800,
-        opacity=0.9,
+        # UPDATED: Use session state's map opacity
+        opacity=st.session_state.get("map_opacity", 0.25),
         hover_data={"custom_hover":""}
     )
     # Remove previous tooltip variable and apply the custom hover template
@@ -268,8 +277,9 @@ def make_map(df, col, map_title, vmax):
             mode="text+markers",
             text=county_seats["City"] + "<br>" + county_seats["County"],
             textposition="bottom right",
-            textfont={"color":  "black", "weight":"bold", "size": st.session_state.get("fontsize", 16)},
-            marker={"size": 10, "color": "red", "opacity": 0.75},
+            # UPDATED: Use font_color from session_state in county seats text font
+            textfont={"color": st.session_state.get("font_color", "white"), "weight": "bold", "size": st.session_state.get("fontsize", 16)},
+            marker={"size": 8, "color": "red", "opacity": 0.8},
             name="County Seats"
         )
         
