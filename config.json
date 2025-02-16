@@ -11,7 +11,7 @@
     "scale_max": 25,
     "map_height": 800,
     "map_style": "satellite-streets",
-    "map_zoom": 8.75,
+    "map_zoom": 8.5,
     "file_paths": {
         "tract_geo": "data/tracts_new.pkl",
         "food_insecurity": "data/food_insecurity.csv",
@@ -24,7 +24,7 @@
         "allowoverlap": true,
         "color": "#000000",
         "size": 8,
-        "opacity": 1,
+        "opacity": 0.75,
         "symbol": "star"
     },
     "client_marker": {

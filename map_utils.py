@@ -8,9 +8,6 @@ def make_map(df, col, config):
     projected = df.geometry.to_crs("EPSG:3857")
     centroids = projected.centroid
     centroids = gpd.GeoSeries(centroids, crs=projected.crs).to_crs("EPSG:4326")
-    # center_lat = centroids.y.mean()
-    # center_lon = centroids.x.mean()
-    geojson = json.loads(df.to_json())
     
     df["custom_hover"] = df.apply(
         lambda row: f"<b>Census Tract </b>{row['tract']}<br>"
@@ -25,17 +22,15 @@ def make_map(df, col, config):
         "height": config["map_height"],
         "map_style": config["map_style"],
         "zoom": config["map_zoom"],
-        "center": {"lat": 36.00125778, "lon": -80.60833},
+        "center": {"lat": centroids.y.mean(), "lon": centroids.x.mean()-0.25},
         "opacity": config["map_opacity"],
-        "hover_name": "tract",
         "color_continuous_scale": px.colors.diverging.RdYlGn_r,
         "range_color": (0, config["scale_max"]),
         "hover_data": {"custom_hover": True},
-        # "template": "plotly_dark",
     }
     fig = px.choropleth_map(
         df,
-        geojson=geojson,
+        geojson=df.geometry,
         locations=df.index,
         color=col,
         **map_config
