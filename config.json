@@ -1,0 +1,64 @@
+{
+    "ms": 16,
+    "mc": "#0000FF",
+    "fontsize": 12,
+    "font_color": "#CCCCCC",
+    "map_opacity": 0.4,
+    "poverty_weight": 1.0,
+    "food_weight": 1.0,
+    "vehicle_weight": 0.33,
+    "vehicle_num_toggle": false,
+    "scale_max": 25,
+    "map_height": 800,
+    "map_style": "satellite-streets",
+    "map_zoom": 8.75,
+    "file_paths": {
+        "tract_geo": "data/tracts_new.pkl",
+        "food_insecurity": "data/food_insecurity.csv",
+        "poverty": "data/poverty.csv",
+        "vehicle": "data/vehicle.csv",
+        "county_seats": "data/counties.csv",
+        "acs": "data/full_acs_data.pkl"
+    },
+    "county_seat_marker": {
+        "allowoverlap": true,
+        "color": "#000000",
+        "size": 8,
+        "opacity": 1,
+        "symbol": "star"
+    },
+    "client_marker": {
+        "allowoverlap": true,
+        "color": "#0000CC",
+        "size": 16,
+        "opacity": 0.75,
+        "symbol": "circle"
+    },
+    "sliders": {
+        "weight": {
+            "min": 0.0,
+            "max": 1.0,
+            "step": 0.01
+        },
+        "scale_max": {
+            "min": 10,
+            "max": 50,
+            "step": 1
+        },
+        "map_opacity": {
+            "min": 0.1,
+            "max": 1.0,
+            "step": 0.05
+        },
+        "font_size": {
+            "min": 8,
+            "max": 24,
+            "step": 2
+        },
+        "marker_size": {
+            "min": 8,
+            "max": 48,
+            "step": 2
+        }
+    }
+}

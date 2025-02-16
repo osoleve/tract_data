@@ -3,7 +3,28 @@ import pandas as pd
 import pickle
 from geopy.geocoders import Nominatim
 from geopy.extra.rate_limiter import RateLimiter
+import json
+import plotly.express as px
+import geopandas as gpd
 
+from map_utils import make_map
+from utils import load_and_process_data, post_process_data
+
+# Load config from config.json
+def load_config():
+    with open("config.json", "r") as f:
+        return json.load(f)
+
+def get_missing_defaults(config):    
+    for k, v in config.items():
+        if k not in st.session_state["config"]:
+            st.session_state["config"][k] = v
+
+if "config" not in st.session_state:
+    st.session_state["config"] = load_config()
+    get_missing_defaults(st.session_state["config"])
+
+config = st.session_state["config"]
 
 def tractce_to_tractno(tractce: str) -> str:
     tractno = tractce[-5:]
@@ -14,15 +35,6 @@ def tractce_to_tractno(tractce: str) -> str:
 st.set_page_config(layout="wide")
 st.title("Census Tract Analysis")
 
-# Initialize default settings if not already set
-if "ms" not in st.session_state:
-    st.session_state["ms"] = 16
-if "mc" not in st.session_state:
-    st.session_state["mc"] = "#0000ff"
-if "fontsize" not in st.session_state:
-    st.session_state["fontsize"] = 16
-if "show_settings" not in st.session_state:
-    st.session_state["show_settings"] = False
 
 with st.sidebar.form("weights_form"):
     st.header("Analysis Settings")
@@ -32,14 +44,30 @@ with st.sidebar.form("weights_form"):
         Adjust how each factor influences the combined score.
         Higher weights give that factor more importance.
         """)
-        food_weight = st.slider("Food Insecurity Weight", 0.0, 1.0, 1.0, step=.01, key="fw", 
+        slider_config = config["sliders"]["weight"]
+        food_weight = st.slider("Food Insecurity Weight", 
+                              slider_config["min"], 
+                              slider_config["max"], 
+                              config.get("food_weight", 1.0), 
+                              step=slider_config["step"], 
+                              key="fw", 
                               help="The weight of food insecurity in the calculation.")
-        poverty_weight = st.slider("Poverty Weight", 0.0, 1.0, 1.0, step=.01, key="pw",
+        poverty_weight = st.slider("Poverty Weight", 
+                                 slider_config["min"], 
+                                 slider_config["max"], 
+                                 config.get("poverty_weight", 1.0), 
+                                 step=slider_config["step"], 
+                                 key="pw",
                                  help="The weight of poverty in the calculation.")
-        vehicle_weight = st.slider("Vehicle Access Weight", 0.0, 1.0, 0.33, step=.01, key="vw",
+        vehicle_weight = st.slider("Vehicle Access Weight", 
+                                 slider_config["min"], 
+                                 slider_config["max"], 
+                                 config.get("vehicle_weight", 0.33), 
+                                 step=slider_config["step"], 
+                                 key="vw",
                                  help="The weight of not having a vehicle in the calculation.")
         vehicle_num_toggle = st.checkbox(
-            "Include Households with Fewer Vehicles than Members", key="vnt"
+            "Include Households with Fewer Vehicles than Members", key="vnt", value=config.get("vehicle_num_toggle", False)
         )
 
     with st.expander("Client Locations", expanded=False):
@@ -54,254 +82,74 @@ with st.sidebar.form("weights_form"):
         st.markdown("### Map Display")
         col1, col2 = st.columns(2)
         with col1:
-            scale_max = st.slider("Color Scale Max", 10, 50, 25, step=1, key="sm",
+            scale_config = config["sliders"]["scale_max"]
+            scale_max = st.slider("Color Scale Max", 
+                                scale_config["min"], 
+                                scale_config["max"], 
+                                config["scale_max"], 
+                                step=scale_config["step"], 
+                                key="sm",
                                 help="Adjust to make differences between areas more visible")
         with col2:
-            map_opacity = st.slider("Map Opacity", 0.1, 1.0, 
-                                  st.session_state.get("map_opacity", 0.25), 
-                                  step=0.05, key="mo")
+            opacity_config = config["sliders"]["map_opacity"]
+            map_opacity = st.slider("Map Opacity", 
+                                  opacity_config["min"], 
+                                  opacity_config["max"], 
+                                  config["map_opacity"], 
+                                  step=opacity_config["step"], 
+                                  key="mo")
         
         st.markdown("### Label Settings")
         col1, col2 = st.columns(2)
         with col1:
-            font_size = st.slider("Text Size", 8, 20, 
-                                st.session_state.get("fontsize", 16), 
-                                step=2, key="fs")
+            font_config = config["sliders"]["font_size"]
+            font_size = st.slider("Text Size", 
+                                font_config["min"], 
+                                font_config["max"], 
+                                st.session_state.get("fontsize", config.get("fontsize", 16)), 
+                                step=font_config["step"], 
+                                key="fs")
         with col2:
             font_color = st.color_picker("Text Color", 
-                                       value=st.session_state.get("font_color", "#ffffff"),
+                                       value=st.session_state.get("font_color", config.get("font_color", "#ffffff")),
                                        key="fc")
         
         st.markdown("### Client Marker Settings")
         col1, col2 = st.columns(2)
         with col1:
-            new_ms = st.slider("Marker Size", 8, 48, 
-                              st.session_state.get("ms", 16))
+            marker_config = config["sliders"]["marker_size"]
+            updated_marker_size = st.slider("Marker Size", 
+                             marker_config["min"], 
+                             marker_config["max"], 
+                             config["client_marker"]["size"],
+                             step=marker_config["step"])
         with col2:
-            new_mc = st.color_picker("Marker Color",
-                                    st.session_state.get("mc", "#0000ff"))
+            updated_marker_color = st.color_picker("Marker Color",
+                                                  value=config["client_marker"]["color"],
+                                                  key="mc")
 
     submit_form = st.form_submit_button("Update Map")
 
 # After form submission, update session_state with the new settings values.
 if submit_form:
-    st.session_state.fontsize = font_size
-    st.session_state.ms = new_ms
-    st.session_state.mc = new_mc
-    st.session_state.scale_max = scale_max
-    st.session_state.color_scale_max = scale_max
-    st.session_state.font = font_size
-    st.session_state.poverty_weight = poverty_weight
-    st.session_state.food_weight = food_weight
-    st.session_state.vehicle_weight = vehicle_weight
-    st.session_state.vehicle_num_toggle = vehicle_num_toggle
-    st.session_state.show_settings = False
-    st.session_state.font_color = font_color
-    st.session_state.map_opacity = map_opacity
-
-
-def weighted_harmonic_mean(values, weights):
-    valid_pairs = [(v, w) for v, w in zip(values, weights) if v != 0 and w != 0]
-    if not valid_pairs:
-        return 0
-    values, weights = zip(*valid_pairs)
-    weights = [w / sum(weights) for w in weights]  # Normalize weights
-    return 1 / sum(w / (v * sum(weights)) for v, w in zip(values, weights))
-
-
-@st.cache_data
-def load_and_process_data():
-    tract_pkl_file = r"data/tract_geo.pkl"
-    with open(tract_pkl_file, "rb") as f:
-        tract: pd.DataFrame = pickle.load(f)
-        
-
-    def fix_tract(s):
-        left_side, right_side = s.split(".") if "." in s else (s, "00")
-        if not right_side:
-            right_side = "00"
-        if len(right_side) == 1:
-            right_side = right_side + "0"
-        return left_side + "." + right_side
-
-    # Process tract numbers
-    tract["tract"] = tract.TRACTCE.astype(str).apply(tractce_to_tractno)
-
-    insecurity = pd.read_csv("data/food_insecurity.csv", index_col=None)
-    insecurity["tract"] = insecurity.tract.astype(str).apply(fix_tract)
-
-    poverty = pd.read_csv(r"data/poverty.csv", index_col=None)
-    poverty["tract"] = poverty.tract.astype(str).apply(tractce_to_tractno)
-
-    vehicles = pd.read_csv(r"data/vehicle.csv", index_col=None)
-    vehicles["tract"] = vehicles.tract.astype(str).apply(tractce_to_tractno)
-
-    tract = tract.merge(
-        insecurity[
-            [
-                "tract",
-                "pct_food_insecure",
-            ]
-        ],
-        on="tract",
-        how="left",
-        suffixes=(None, "_y"),
-    )
-    tract = tract.merge(
-        poverty[["County", "tract", "pct_poverty"]],
-        on="tract",
-        how="left",
-        suffixes=(None, "_y"),
-    )
-    tract = tract.merge(
-        vehicles[["tract", "pct_no_vehicle", "pct_fewer_vehicles"]],
-        on="tract",
-        how="left",
-        suffixes=(None, "_y"),
-    )
-
-    st.session_state["tracts"] = tract
-
-    print(tract.columns)
-
-    return tract
-
-
-@st.cache_data
-def post_process_data(
-    _tract_data, vehicle_num_toggle, poverty_weight, vehicle_weight, food_weight
-):
-    if not vehicle_num_toggle:
-        _tract_data["pct_vehicle"] = _tract_data["pct_no_vehicle"]
-    else:
-        _tract_data["pct_vehicle"] = _tract_data["pct_fewer_vehicles"]
-    
-    _tract_data["combined_pct"] = _tract_data[
-        ["pct_poverty", "pct_vehicle", "pct_food_insecure"]
-    ].apply(
-        lambda x: weighted_harmonic_mean(
-            x, [poverty_weight, vehicle_weight, food_weight]
-        ),
-        axis=1,
-    )
-    _tract_data["pct_vehicle"] = _tract_data["pct_vehicle"].where(
-        _tract_data["pct_vehicle"] != 0, pd.NA
-    )
-    _tract_data["pct_food_insecure"] = _tract_data["pct_food_insecure"].astype(float)
-    return _tract_data
-
-
-def process_client_coordinates(uploaded_file):
-    df = pd.read_csv(uploaded_file)
-    if "lat" in df.columns and "lon" in df.columns:
-        return df["lat"].tolist(), df["lon"].tolist()
-    required_fields = {"Address1", "City", "Zip"}
-    if required_fields.issubset(set(df.columns)):
-        # Initialize geocoder
-        geolocator = Nominatim(user_agent="myGeocoder")
-        geocode = RateLimiter(geolocator.geocode, min_delay_seconds=1)
-        def geocode_row(row):
-            address = f"{row['Address1']} " + (f"{row['Address2']} " if "Address2" in row and pd.notnull(row['Address2']) else "") + f"{row['City']}, North Carolina {row['Zip']}"
-            location = geocode(address)
-            if location:
-                return pd.Series([location.latitude, location.longitude])
-            return pd.Series([None, None])
-        df[['lat','lon']] = df.apply(geocode_row, axis=1)
-        return df["lat"].tolist(), df["lon"].tolist()
-    st.error("Uploaded file must contain either lat/lon columns or the required address fields.")
-    return [], []
-
-
-def make_map(df, col, map_title, vmax):
-    import json
-    import plotly.express as px
-    import pandas as pd
-    import geopandas as gpd  # <-- NEW import
-
-    print(df.columns)
-
-    # Reproject geometry to a projected CRS for accurate centroid calculations
-    projected = df.geometry.to_crs("EPSG:3857")
-    centroids = projected.centroid
-    centroids = gpd.GeoSeries(centroids, crs="EPSG:3857").to_crs("EPSG:4326")
-    center_lat = centroids.y.mean()
-    center_lon = centroids.x.mean()
-    # Convert GeoDataFrame to GeoJSON
-    geojson = json.loads(df.to_json())
-    
-    # Create custom hover text with conditional display of pct_vehicle
-    df["custom_hover"] = df.apply(
-        lambda row: f"<b>Census Tract </b>{row['tract']}<br>"
-                    f"{row['County']}<br>"
-                    f"<b>Combined (%):</b> {row['combined_pct']:0.2f}<br><br>"
-                    f"<b>Poverty (%):</b> {row['pct_poverty']:0.2f}<br>"
-                    f"<b>Food Insecurity (%):</b> {row['pct_food_insecure']:0.2f}"
-                    f"<br>{(f'<b>Lack Vehicles (%):</b> {row['pct_vehicle']:0.2f}<br>' if pd.notnull(row['pct_vehicle']) else '')}",
-        axis=1
-    )
-    
-    fig = px.choropleth_mapbox(
-        df,
-        geojson=geojson,
-        locations=df.index,
-        color=col,
-        hover_name="tract",
-        # Use diverging color scale instead of sequential
-        color_continuous_scale=px.colors.diverging.RdYlGn[::-1],
-        range_color=(0, vmax),
-        mapbox_style="carto-darkmatter",
-        zoom=9,
-        center={"lat": center_lat, "lon": center_lon},
-        height=800,
-        # UPDATED: Use session state's map opacity
-        opacity=st.session_state.get("map_opacity", 0.25),
-        hover_data={"custom_hover":""}
-    )
-    # Remove previous tooltip variable and apply the custom hover template
-    fig.update_traces(hovertemplate="%{customdata[0]}<extra></extra>")
-    fig.update_layout(
-        hoverlabel=dict(
-            bgcolor="black", font_size=12, font_family="Arial", font_color="white"
-        )
-    )
-
-    # County seats
-    if "county_seats" not in st.session_state:
-        st.session_state["county_seats"] = pd.read_csv("data/county_seats.csv")
-
-    county_seats = st.session_state["county_seats"]
-    if county_seats is not None and not county_seats.empty:
-        fig.add_scattermapbox(
-            lat=county_seats["lat"],
-            lon=county_seats["lon"],
-            mode="text+markers",
-            text=county_seats["City"] + "<br>" + county_seats["County"],
-            textposition="bottom right",
-            hoverinfo="skip",
-            # UPDATED: Use font_color from session_state in county seats text font
-            textfont={"color": st.session_state.get("font_color", "white"), "weight": "bold", "size": st.session_state.get("fontsize", 16)},
-            marker={"size": 8, "color": "yellow", "opacity": 0.8},
-            name="County Seats"
-        )
-        
-    if st.session_state['client_coordinates']:
-        latitudes, longitudes = process_client_coordinates(st.session_state['client_coordinates'])
-        fig.add_scattermapbox(
-            lat=latitudes,
-            lon=longitudes,
-            mode="markers",
-            marker={"size": st.session_state.get("ms", 8), "color": st.session_state.get("mc", "#000099"), "opacity": 0.5},
-            name="Uploaded Addresses"
-        )
-        st.session_state["client_coordinates"] = None
-    fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
-    return fig
-
+    config = st.session_state["config"]
+    config["fontsize"] = font_size
+    config["font_color"] = font_color
+    config["client_marker"]["size"] = updated_marker_size
+    config["client_marker"]["color"] = updated_marker_color
+    config["scale_max"] = scale_max
+    config["poverty_weight"] = poverty_weight
+    config["food_weight"] = food_weight
+    config["vehicle_weight"] = vehicle_weight
+    config["vehicle_num_toggle"] = vehicle_num_toggle
+    config["show_settings"] = False
+    config["map_opacity"] = map_opacity
+    st.session_state["config"] = config
 
 # Main app logic
 try:
     if "tracts" not in st.session_state:
-        st.session_state["tracts"] = load_and_process_data()
+        st.session_state["tracts"] = load_and_process_data(config)
     if submit_form or "map" not in st.session_state:
         st.session_state["tracts"] = post_process_data(
             st.session_state["tracts"],
@@ -310,15 +158,14 @@ try:
             vehicle_weight,
             food_weight,
         )
-        # Use the slider value for vmax
-        vmax = scale_max
         fig = make_map(
-            st.session_state["tracts"], "combined_pct", "Combined Need", vmax
+            st.session_state["tracts"], "combined_pct", config
         )
         st.session_state["map"] = fig
         st.plotly_chart(fig, use_container_width=True)
 except Exception as e:
     st.error(f"Error processing data: {str(e)}")
+    raise
 
 with st.expander("About this dashboard", expanded=False):
     col1, col2 = st.columns(2)

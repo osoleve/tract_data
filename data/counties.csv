@@ -1,24 +1,26 @@
 FIPS,County,CountySeat,lat,lon
-081,Guilford,Greensboro,36.0898,-79.8297
-067,Forsyth,Winston-Salem,36.12,-80.1875
-171,Surry,Mount Airy,36.4151,-80.6889
-151,Randolph,Asheboro,35.6731,-81.1136
-057,Davidson,Lexington,35.5622,-80.2591
-001,Alamance,Graham,36.0654,-79.4105
-157,Rockingham,Wentworth,36.3713,-79.7355
-059,Davie,Mocksville,35.9005,-80.5886
-036,Caldwell,Lenoir,35.9058,-81.5345
-189,Watauga,Boone,36.2168,-81.6746
-197,Yadkin,Yadkinville,36.1346,-80.6774
-169,Stokes,Danbury,36.4019,-80.1944
-005,Alleghany,Sparta,36.3870,-81.1036
-033,Caswell,Yanceyville,36.3653,-79.3335
-037,Chatham,Pittsboro,35.7214,-79.1770
-003,Alexander,Taylorsville,35.9111,-81.1991
-097,Iredell,Statesville,35.7831,-80.8890
-135,Orange,Hillsborough,36.0784,-79.1008
-159,Rowan,Salisbury,35.6695,-80.4742
-193,Wilkes,Wilkesboro,36.1585,-81.1098
-009,Ashe,Jefferson,36.3871,-81.4630
-011,Avery,Newland,36.0726,-81.9837
-023,Burke,Morganton,35.7425,-81.6075
+001,Alamance County,Graham,36.058333, -79.388889
+003,Alexander County,Taylorsville,35.9111,-81.1991
+005,Alleghany County,Sparta,36.503333, -81.121667
+009,Ashe County,Jefferson,36.4201,-81.4684
+011,Avery County,Newland,36.088056, -81.927222
+023,Burke County,Morganton,35.740833, -81.700278
+027,Caldwell County,Lenoir,35.9140,-81.5389
+033,Caswell County,Yanceyville,36.409722, -79.336111
+035,Catawba County,Newton,35.6841,-81.2519
+037,Chatham County,Pittsboro,35.7214,-79.1770
+057,Davidson County,Lexington,35.797222,-80.274167
+059,Davie County,Mocksville,35.9005,-80.5886
+067,Forsyth County,Winston-Salem,36.102778, -80.260833
+081,Guilford County,Greensboro,36.095, -79.825833
+097,Iredell County,Statesville,35.7831,-80.8890
+121,Mitchell County,Bakersville,36.0155,-82.1583
+135,Orange County,Hillsborough,36.0784,-79.1008
+151,Randolph County,Asheboro,35.7079,-79.8136
+157,Rockingham County,Wentworth,36.391389, -79.751111
+159,Rowan County,Salisbury,35.6695,-80.4742
+169,Stokes County,Danbury,36.4019,-80.1944
+171,Surry County,Mount Airy,36.4993,-80.6073
+189,Watauga County,Boone,36.2168,-81.6746
+193,Wilkes County,Wilkesboro,36.1425, -81.175
+197,Yadkin County,Yadkinville,36.1346,-80.6584

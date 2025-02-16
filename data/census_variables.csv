@@ -1,0 +1,39 @@
+census_variable,census_variable_measure,description,active
+B08201,B08201_001E,Total Households,1
+B08201,B08201_002E,Total Households with No Vehicle Available,1
+B08201,B08201_003E,Total Households with 1 Vehicle Available,1
+B08201,B08201_004E,Total Households with 2 Vehicles Available,1
+B08201,B08201_005E,Total Households with 3 Vehicles Available,1
+B08201,B08201_006E,Total Households with 4 or More Vehicles Available,1
+B08201,B08201_007E,Total 1-Person Households,1
+B08201,B08201_008E,1-Person Households with No Vehicle Available,1
+B08201,B08201_009E,1-Person Households with 1 Vehicle Available,1
+B08201,B08201_010E,1-Person Households with 2 Vehicles Available,1
+B08201,B08201_011E,1-Person Households with 3 Vehicles Available,1
+B08201,B08201_012E,1-Person Households with 4 or More Vehicles Available,1
+B08201,B08201_013E,Total 2-Person Households,1
+B08201,B08201_014E,2-Person Households with No Vehicle Available,1
+B08201,B08201_015E,2-Person Households with 1 Vehicle Available,1
+B08201,B08201_016E,2-Person Households with 2 Vehicles Available,1
+B08201,B08201_017E,2-Person Households with 3 Vehicles Available,1
+B08201,B08201_018E,2-Person Households with 4 or More Vehicles Available,1
+B08201,B08201_019E,Total 3-Person Households,1
+B08201,B08201_020E,3-Person Households with No Vehicle Available,1
+B08201,B08201_021E,3-Person Households with 1 Vehicle Available,1
+B08201,B08201_022E,3-Person Households with 2 Vehicles Available,1
+B08201,B08201_023E,3-Person Households with 3 Vehicles Available,1
+B08201,B08201_024E,3-Person Households with 4 or More Vehicles Available,1
+B08201,B08201_025E,Total 4-or-More-Person Households,1
+B08201,B08201_026E,4-or-More-Person Households with No Vehicle Available,1
+B08201,B08201_027E,4-or-More-Person Households with 1 Vehicle Available,1
+B08201,B08201_028E,4-or-More-Person Households with 2 Vehicles Available,1
+B08201,B08201_029E,4-or-More-Person Households with 3 Vehicles Available,1
+B17020,B17020_001E,Total Population,1
+B17020,B17020_002E,Total Population Below Poverty Level,1
+B17020,B17020_003E,Below Poverty Level: Under 6 years old,1
+B17020,B17020_004E,Below Poverty Level: 6 to 11 years old,1
+B17020,B17020_005E,Below Poverty Level: 12 to 17 years old,1
+B17020,B17020_006E,Below Poverty Level: 18 to 59 years old,1
+B17020,B17020_007E,Below Poverty Level: 60 to 74 years old,1
+B17020,B17020_008E,Below Poverty Level: 75 to 84 years old,1
+B17020,B17020_009E,Below Poverty Level: 85 years old and over,1
