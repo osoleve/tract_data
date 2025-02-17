@@ -3,8 +3,6 @@ import pickle
 import pandas as pd
 import geopandas as gpd
 import streamlit as st
-from geopy.geocoders import Nominatim
-from geopy.extra.rate_limiter import RateLimiter
 
 def load_config(config_path="config.json"):
     with open(config_path, "r") as f:
@@ -64,27 +62,4 @@ def post_process_data(_tract_data, vehicle_num_toggle, poverty_weight, vehicle_w
     )
     return _tract_data
 
-def process_client_coordinates(uploaded_file):
-    df = pd.read_csv(uploaded_file)
-    if "lat" in df.columns and "lon" in df.columns:
-        return df["lat"].tolist(), df["lon"].tolist()
-    required_fields = {"Address1", "City", "Zip"}
-    if required_fields.issubset(set(df.columns)):
-        geolocator = Nominatim(user_agent="streamlit")
-        geocode = RateLimiter(geolocator.geocode, min_delay_seconds=1)
-        def geocode_row(row):
-            address = (
-                f"{row['Address1']} " +
-                (f"{row['Address2']} " if "Address2" in row and pd.notnull(row["Address2"]) else "") +
-                f"{row['City']}, North Carolina {row['Zip']}"
-            )
-            location = geocode(address)
-            if location:
-                return pd.Series([location.latitude, location.longitude])
-            return pd.Series([None, None])
-        df[["lat", "lon"]] = df.apply(geocode_row, axis=1)
-        return df["lat"].tolist(), df["lon"].tolist()
-    st.error(
-        "Uploaded file must contain either lat/lon columns or the required address fields."
-    )
-    return [], []
+
