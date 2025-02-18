@@ -17,15 +17,16 @@ def process_client_coordinates(uploaded_file):
     if "lat" in df.columns and "lon" in df.columns:
         return None, df["lat"].tolist(), df["lon"].tolist()
     with st.spinner("Geocoding addresses..."):
-        required_fields = {"Address1", "City", "Zip"}
+        required_fields = {"Address", "City", "Zip"}
         if required_fields.issubset(set(df.columns)):
             geolocator = Nominatim(user_agent="streamlit")
             geocode = RateLimiter(geolocator.geocode, min_delay_seconds=1)
             def geocode_row(row):
+                zip_code = row['ZIP'] if 'ZIP' in row else row['Zip']
                 address = (
-                    f"{row['Address1']} " +
-                    (f"{row['Address2']} " if "Address2" in row and pd.notnull(row["Address2"]) else "") +
-                    f"{row['City']}, North Carolina {row['Zip']}"
+                    f"{row['Address']} " +
+                    (f"{row['Address Line 2']} " if "Address Line 2" in row and pd.notnull(row["Address Line 2"]) else "") +
+                    f"{row['City']}, NC {zip_code}"
                 )
                 location = geocode(address)
                 if location:
@@ -119,6 +120,8 @@ def make_map(df, col, config):
             )
         if df is not None:
             st.session_state["mapped_addresses"] = df
+        elif "mapped_addresses" not in st.session_state and bool(longitudes):
+            st.session_state["mapped_addresses"] = pd.DataFrame({"lat": latitudes, "lon": longitudes})
         st.session_state["client_coordinates"] = None
     fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
     return fig

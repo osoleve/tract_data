@@ -25,7 +25,7 @@ with info.popover("", icon=":material/question_mark:", use_container_width=True)
     with col1:
         st.markdown("""
         #### Weights  
-        Use the sliders to adjust how much each factor matters in the calculation. This lets you focus on specific concerns or balance all factors equally.
+        Use the sliders in the sidebar to adjust how much each factor matters in the calculation. This lets you focus on specific concerns or balance all factors equally.
         Note that the weights are normalized to add up to 1.0 before the calculation.
         
         #### Access to a Vehicle
@@ -48,19 +48,24 @@ with info.popover("", icon=":material/question_mark:", use_container_width=True)
                     
         ## About the calculation
         
-        Scores are calculated at the census tract level. The calculation is the [weighted average](https://en.wikipedia.org/wiki/Harmonic_mean) of the individual rates, and you can adjust how much each factor is weighted by using the sliders below.  
+        Scores are calculated at the census tract level. The calculation is the [weighted average](https://en.wikipedia.org/wiki/Harmonic_mean) of the individual rates, and you can adjust how much each factor is weighted by using the sliders in the sidebar.  
         _Note: weights are normalized (add to 1.0) prior to calculation: e.g., if your weights are 0.5, 1.0, 0.5, the actual weights used will be 0.25, 0.5, 0.25._
         """)
     with roadmap:
-        st.checkbox("Initial Calculation and Display", value=True, disabled=True)
-        st.checkbox("Map Interactivity", value=True, disabled=True)
-        st.checkbox("~~STOP REFRESHING~~ Performance enhancements", value=True, disabled=True)
-        st.checkbox("Label county seats", value=True, disabled=True)
-        st.checkbox("Address Upload", value=True, disabled=True)
-        st.checkbox("~~JUST LOAD FASTER~~ Performance enhancements", value=True, disabled=True)
-        st.checkbox("Investigate missing tracts", value=True, disabled=True)
-        st.checkbox("Public Transit Overlay", value=False, disabled=True)
-        st.checkbox("Program Impact Overlay", value=False, disabled=True)
+        done, todo = st.columns([1,1])
+        done.header("Completed")
+        done.checkbox("Initial Calculation and Display", value=True, disabled=True)
+        done.checkbox("Map Interactivity", value=True, disabled=True)
+        done.checkbox("~~STOP REFRESHING~~ Performance fix", value=True, disabled=True)
+        done.checkbox("Label county seats", value=True, disabled=True)
+        done.checkbox("Address Upload", value=True, disabled=True)
+        done.checkbox("~~JUST LOAD FASTER~~ Performance fix", value=True, disabled=True)
+        done.checkbox("Investigate missing tracts", value=True, disabled=True)
+        done.checkbox("Download geocoded addresses", value=True, disabled=True)
+        todo.header("TODO")
+        todo.checkbox("Faster Geocoder", value=False, disabled=True)
+        todo.checkbox("Public Transit Overlay", value=False, disabled=True)
+        todo.checkbox("Program Impact Overlay", value=False, disabled=True)
 
 title.title("Census Tract Analysis")
 
@@ -181,18 +186,18 @@ with st.sidebar:
             no_geo_csv = no_geo_df[
                 [c for c in no_geo_df.columns if c not in ["lat", "lon"]]
             ].to_csv(index=False)
-            with st.popover("Download Addresses", "Download the geocoded addresses for faster loading, or the addresses that failed to geocode for further inspection."):
+            with st.popover("Export", icon=":material/download:"):
                 button_cols = st.columns(2)
                 with button_cols[0]:
                     st.download_button(
-                        label="Download Mapped Addresses",
+                        label="Mapped Addresses",
                         data=lat_lon_csv,
                         file_name="geocoded_addresses.csv",
                         mime="text/csv",
                     )
                 with button_cols[1]:
                     st.download_button(
-                        label="Download Failed Addresses",
+                        label="Failed Addresses",
                         data=no_geo_csv,
                         file_name="addresses_geocoder_failed_on.csv",
                         mime="text/csv",

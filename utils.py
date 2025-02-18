@@ -35,6 +35,9 @@ def load_and_process_data(config):
         how="outer",
     )
     tract = tract.drop_duplicates(subset=["County", "tract"])
+
+    countylist = pd.read_csv(paths["county_seats"], index_col=None)
+    tract = tract.loc[tract["County"].isin(countylist["County"])]
     return tract
 
 def weighted_harmonic_mean(values, weights):
