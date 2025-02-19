@@ -5,8 +5,7 @@ import streamlit as st
 import pandas as pd
 
 
-from geopy.geocoders import Nominatim
-from geopy.extra.rate_limiter import RateLimiter
+import googlemaps
 
 
 @st.cache_data
@@ -20,8 +19,7 @@ def process_coordinates(uploaded_file):
     with st.spinner("Geocoding addresses..."):
         required_fields = {"Address", "City", "Zip"}
         if required_fields.issubset(set(df.columns)):
-            geolocator = Nominatim(user_agent="streamlit")
-            geocode = RateLimiter(geolocator.geocode, min_delay_seconds=1)
+            maps_client = googlemaps.Client(key=st.secrets["MAPS_API_KEY"])
 
             def geocode_row(row):
                 address = (
@@ -33,9 +31,10 @@ def process_coordinates(uploaded_file):
                     )
                     + f"{row['City']}, NC {row['Zip']}"
                 )
-                location = geocode(address)
-                if location:
-                    return pd.Series([location.latitude, location.longitude])
+                result = maps_client.geocode(address)
+                if result:
+                    location = result[0]["geometry"]["location"]
+                    return pd.Series([location["lat"], location["lng"]])
                 return pd.Series([None, None])
 
             df[["lat", "lon"]] = df.apply(geocode_row, axis=1)
@@ -46,7 +45,7 @@ def process_coordinates(uploaded_file):
         return None
 
 
-def make_map(df, col, config):
+def make_map(df: pd.DataFrame, col: str, config: dict):
     projected = df.geometry.to_crs("EPSG:3857")
     centroids = projected.centroid
     centroids = gpd.GeoSeries(centroids, crs=projected.crs).to_crs("EPSG:4326")
@@ -55,9 +54,9 @@ def make_map(df, col, config):
         lambda row: f"<b>Census Tract </b>{row['tract']}<br>"
         f"{row['County']}<br>"
         f"<b>Combined (%):</b> {row['combined_pct']:0.2f}<br><br>"
-        f"<b>Poverty (%):</b> {row['pct_poverty']:0.2f}<br>"
-        f"<b>Food Insecurity (%):</b> {row['pct_food_insecure']:0.2f}"
-        f"<br>{(f'<b>Lack Vehicles (%):</b> {row["pct_vehicle"]:0.2f}<br>' if pd.notnull(row['pct_vehicle']) else '')}",
+        f"<b>Poverty (%):</b> {row['pct_poverty']:0.2f}<br>" if row["pct_poverty"] > 0 else ""
+        + f"<b>Food Insecurity (%):</b> {row['pct_food_insecure']:0.2f}" if row["pct_food_insecure"] > 0 else "" 
+        + f"<br>{(f'<b>Lack Vehicles (%):</b> {row['pct_vehicle']:0.2f}<br>' if row['pct_vehicle']>0 else '')}",
         axis=1,
     )
     map_config = {
@@ -98,7 +97,7 @@ def make_map(df, col, config):
             "weight": "bold",
             "size": config["fontsize"],
         },
-        marker=config["county_seat_marker"],
+        marker={ **config["county_seat_marker"], "size": config["county_seat_marker"].get("size", 10) * 1.8 },  # increased marker size
         name="County Seats",
         legend=None,
     )
@@ -114,15 +113,16 @@ def make_map(df, col, config):
         df = st.session_state.df
 
         if "Program Type" in df.columns:
-            # Split into client and program df
+            # Split into client and program df & update marker color palette
+            palette = px.colors.carto.Prism
             df["Program Type"] = df["Program Type"].fillna("Client")
             df["color"] = df["Program Type"].astype("category").cat.codes
-            df["color"] = df["color"].map(lambda x: px.colors.qualitative.Bold[x % 9])
+            df["color"] = df["color"].map(lambda x: palette[x % len(palette)])
         else:
             df["color"] = config["client_marker"]["color"]
             df["Program Type"] = "Client"
         
-        # Group by Program Type and add a trace per program
+        # Group by Program Type and add a trace per program with larger markers
         if "Program Type" in df.columns:
             for prog, group in df.groupby("Program Type"):
                 fig.add_scattermap(
@@ -132,7 +132,7 @@ def make_map(df, col, config):
                     mode="markers",
                     marker={
                         "color": group.iloc[0]["color"],
-                        "size": st.session_state["config"]["client_marker"]["size"],
+                        "size": st.session_state["config"]["client_marker"]["size"] * 1.8,  # increased size
                         "opacity": st.session_state["config"]["client_marker"]["opacity"],
                     },
                     name=prog,
@@ -146,7 +146,7 @@ def make_map(df, col, config):
                 mode="markers",
                 marker={
                     "color": config["client_marker"]["color"],
-                    "size": st.session_state["config"]["client_marker"]["size"],
+                    "size": st.session_state["config"]["client_marker"]["size"] * 1.8,  # increased size
                     "opacity": st.session_state["config"]["client_marker"]["opacity"],
                 },
                 name="Uploaded Addresses",
@@ -165,6 +165,7 @@ def make_map(df, col, config):
             x=0.5,
             bordercolor="black",
             borderwidth=1
-        )
+        ),
+        legend_font=dict(size=config["fontsize"] * 1.8)
     )
     return fig

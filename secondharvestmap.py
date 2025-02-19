@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import googlemaps   # <== new import
 
 from map_utils import make_map
 from utils import (
@@ -13,6 +14,7 @@ if "config" not in st.session_state:
     st.session_state["config"] = load_config()
     get_missing_defaults(st.session_state["config"])
     st.session_state.df = pd.DataFrame()
+
 
 config = st.session_state["config"]
 updated_marker_opacity = config["client_marker"]["opacity"]

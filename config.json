@@ -24,8 +24,8 @@
     },
     "county_seat_marker": {
         "allowoverlap": true,
-        "color": "#000000",
-        "size": 12,
+        "color": "#FFFFFF",
+        "size": 8,
         "opacity": 0.75,
         "symbol": "star"
     },
