@@ -25,21 +25,21 @@
     "county_seat_marker": {
         "allowoverlap": true,
         "color": "#000000",
-        "size": 8,
+        "size": 12,
         "opacity": 0.75,
         "symbol": "star"
     },
     "client_marker": {
         "allowoverlap": true,
         "color": "#0000CC",
-        "size": 8,
+        "size": 16,
         "opacity": 0.5,
         "symbol": "circle"
     },
     "density_plot": {
         "color": "#0000FF",
         "opacity": 0.33,
-        "size": 8
+        "size": 16
     },
     "sliders": {
         "weight": {

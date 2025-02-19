@@ -1,7 +1,5 @@
 import streamlit as st
 import pandas as pd
-import json
-import plotly.express as px
 
 from map_utils import make_map
 from utils import (
@@ -14,8 +12,14 @@ from utils import (
 if "config" not in st.session_state:
     st.session_state["config"] = load_config()
     get_missing_defaults(st.session_state["config"])
+    st.session_state.df = pd.DataFrame()
 
 config = st.session_state["config"]
+updated_marker_opacity = config["client_marker"]["opacity"]
+updated_marker_size = config["client_marker"]["size"]
+fixed_client_marker_color = "#1f77b4"
+st.session_state["map_type"] = config.get("map_type", "Scatter Map")
+
 
 # Set Wide Mode
 st.set_page_config(layout="wide")
@@ -62,6 +66,7 @@ with info.popover("", icon=":material/question_mark:", use_container_width=True)
         done.checkbox("~~JUST LOAD FASTER~~ Performance fix", value=True, disabled=True)
         done.checkbox("Investigate missing tracts", value=True, disabled=True)
         done.checkbox("Download geocoded addresses", value=True, disabled=True)
+        done.checkbox("Program Overlay", value=True, disabled=True)
         todo.header("TODO")
         todo.checkbox("Faster Geocoder", value=False, disabled=True)
         todo.checkbox("Public Transit Overlay", value=False, disabled=True)
@@ -138,6 +143,7 @@ with st.sidebar:
                 key="mo",
             )
 
+    st.session_state["address_tab"] = tabs[1]
     with tabs[1]:
         st.markdown(
             "Upload a file containing addresses or coordinates to overlay them on the map."
@@ -145,19 +151,24 @@ with st.sidebar:
         st.session_state["client_coordinates"] = st.file_uploader(
             "Upload CSV/Excel file",
             type=["csv", "txt", "xlsx"],
-            help="File must have either lat/lon columns or Address1, City, Zip fields",
+            help="File must have either lat/lon columns or Address, Address Line 2, City, Zip fields",
         )
+        if 'df' in st.session_state and not st.session_state.df.empty:
+            df = st.session_state.df
+            programs = set(df["Program Type"].dropna().unique().tolist()) - {"Client"}
+        else:
+            df = pd.DataFrame()
+            programs = set()
+
+       
         with st.expander(":material/palette: Address Display Settings"):
-            st.session_state["map_type"] = st.radio(
-                "Map Type (Experimental)",
-                ("Scatter Map", "Density Map"),
-                index=0,
-                help="Select how to display the uploaded addresses on the map.",
-            )
+            # st.session_state["map_type"] = st.radio(
+            #     "Map Type (Experimental)",
+            #     ("Scatter Map", "Density Map"),
+            #     index=0,
+            #     help="Select how to display the uploaded addresses on the map.",
+            # )
             marker_config = config["sliders"]["marker_size"]
-            updated_marker_color = st.color_picker(
-                "Marker Color", value=config["client_marker"]["color"], key="mc"
-            )
             updated_marker_opacity = st.slider(
                 "Marker Opacity",
                 0.1,
@@ -173,35 +184,32 @@ with st.sidebar:
                 config["client_marker"]["size"],
                 step=marker_config["step"],
             )
-
-        if (
-            "mapped_addresses" in st.session_state
-            and st.session_state["mapped_addresses"] is not None
-        ):
-            df_export = st.session_state["mapped_addresses"]
-            # Download df as two files, one with rows with lat/lon and one with ones we couldn't geocode
-            lat_lon_df = df_export.dropna(subset=["lat", "lon"])
-            no_geo_df = df_export[df_export["lat"].isnull() | df_export["lon"].isnull()]
-            lat_lon_csv = lat_lon_df.to_csv(index=False)
-            no_geo_csv = no_geo_df[
-                [c for c in no_geo_df.columns if c not in ["lat", "lon"]]
-            ].to_csv(index=False)
-            with st.popover("Export", icon=":material/download:"):
-                button_cols = st.columns(2)
-                with button_cols[0]:
-                    st.download_button(
-                        label="Mapped Addresses",
-                        data=lat_lon_csv,
-                        file_name="geocoded_addresses.csv",
-                        mime="text/csv",
-                    )
-                with button_cols[1]:
-                    st.download_button(
-                        label="Failed Addresses",
-                        data=no_geo_csv,
-                        file_name="addresses_geocoder_failed_on.csv",
-                        mime="text/csv",
-                    )
+            
+            if not df.empty:
+                # Download df as two files, one with rows with lat/lon and one with ones we couldn't geocode
+                lat_lon_df = df.dropna(subset=["lat", "lon"])
+                no_geo_df = df[df["lat"].isnull() | df["lon"].isnull()]
+                lat_lon_csv = lat_lon_df.to_csv(index=False)
+                no_geo_csv = no_geo_df[
+                    [c for c in no_geo_df.columns if c not in ["lat", "lon"]]
+                ].to_csv(index=False)
+                with st.popover("Export", icon=":material/download:"):
+                    button_cols = st.columns(2)
+                    with button_cols[0]:
+                        st.download_button(
+                            label="Mapped Addresses",
+                            data=lat_lon_csv,
+                            file_name="geocoded_addresses.csv",
+                            mime="text/csv",
+                        )
+                    with button_cols[1]:
+                        st.download_button(
+                            label="Failed Addresses",
+                            data=no_geo_csv,
+                            file_name="addresses_geocoder_failed_on.csv",
+                            mime="text/csv",
+                            disabled=no_geo_df.empty,
+                        )
 
         # st.session_state["overlay_addresses"] = st.checkbox(
         #     "Overlay Addresses on Choropleth Map",
@@ -224,7 +232,7 @@ try:
         config,
         client_marker={
             "size": updated_marker_size,
-            "color": updated_marker_color,
+            "color": fixed_client_marker_color,
             "opacity": updated_marker_opacity,
         },
         scale_max=scale_max,
