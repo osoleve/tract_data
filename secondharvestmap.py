@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import googlemaps   # <== new import
 
 from map_utils import make_map
 from utils import (
@@ -9,10 +8,13 @@ from utils import (
     load_and_process_data,
     post_process_data,
 )
+
+
 def update_config(config, **kwargs):
     for k, v in kwargs.items():
         config[k] = v
     return config
+
 
 if "config" not in st.session_state:
     st.session_state["config"] = load_config()
@@ -29,9 +31,9 @@ st.session_state["map_type"] = config.get("map_type", "Scatter Map")
 
 # Set Wide Mode
 st.set_page_config(layout="wide")
-info, title,*x = st.columns([0.1,2], gap='small', vertical_alignment='bottom')
+info, title, *x = st.columns([0.1, 2], gap="small", vertical_alignment="bottom")
 with info.popover("", icon=":material/question_mark:", use_container_width=True):
-    col1, extra, roadmap = st.tabs(["Tuning the Calculation","Too Much Info", "Roadmap"])
+    col1, roadmap = st.tabs(["Tuning the Calculation", "Roadmap"])
     with col1:
         st.markdown("""
         #### Weights  
@@ -41,28 +43,10 @@ with info.popover("", icon=":material/question_mark:", use_container_width=True)
         #### Access to a Vehicle
         You can choose to measure:
         - Households with no vehicles
-        - Households with fewer vehicles than members
-                    
-        Vehicle access is an order of magnitude lower than the other two rates, so I've set the default weight to 0.33. You can adjust this to fit your needs.  
-        """)
-    with extra:
-        st.markdown("""
-        ## What the map shows
-        This combines three factors that affect food access:
-        - Food Insecurity Rate (via Feeding America)
-        - Poverty Rate (American Community Survey [variable B17020](https://api.census.gov/data/2019/acs/acs5/groups/B17020.html))
-        - Lack of Vehicle Rate (American Community Survey [variable B08201](https://api.census.gov/data/2019/acs/acs5/groups/B08201.html))
-        
-        The map is colored by the weighted average of these factors, from green (low score) to red (high score).
-        Stars indicate county seats and are labeled with the town and county name.
-                    
-        ## About the calculation
-        
-        Scores are calculated at the census tract level. The calculation is the [weighted average](https://en.wikipedia.org/wiki/Harmonic_mean) of the individual rates, and you can adjust how much each factor is weighted by using the sliders in the sidebar.  
-        _Note: weights are normalized (add to 1.0) prior to calculation: e.g., if your weights are 0.5, 1.0, 0.5, the actual weights used will be 0.25, 0.5, 0.25._
+        - Households with fewer vehicles than members 
         """)
     with roadmap:
-        done, todo = st.columns([1,1])
+        done, todo = st.columns([1, 1])
         done.header("Completed")
         done.checkbox("Initial Calculation and Display", value=True, disabled=True)
         done.checkbox("Map Interactivity", value=True, disabled=True)
@@ -73,20 +57,21 @@ with info.popover("", icon=":material/question_mark:", use_container_width=True)
         done.checkbox("Investigate missing tracts", value=True, disabled=True)
         done.checkbox("Download geocoded addresses", value=True, disabled=True)
         done.checkbox("Program Overlay", value=True, disabled=True)
+        done.checkbox("Faster Geocoder", value=True, disabled=True)
         todo.header("TODO")
-        todo.checkbox("Faster Geocoder", value=False, disabled=True)
         todo.checkbox("Public Transit Overlay", value=False, disabled=True)
         todo.checkbox("Program Impact Overlay", value=False, disabled=True)
 
 title.title("Census Tract Analysis")
 
-# with st.sidebar.form("weights_form"):
 with st.sidebar:
-    tabs = st.tabs([":material/discover_tune: Map Details", ":material/home_pin: Addresses"])
+    tabs = st.tabs(
+        [":material/discover_tune: Map Details", ":material/home_pin: Addresses"]
+    )
 
     with tabs[0]:
         slider_config = config["sliders"]["weight"]
-        
+
         sliders = st.container()
         sliders.write("### Weights")
         sliders.caption("Adjust how each factor influences the combined score.")
@@ -158,16 +143,22 @@ with st.sidebar:
             vehicle_weight,
             food_weight,
         )
-        
+
         with st.expander("Color", icon=":material/palette:"):
             scale_config = config["sliders"]["scale_max"]
             cols = st.columns(2)
             # Convert default value to float and handle various input types
             if config["scale_max"] == "auto":
-                default_scale_max = float(st.session_state["tracts"].combined_pct.quantile(0.90))
+                default_scale_max = float(
+                    st.session_state["tracts"].combined_pct.quantile(0.90)
+                )
             else:
-                default_scale_max = float(config["scale_max"]) if isinstance(config["scale_max"], (int, float)) else float(config["scale_max"][0])
-            
+                default_scale_max = (
+                    float(config["scale_max"])
+                    if isinstance(config["scale_max"], (int, float))
+                    else float(config["scale_max"][0])
+                )
+
             scale_max = st.slider(
                 "Color Scale Max",
                 min_value=float(scale_config["min"]),
@@ -203,21 +194,14 @@ with st.sidebar:
             type=["csv", "txt", "xlsx"],
             help="File must have either lat/lon columns or Address, Address Line 2, City, Zip fields",
         )
-        if 'df' in st.session_state and not st.session_state.df.empty:
+        if "df" in st.session_state and not st.session_state.df.empty:
             df = st.session_state.df
             programs = set(df["Program Type"].dropna().unique().tolist()) - {"Client"}
         else:
             df = pd.DataFrame()
             programs = set()
 
-       
         with st.expander(":material/palette: Address Display Settings"):
-            # st.session_state["map_type"] = st.radio(
-            #     "Map Type (Experimental)",
-            #     ("Scatter Map", "Density Map"),
-            #     index=0,
-            #     help="Select how to display the uploaded addresses on the map.",
-            # )
             marker_config = config["sliders"]["marker_size"]
             updated_marker_opacity = st.slider(
                 "Marker Opacity",
@@ -234,7 +218,7 @@ with st.sidebar:
                 config["client_marker"]["size"],
                 step=marker_config["step"],
             )
-            
+
             if not df.empty:
                 # Download df as two files, one with rows with lat/lon and one with ones we couldn't geocode
                 lat_lon_df = df.dropna(subset=["lat", "lon"])
@@ -261,20 +245,10 @@ with st.sidebar:
                             disabled=no_geo_df.empty,
                         )
 
-        # st.session_state["overlay_addresses"] = st.checkbox(
-        #     "Overlay Addresses on Choropleth Map",
-        #     value=True,
-        #     help="Choose whether to overlay the addresses on the choropleth map or replace it.",
-        # )
-
-
-
 
 try:
-
     fig = make_map(st.session_state["tracts"], "combined_pct", config)
     st.plotly_chart(fig, use_container_width=True)
 except Exception as e:
     st.error(f"Error processing data: {str(e)}")
     raise
-
