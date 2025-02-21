@@ -53,10 +53,10 @@ def make_map(df: pd.DataFrame, col: str, config: dict):
     df["custom_hover"] = df.apply(
         lambda row: f"<b>Census Tract </b>{row['tract']}<br>"
         f"{row['County']}<br>"
-        f"<b>Combined (%):</b> {row['combined_pct']:0.2f}<br><br>"
-        f"<b>Poverty (%):</b> {row['pct_poverty']:0.2f}<br>" if row["pct_poverty"] > 0 else ""
-        + f"<b>Food Insecurity (%):</b> {row['pct_food_insecure']:0.2f}" if row["pct_food_insecure"] > 0 else "" 
-        + f"<br>{(f'<b>Lack Vehicles (%):</b> {row['pct_vehicle']:0.2f}<br>' if row['pct_vehicle']>0 else '')}",
+        f"<b>Combined Score:</b> {row['combined_pct']:0.2f}<br><br>"
+        + (f"<b>Poverty Score:</b> {row['pct_poverty']:0.2f}" if row["pct_poverty"] > 0 else "")
+        + (f"<br><b>Food Insecurity Score:</b> {row['pct_food_insecure']:0.2f}" if row["pct_food_insecure"] > 0 else "") 
+        + (f"<br><b>Lack Vehicles Score:</b> {row['pct_vehicle']:0.2f}" if row['pct_vehicle'] > 0 else ''),
         axis=1,
     )
     map_config = {
@@ -66,7 +66,7 @@ def make_map(df: pd.DataFrame, col: str, config: dict):
         "center": {"lat": centroids.y.mean(), "lon": centroids.x.mean() - 0.25},
         "opacity": config["map_opacity"],
         "color_continuous_scale": px.colors.diverging.RdYlGn_r,
-        "range_color": (0, config["scale_max"]),
+        "range_color": (0, int(df.combined_pct.quantile(0.90)) if config["scale_max"] == "auto" else config["scale_max"]),
         "hover_data": {"custom_hover": True},
     }
     fig = px.choropleth_map(

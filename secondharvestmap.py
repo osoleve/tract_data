@@ -9,6 +9,10 @@ from utils import (
     load_and_process_data,
     post_process_data,
 )
+def update_config(config, **kwargs):
+    for k, v in kwargs.items():
+        config[k] = v
+    return config
 
 if "config" not in st.session_state:
     st.session_state["config"] = load_config()
@@ -86,6 +90,11 @@ with st.sidebar:
         sliders = st.container()
         sliders.write("### Weights")
         sliders.caption("Adjust how each factor influences the combined score.")
+        st.session_state["config"]["normalize"] = sliders.checkbox(
+            "Normalize Scores",
+            value=config.get("normalize", True),
+            help="Equalize the range of each factor before combining them.",
+        )
         food_weight = sliders.slider(
             "Food Insecurity Weight",
             slider_config["min"],
@@ -122,16 +131,49 @@ with st.sidebar:
             st.caption(
                 ":material/warning: __This option changes the vehicle rate by an order of magnitude, mind your weights__"
             )
+
+        if "tracts" not in st.session_state:
+            st.session_state["tracts"] = load_and_process_data(config)
+        config = st.session_state["config"]
+        config = update_config(
+            config,
+            client_marker={
+                "size": updated_marker_size,
+                "color": fixed_client_marker_color,
+                "opacity": updated_marker_opacity,
+            },
+            poverty_weight=poverty_weight,
+            food_weight=food_weight,
+            vehicle_weight=vehicle_weight,
+            vehicle_num_toggle=vehicle_num_toggle,
+            show_settings=False,
+            map_type=st.session_state["map_type"],
+        )
+        st.session_state["config"] = config
+
+        st.session_state["tracts"] = post_process_data(
+            st.session_state["tracts"],
+            vehicle_num_toggle,
+            poverty_weight,
+            vehicle_weight,
+            food_weight,
+        )
         
         with st.expander("Color", icon=":material/palette:"):
             scale_config = config["sliders"]["scale_max"]
             cols = st.columns(2)
+            # Convert default value to float and handle various input types
+            if config["scale_max"] == "auto":
+                default_scale_max = float(st.session_state["tracts"].combined_pct.quantile(0.90))
+            else:
+                default_scale_max = float(config["scale_max"]) if isinstance(config["scale_max"], (int, float)) else float(config["scale_max"][0])
+            
             scale_max = st.slider(
                 "Color Scale Max",
-                scale_config["min"],
-                scale_config["max"],
-                config["scale_max"],
-                step=scale_config["step"],
+                min_value=float(scale_config["min"]),
+                max_value=float(scale_config["max"]),
+                value=default_scale_max,
+                step=float(scale_config["step"]),
                 key="sm",
                 help="Adjust to make differences between areas more visible",
             )
@@ -143,6 +185,12 @@ with st.sidebar:
                 config["map_opacity"],
                 step=opacity_config["step"],
                 key="mo",
+            )
+
+            config = update_config(
+                config,
+                scale_max=scale_max,
+                map_opacity=map_opacity,
             )
 
     st.session_state["address_tab"] = tabs[1]
@@ -220,41 +268,10 @@ with st.sidebar:
         # )
 
 
-def update_config(config, **kwargs):
-    for k, v in kwargs.items():
-        config[k] = v
-    return config
 
 
 try:
-    if "tracts" not in st.session_state:
-        st.session_state["tracts"] = load_and_process_data(config)
-    config = st.session_state["config"]
-    config = update_config(
-        config,
-        client_marker={
-            "size": updated_marker_size,
-            "color": fixed_client_marker_color,
-            "opacity": updated_marker_opacity,
-        },
-        scale_max=scale_max,
-        map_opacity=map_opacity,
-        poverty_weight=poverty_weight,
-        food_weight=food_weight,
-        vehicle_weight=vehicle_weight,
-        vehicle_num_toggle=vehicle_num_toggle,
-        show_settings=False,
-        map_type=st.session_state["map_type"],
-    )
-    st.session_state["config"] = config
 
-    st.session_state["tracts"] = post_process_data(
-        st.session_state["tracts"],
-        vehicle_num_toggle,
-        poverty_weight,
-        vehicle_weight,
-        food_weight,
-    )
     fig = make_map(st.session_state["tracts"], "combined_pct", config)
     st.plotly_chart(fig, use_container_width=True)
 except Exception as e:

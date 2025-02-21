@@ -6,13 +6,14 @@
     "map_opacity": 0.4,
     "poverty_weight": 1.0,
     "food_weight": 1.0,
-    "vehicle_weight": 0.33,
+    "vehicle_weight": 1.0,
     "vehicle_num_toggle": false,
-    "scale_max": 25,
+    "scale_max": "auto",
     "map_height": 800,
     "map_style": "satellite-streets",
     "map_zoom": 8.5,
     "map_type": "Scatter Map",
+    "normalize": true,
     "overlay_addresses": true,
     "file_paths": {
         "tract_geo": "data/tracts_new.pkl",
@@ -49,7 +50,7 @@
         },
         "scale_max": {
             "min": 10,
-            "max": 50,
+            "max": 100,
             "step": 1
         },
         "map_opacity": {
