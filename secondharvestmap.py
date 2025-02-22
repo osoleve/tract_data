@@ -69,6 +69,70 @@ with st.sidebar:
         [":material/discover_tune: Map Details", ":material/home_pin: Addresses"]
     )
 
+    st.session_state["address_tab"] = tabs[1]
+    with tabs[1]:
+        st.markdown(
+            "Upload a file containing addresses or coordinates to overlay them on the map."
+        )
+        st.session_state["client_coordinates"] = st.file_uploader(
+            "Upload CSV/Excel file",
+            type=["csv", "txt", "xlsx"],
+            help="File must have either lat/lon columns or Address, Address Line 2, City, Zip fields",
+        )
+        if "df" in st.session_state and not st.session_state.df.empty:
+            df = st.session_state.df
+            programs = set(df["Program Type"].dropna().unique().tolist()) - {"Client"}
+        else:
+            df = pd.DataFrame()
+            programs = set()
+
+        with st.expander(":material/palette: Address Display Settings"):
+            marker_config = config["sliders"]["marker_size"]
+            updated_marker_opacity = st.slider(
+                "Marker Opacity",
+                0.1,
+                1.0,
+                config["client_marker"]["opacity"],
+                step=0.05,
+                key="mop",
+            )
+            updated_marker_size = st.slider(
+                "Marker Size",
+                marker_config["min"],
+                marker_config["max"],
+                config["client_marker"]["size"],
+                step=marker_config["step"],
+            )
+            updated_marker_color = st.color_picker(
+                "Marker Color", fixed_client_marker_color
+            )
+
+            if not df.empty:
+                # Download df as two files, one with rows with lat/lon and one with ones we couldn't geocode
+                lat_lon_df = df.dropna(subset=["lat", "lon"])
+                no_geo_df = df[df["lat"].isnull() | df["lon"].isnull()]
+                lat_lon_csv = lat_lon_df.to_csv(index=False)
+                no_geo_csv = no_geo_df[
+                    [c for c in no_geo_df.columns if c not in ["lat", "lon"]]
+                ].to_csv(index=False)
+                with st.popover("Export", icon=":material/download:"):
+                    button_cols = st.columns(2)
+                    with button_cols[0]:
+                        st.download_button(
+                            label="Mapped Addresses",
+                            data=lat_lon_csv,
+                            file_name="geocoded_addresses.csv",
+                            mime="text/csv",
+                        )
+                    with button_cols[1]:
+                        st.download_button(
+                            label="Failed Addresses",
+                            data=no_geo_csv,
+                            file_name="addresses_geocoder_failed_on.csv",
+                            mime="text/csv",
+                            disabled=no_geo_df.empty,
+                        )
+
     with tabs[0]:
         slider_config = config["sliders"]["weight"]
 
@@ -124,7 +188,7 @@ with st.sidebar:
             config,
             client_marker={
                 "size": updated_marker_size,
-                "color": fixed_client_marker_color,
+                "color": updated_marker_color,
                 "opacity": updated_marker_opacity,
             },
             poverty_weight=poverty_weight,
@@ -177,73 +241,36 @@ with st.sidebar:
                 step=opacity_config["step"],
                 key="mo",
             )
+            program_marker_opacity = st.slider(
+                "Program Marker Opacity",
+                0.1,
+                1.0,
+                config["program_marker"]["opacity"],
+                step=0.05,
+                key="pmo",
+            )
+            program_marker_size = st.slider(
+                "Program Marker Size",
+                1,
+                20,
+                config["program_marker"]["size"],
+                step=1,
+                key="pms",
+            )
+
 
             config = update_config(
                 config,
                 scale_max=scale_max,
                 map_opacity=map_opacity,
+                program_marker={
+                    "opacity": program_marker_opacity,
+                    "size": program_marker_size,
+                },
             )
+            st.session_state["config"] = config
 
-    st.session_state["address_tab"] = tabs[1]
-    with tabs[1]:
-        st.markdown(
-            "Upload a file containing addresses or coordinates to overlay them on the map."
-        )
-        st.session_state["client_coordinates"] = st.file_uploader(
-            "Upload CSV/Excel file",
-            type=["csv", "txt", "xlsx"],
-            help="File must have either lat/lon columns or Address, Address Line 2, City, Zip fields",
-        )
-        if "df" in st.session_state and not st.session_state.df.empty:
-            df = st.session_state.df
-            programs = set(df["Program Type"].dropna().unique().tolist()) - {"Client"}
-        else:
-            df = pd.DataFrame()
-            programs = set()
-
-        with st.expander(":material/palette: Address Display Settings"):
-            marker_config = config["sliders"]["marker_size"]
-            updated_marker_opacity = st.slider(
-                "Marker Opacity",
-                0.1,
-                1.0,
-                config["client_marker"]["opacity"],
-                step=0.05,
-                key="mop",
-            )
-            updated_marker_size = st.slider(
-                "Marker Size",
-                marker_config["min"],
-                marker_config["max"],
-                config["client_marker"]["size"],
-                step=marker_config["step"],
-            )
-
-            if not df.empty:
-                # Download df as two files, one with rows with lat/lon and one with ones we couldn't geocode
-                lat_lon_df = df.dropna(subset=["lat", "lon"])
-                no_geo_df = df[df["lat"].isnull() | df["lon"].isnull()]
-                lat_lon_csv = lat_lon_df.to_csv(index=False)
-                no_geo_csv = no_geo_df[
-                    [c for c in no_geo_df.columns if c not in ["lat", "lon"]]
-                ].to_csv(index=False)
-                with st.popover("Export", icon=":material/download:"):
-                    button_cols = st.columns(2)
-                    with button_cols[0]:
-                        st.download_button(
-                            label="Mapped Addresses",
-                            data=lat_lon_csv,
-                            file_name="geocoded_addresses.csv",
-                            mime="text/csv",
-                        )
-                    with button_cols[1]:
-                        st.download_button(
-                            label="Failed Addresses",
-                            data=no_geo_csv,
-                            file_name="addresses_geocoder_failed_on.csv",
-                            mime="text/csv",
-                            disabled=no_geo_df.empty,
-                        )
+    
 
 
 try:

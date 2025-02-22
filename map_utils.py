@@ -54,9 +54,21 @@ def make_map(df: pd.DataFrame, col: str, config: dict):
         lambda row: f"<b>Census Tract </b>{row['tract']}<br>"
         f"{row['County']}<br>"
         f"<b>Combined Score:</b> {row['combined_pct']:0.2f}<br><br>"
-        + (f"<b>Poverty Score:</b> {row['pct_poverty']:0.2f}" if row["pct_poverty"] > 0 else "")
-        + (f"<br><b>Food Insecurity Score:</b> {row['pct_food_insecure']:0.2f}" if row["pct_food_insecure"] > 0 else "") 
-        + (f"<br><b>Lack Vehicles Score:</b> {row['pct_vehicle']:0.2f}" if row['pct_vehicle'] > 0 else ''),
+        + (
+            f"<b>Poverty Score:</b> {row['pct_poverty']:0.2f}"
+            if row["pct_poverty"] > 0
+            else ""
+        )
+        + (
+            f"<br><b>Food Insecurity Score:</b> {row['pct_food_insecure']:0.2f}"
+            if row["pct_food_insecure"] > 0
+            else ""
+        )
+        + (
+            f"<br><b>Lack Vehicles Score:</b> {row['pct_vehicle']:0.2f}"
+            if row["pct_vehicle"] > 0
+            else ""
+        ),
         axis=1,
     )
     map_config = {
@@ -66,7 +78,12 @@ def make_map(df: pd.DataFrame, col: str, config: dict):
         "center": {"lat": centroids.y.mean(), "lon": centroids.x.mean() - 0.25},
         "opacity": config["map_opacity"],
         "color_continuous_scale": px.colors.diverging.RdYlGn_r,
-        "range_color": (0, int(df.combined_pct.quantile(0.90)) if config["scale_max"] == "auto" else config["scale_max"]),
+        "range_color": (
+            0,
+            int(df.combined_pct.quantile(0.90))
+            if config["scale_max"] == "auto"
+            else config["scale_max"],
+        ),
         "hover_data": {"custom_hover": True},
     }
     fig = px.choropleth_map(
@@ -97,10 +114,36 @@ def make_map(df: pd.DataFrame, col: str, config: dict):
             "weight": "bold",
             "size": config["fontsize"],
         },
-        marker={ **config["county_seat_marker"], "size": config["county_seat_marker"].get("size", 10) * 1.8 },  # increased marker size
+        marker={
+            **config["county_seat_marker"],
+            "size": config["county_seat_marker"].get("size", 10),
+        }, 
         name="County Seats",
         legend=None,
     )
+
+    palette = px.colors.qualitative.Bold
+    program_df = pd.read_csv(config["file_paths"]["programs"])
+    program_df["color"] = program_df["Program Type"].astype("category").cat.codes
+    program_df["color"] = program_df["color"].map(
+        lambda x: palette[x % len(palette)]
+    )
+    st.session_state["programdata"] = program_df
+    for prog, group in program_df.groupby("Program Type"):
+        fig.add_scattermap(
+            # below="",
+            lat=group["lat"],
+            lon=group["lon"],
+            
+            marker={
+                "color": group.iloc[0]["color"],
+                "size": config["program_marker"]["size"],
+                "opacity": config["program_marker"]["opacity"],
+            },
+            name=prog,
+            showlegend=True,
+            customdata=group["Facility"],
+            hovertemplate="%{customdata}<extra></extra>",)
 
     if (
         st.session_state.get("client_coordinates") is not None
@@ -112,45 +155,21 @@ def make_map(df: pd.DataFrame, col: str, config: dict):
         st.session_state["client_coordinates"] = None
         df = st.session_state.df
 
-        if "Program Type" in df.columns:
-            # Split into client and program df & update marker color palette
-            palette = px.colors.carto.Prism
-            df["Program Type"] = df["Program Type"].fillna("Client")
-            df["color"] = df["Program Type"].astype("category").cat.codes
-            df["color"] = df["color"].map(lambda x: palette[x % len(palette)])
-        else:
-            df["color"] = config["client_marker"]["color"]
-            df["Program Type"] = "Client"
-        
-        # Group by Program Type and add a trace per program with larger markers
-        if "Program Type" in df.columns:
-            for prog, group in df.groupby("Program Type"):
-                fig.add_scattermap(
-                    below="",
-                    lat=group["lat"],
-                    lon=group["lon"],
-                    mode="markers",
-                    marker={
-                        "color": group.iloc[0]["color"],
-                        "size": st.session_state["config"]["client_marker"]["size"] * 1.8,  # increased size
-                        "opacity": st.session_state["config"]["client_marker"]["opacity"],
-                    },
-                    name=prog,
-                    showlegend=True
-                )
-        else:
-            fig.add_scattermap(
-                below="",
-                lat=df["lat"],
-                lon=df["lon"],
-                mode="markers",
-                marker={
-                    "color": config["client_marker"]["color"],
-                    "size": st.session_state["config"]["client_marker"]["size"] * 1.8,  # increased size
-                    "opacity": st.session_state["config"]["client_marker"]["opacity"],
-                },
-                name="Uploaded Addresses",
-            )
+        df["color"] = config["client_marker"]["color"]
+        df["Program Type"] = "Client"
+
+        fig.add_scattermap(
+            below="",
+            lat=df["lat"],
+            lon=df["lon"],
+            mode="markers",
+            marker={
+                "color": config["client_marker"]["color"],
+                "size": config["client_marker"]["size"],
+                "opacity": config["client_marker"]["opacity"],
+            },
+            name="Uploaded Addresses",
+        )
 
         st.session_state["mapped_addresses"] = df
 
@@ -164,8 +183,8 @@ def make_map(df: pd.DataFrame, col: str, config: dict):
             xanchor="center",
             x=0.5,
             bordercolor="black",
-            borderwidth=1
+            borderwidth=1,
         ),
-        legend_font=dict(size=config["fontsize"] * 1.8)
+        legend_font=dict(size=config["fontsize"] * 1.8),
     )
     return fig

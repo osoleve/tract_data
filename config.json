@@ -21,7 +21,8 @@
         "poverty": "data/poverty.csv",
         "vehicle": "data/vehicle.csv",
         "county_seats": "data/counties.csv",
-        "acs": "data/full_acs_data.pkl"
+        "acs": "data/full_acs_data.pkl",
+        "programs": "data/shnwnc_facilities.csv"
     },
     "county_seat_marker": {
         "allowoverlap": true,
@@ -35,6 +36,12 @@
         "color": "#0000CC",
         "size": 16,
         "opacity": 0.5,
+        "symbol": "circle"
+    },
+    "program_marker": {
+        "allowoverlap": true,
+        "size": 16,
+        "opacity": 0.7,
         "symbol": "circle"
     },
     "density_plot": {
