@@ -22,7 +22,6 @@ if "config" not in st.session_state:
     get_missing_defaults(st.session_state["config"])
     st.session_state.df = pd.DataFrame()
 
-st.session_state["config"]["program_swatch"] = px.colors.qualitative.Dark2
 config = st.session_state["config"]
 updated_marker_opacity = config["client_marker"]["opacity"]
 updated_marker_size = config["client_marker"]["size"]

@@ -1,8 +1,7 @@
 .streamlit/secrets.toml
 data/localdata
 testdata.csv
-__pycache__/map_utils.cpython-312.pyc
-__pycache__/utils.cpython-312.pyc
+__pycache__*
 data/counties_bak.csv
 data/geocoded.csv
 data/geocoded_addresses.csv

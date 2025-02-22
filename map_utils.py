@@ -131,7 +131,7 @@ def make_map(df: pd.DataFrame, col: str, config: dict):
     st.session_state["programdata"] = program_df
     for prog, group in program_df.groupby("Program Type"):
         fig.add_scattermap(
-            # below="",
+            below="",
             lat=group["lat"],
             lon=group["lon"],
             
@@ -171,7 +171,7 @@ def make_map(df: pd.DataFrame, col: str, config: dict):
             name="Uploaded Addresses",
         )
 
-        st.session_state["mapped_addresses"] = df
+        st.session_state["mapped_addresses"] = st.session_state.df = df
 
     fig.update_layout(
         margin={"r": 0, "t": 0, "l": 0, "b": 0},

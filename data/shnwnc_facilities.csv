@@ -1,265 +1,265 @@
-County,Facility,Address,City,Zip,Program Type,lat,lon,color
-Alamance County,Alamance County Community Services,236 N. Mebane St,Burlington,27217,PANTRY,36.0927311,-79.43052039999999,"rgb(95, 70, 144)"
-Alamance County,Allied Churches of Alamance County,206 N Fisher Street,Burlington,27217,SHELTER,36.0995233,-79.437028,"rgb(56, 166, 165)"
-Alamance County,Allied Churches of Alamance County,206 N Fisher Street,Burlington,27217,SOUP KITCHEN,36.0995233,-79.437028,"rgb(15, 133, 84)"
-Alamance County,Amos of Alamance,617 Rauhut St,Burlington,27217,PANTRY,36.1040202,-79.4339191,"rgb(95, 70, 144)"
-Alamance County,Blessed Sacrament - Little Portion Food Pantry,328 W David St.,Burlington,27215,PANTRY,36.0955555,-79.4379412,"rgb(95, 70, 144)"
-Alamance County,Burlington Assembly of God,903 Tucker St,Burlington,27215,SOUP KITCHEN,36.0813476,-79.4400536,"rgb(15, 133, 84)"
-Alamance County,Ebenezer UCC Food Pantry,734 Apple St.,Burlington,27217,PANTRY,36.1055563,-79.4288105,"rgb(95, 70, 144)"
-Alamance County,Fresh Manna Food Ministries,802 Chapel Hill Rd,Burlington,27253,PANTRY,36.0739418,-79.44026559999999,"rgb(95, 70, 144)"
-Alamance County,Harvest Baptist Church,3741 S Church St,Burlington,27215,PANTRY,36.0818586,-79.5190691,"rgb(95, 70, 144)"
-Alamance County,Piedmont Rescue Mission,1519 N Mebane St,Burlington,27217,PANTRY,36.0928411,-79.4110103,"rgb(95, 70, 144)"
-Alamance County,The Salvation Army - Alamance,812 N. Anthony Street,Burlington,27217,SOUP KITCHEN,36.0850546,-79.4243185,"rgb(15, 133, 84)"
-Alamance County,Trinity Worship Center,3157 S Church Street,Burlington,27215,PANTRY,36.0813336,-79.5001247,"rgb(95, 70, 144)"
-Alamance County,Elon First Baptist Church,113 Lynn St,Elon,27244,PANTRY,36.0974517,-79.51341769999999,"rgb(95, 70, 144)"
-Alamance County,Burnett's Chapel Christian Church,1957 Burnett's Church Rd,Graham,27253,PANTRY,35.8775967,-79.3653215,"rgb(95, 70, 144)"
-Alamance County,DreamAlign Ministries,124 East Pine Street,Graham,27253,PANTRY,36.0680299,-79.3990929,"rgb(95, 70, 144)"
-Alamance County,S.A.F.E - Southern Alamance Family Empowerment,5950 US 89 S,Graham,27340,PANTRY,36.0679541,-79.40039209999999,"rgb(95, 70, 144)"
-Alamance County,S.A.F.E. @ The Bridge,615 W. Harden St.,Graham,27340,PANTRY,36.0698658,-79.41243759999999,"rgb(95, 70, 144)"
-Alamance County,"Stone Soup Menus, INC ",1307 E. Main St. ,Graham,27253,SOUP KITCHEN,36.0242826,-79.3573498,"rgb(15, 133, 84)"
-Alamance County,We Care / Bridging the Gap CDC,2414 Swann Rd,Green Level,27217,PANTRY,36.1174223,-79.345637,"rgb(95, 70, 144)"
-Alamance County,Breakthrough Community Church,703 S Third Street,Mebane,27302,PANTRY,36.0867938,-79.27317180000001,"rgb(95, 70, 144)"
-Alamance County,Melfield United Church of Christ,2144 Melfield Dr,Haw River,27258,PANTRY,36.035398,-79.335167,"rgb(95, 70, 144)"
-Alexander County,Mt Pisgah - Good Samaritan Food Pantry,9379 NC Hwy 127,Hickory,28601,PANTRY,35.8179708,-81.306313,"rgb(95, 70, 144)"
-Alexander County,Hiddenite Community Helpers,45 Fire Dept CT.,Hiddenite,28636,PANTRY,35.902077,-81.09109509999999,"rgb(95, 70, 144)"
-Alexander County,Stony Point Christian Ministries,411 Ruritan Park Rd,Stony Point,28678,PANTRY,35.8622033,-81.0459017,"rgb(95, 70, 144)"
-Alexander County,Christian Crisis Center,215 5th Ave SW,Taylorsville,28681,PANTRY,35.9147461,-81.18183359999999,"rgb(95, 70, 144)"
-Alleghany County,Solid Rock Food Closet,71 Womble St,Sparta,28675,PANTRY,36.50436,-81.12406,"rgb(95, 70, 144)"
-Ashe,Ashe Outreach Ministries,11719 Highway 88 West,Creston,28615,PANTRY,36.451619,-81.602423,"rgb(95, 70, 144)"
-Ashe,Ashe Outreach Ministries-Riverview,11719 Highway 88 West,Creston,28615,SOUP KITCHEN,36.451619,-81.602423,"rgb(15, 133, 84)"
-Ashe,Ashe Food Pantry,115 Colvard St,Jefferson,28640,PANTRY,36.4195767,-81.4778706,"rgb(95, 70, 144)"
-Ashe,Jefferson United Methodist Church,115 E Main St,Jefferson,28640,PANTRY,36.4210939,-81.4732659,"rgb(95, 70, 144)"
-Ashe,Warrensville Baptist Church,130 Church St,Warrensville,28693,PANTRY,36.4617524,-81.51658069999999,"rgb(95, 70, 144)"
-Ashe,Ashe Really Cares,204 Beaver Creek School Road,West Jefferson,28694,PANTRY,36.3782872,-81.4908279,"rgb(95, 70, 144)"
-Ashe,Ashe Harvest Ministries,515 Idlewild Rd,West Jefferson,28694,PANTRY,36.3034789,-81.39070699999999,"rgb(95, 70, 144)"
-Caldwell,Covenant Fellowship Ministries,6062 Petra Mill Rd,Granite Falls,28630,PANTRY,35.8585482,-81.3613688,"rgb(95, 70, 144)"
-Caldwell,South Caldwell Christian Ministry,5 Quarry Rd,Granite Falls,28630,PANTRY,35.8021466,-81.4207251,"rgb(95, 70, 144)"
-Caldwell,The Salvation Army - Lenoir,4370 Hickory Blvd,Granite Falls,28630,PANTRY,35.7936042,-81.4151614,"rgb(95, 70, 144)"
-Caldwell,Dulatown Outreach - Kwanzaa Family Inn,1631 Old North Rd,Lenoir,28645,SHELTER,35.9366421,-81.56439859999999,"rgb(56, 166, 165)"
-Caldwell,First Baptist Church Whitnel,1201 Connelly Springs Rd SW,Lenoir,28645,PANTRY,35.8769083,-81.5354231,"rgb(95, 70, 144)"
-Caldwell,Lenoir Soup Kitchen,1113 College Avenue SW,Lenoir,28645,SOUP KITCHEN,35.9105882,-81.5431921,"rgb(15, 133, 84)"
-Caldwell,Mountain View Baptist Food Pantry,2820 Lum Davis Lane,Lenoir,28645,PANTRY,35.95279420000001,-81.5889818,"rgb(95, 70, 144)"
-Caldwell,Mtn Grove--Bags of Blessings,1808 Union Grove Rd.,Lenoir,28645,PANTRY,35.8276012,-81.5585146,"rgb(95, 70, 144)"
-Caldwell,Pay It Forward Food Pantry,2058 Harper Avenue NW,Lenoir,28645,PANTRY,35.900616,-81.5647394,"rgb(95, 70, 144)"
-Caldwell,Shelter Home of Caldwell County,515 Scroggs St NW,Lenoir ,28645,SHELTER,35.9174664,-81.5426768,"rgb(56, 166, 165)"
-Caswell,Shady Grove United Methodist Church,1705 Shady Grove Rd,Providence,27315,PANTRY,36.51561239999999,-79.4173332,"rgb(95, 70, 144)"
-Caswell,Locust Hill UMC,281 Stoney Creek School Road,Reidsville,27320,PANTRY,36.3608138,-79.44154549999999,"rgb(95, 70, 144)"
-Caswell,"Caswell County Parish, Inc",1038 Main Street,Yanceyville,27379,PANTRY,36.41284419999999,-79.3478392,"rgb(95, 70, 144)"
-Caswell,County Outreach Ministry,225 Third Street,Yanceyville,27379,PANTRY,36.4054625,-79.3402342,"rgb(95, 70, 144)"
-Davidson County,South Davidson Family Resource Center,338 W Salisbury St,Denton,27239,PANTRY,35.6334765,-80.1193328,"rgb(95, 70, 144)"
-Davidson County,Abbotts Creek - Labor of Love,2817 Abbotts Creek Church Rd,High Point,27265,PANTRY,36.0044835,-80.08558889999999,"rgb(95, 70, 144)"
-Davidson County,Davidson Community Action,911 S Talbert Blvd,Lexington,27292,PANTRY,35.8139078,-80.25963159999999,"rgb(95, 70, 144)"
-Davidson County,First Assembly of God,382 Walser Road,Lexington,27295,PANTRY,35.8518759,-80.2600317,"rgb(95, 70, 144)"
-Davidson County,Grace Episcopal Church,419 S. Main St.,Lexington,27292,SOUP KITCHEN,35.8202249,-80.25689589999999,"rgb(15, 133, 84)"
-Davidson County,Greater Things Outreach,6282 Old US Hwy 52,Lexington,27374,PANTRY,35.910943,-80.25396959999999,"rgb(95, 70, 144)"
-Davidson County,JCF Ministries Full Gospel Church,1700 S Main Street,Lexington,27292,PANTRY,35.8081158,-80.2740764,"rgb(95, 70, 144)"
-Davidson County,Least of These Ministries,4600 W Old Highway 64,Lexington,27295,PANTRY,35.8450979,-80.3323994,"rgb(95, 70, 144)"
-Davidson County,Loaves and Fishes Food Ministry,902 South Main St.,Lexington,27292,PANTRY,35.8163122,-80.2624925,"rgb(95, 70, 144)"
-Davidson County,North Lexington Baptist Church,201 Mize Rd,Lexington,27295,PANTRY,35.8482902,-80.2646287,"rgb(95, 70, 144)"
-Davidson County,Pastors Pantry,307 N State St,Lexington,27292,PANTRY,35.8271723,-80.251679,"rgb(95, 70, 144)"
-Davidson County,Services for the Deaf,8 Franklin St,Lexington,27292,PANTRY,35.8306277,-80.2438504,"rgb(95, 70, 144)"
-Davidson County,The Salvation Army-Davidson,314 W 9th Ave,Lexington,27292,PANTRY,35.8197265,-80.2663889,"rgb(95, 70, 144)"
-Davidson County,The Salvation Army-Davidson,314 W 9th Ave,Lexington,27292,SOUP KITCHEN,35.8197265,-80.2663889,"rgb(15, 133, 84)"
-Davidson County,"Upper Room Food Ministry, Inc.",11185 NC Highway 8,Lexington,27292,PANTRY,35.6567556,-80.2615125,"rgb(95, 70, 144)"
-Davidson County,Fairgrove Family Resource,159 Myrtle Drive,Thomasville,27360,PANTRY,35.83687219999999,-80.1067473,"rgb(95, 70, 144)"
-Davidson County,First Pentecostal-Servant's Table,509 Cloniger Road,Thomasville,27360,PANTRY,35.8676635,-80.054081,"rgb(95, 70, 144)"
-Davidson County,"He Cares, Inc.",12 W Guildford St.,Thomasville,27360,SOUP KITCHEN,35.884639,-80.084058,"rgb(15, 133, 84)"
-Davidson County,New Temple House of Provisions,403 National Highway,Thomasville,27360,PANTRY,35.892854,-80.0714464,"rgb(95, 70, 144)"
-Davidson County,The Father's Storehouse,609 National Hwy ,Thomasville,27360,PANTRY,35.8968764,-80.0692451,"rgb(95, 70, 144)"
-Davidson County,The Father's Storehouse,609 National Hwy ,Thomasville,27360,SOUP KITCHEN,35.8968764,-80.0692451,"rgb(15, 133, 84)"
-Davidson County,Thomasville Community Ministry,10 W Guilford St,Thomasville,27360,PANTRY,35.8847031,-80.0838522,"rgb(95, 70, 144)"
-Davie County,Army of Hope,2121 Cornatzer Rd,Advance,27006,PANTRY,35.9396235,-80.4575593,"rgb(95, 70, 144)"
-Davie County,Ascension Food Pantry,183 Fork-Bixby Rd,Advance,27006,PANTRY,35.8824797,-80.4446597,"rgb(95, 70, 144)"
-Davie County,First Baptist Church - Cooleemee,204 Marginal Street,Cooleemee,27014,PANTRY,35.8157286,-80.5552074,"rgb(95, 70, 144)"
-Davie County,A Storehouse for Jesus,675 E Lexington Rd,Mocksville,27028,PANTRY,35.8907535,-80.5562599,"rgb(95, 70, 144)"
-Forsyth County,Clemmons Food Pantry,2660 Neudorf Road,Clemmons,27012,PANTRY,36.0242846,-80.3844122,"rgb(95, 70, 144)"
-Forsyth County,Mt. Moriah - Bread of Life,317 Jefferson St,Kernersville,27284,PANTRY,36.1203979,-80.0659874,"rgb(95, 70, 144)"
-Forsyth County,Project RE3 Hope Center,3801 Old Hollow Rd,Kernersville,27284,PANTRY,36.1575694,-80.1300308,"rgb(95, 70, 144)"
-Forsyth County,The Salvation Army-Kernersville,130 E. Mountain St. ,Kernersville,27284,PANTRY,36.11927379999999,-80.07256269999999,"rgb(95, 70, 144)"
-Forsyth County,St James UMC Community Food Pantry,165 Bethania Rural Hall Rd,Rural Hall,27045,PANTRY,36.2396958,-80.2944007,"rgb(95, 70, 144)"
-Forsyth County,Morris Chapel UMC,2715 Darrow Road,Walkertown,27051,PANTRY,36.1635545,-80.14594129999999,"rgb(95, 70, 144)"
-Forsyth County,"Agape Care & Share, Inc.",3650-G Patterson Ave,Winston-Salem,27105,PANTRY,36.1396172,-80.2439909,"rgb(95, 70, 144)"
-Forsyth County,Ardmore United Methodist Church,630 S Hawthorne Rd,Winston-Salem,27103,PANTRY,36.0841449,-80.2702068,"rgb(95, 70, 144)"
-Forsyth County,Beloved Community Food Pantry,3205 S. Main Street,Winston-Salem,27127,PANTRY,36.0537735,-80.23914959999999,"rgb(95, 70, 144)"
-Forsyth County,Catholic Charities,1612 14th st,Winston-Salem,27105,PANTRY,36.1125353,-80.22471209999999,"rgb(95, 70, 144)"
-Forsyth County,Centenary United Methodist Church,633 W Fourth 1/2 St.,Winston-Salem,27101,PANTRY,36.0982006,-80.250964,"rgb(95, 70, 144)"
-Forsyth County,Central Triad Church,2935 Cole Rd,Winston-Salem,27107,PANTRY,36.0542079,-80.16861639999999,"rgb(95, 70, 144)"
-Forsyth County,Christ Rescue Temple,1500 N. Dunleith Ave.,Winston-Salem,27105,PANTRY,36.1134,-80.2272978,"rgb(95, 70, 144)"
-Forsyth County,Christ Rescue Temple,1500 N. Dunleith Ave.,Winston-Salem,27105,SOUP KITCHEN,36.1134,-80.2272978,"rgb(15, 133, 84)"
-Forsyth County,Crisis Control Ministry,200 E 10th St,Winston-Salem,27101,PANTRY,36.1068493,-80.2250536,"rgb(95, 70, 144)"
-Forsyth County,Ephesus Seventh Day Adventist,1225 N Cleveland Ave,Winston-Salem,27101,PANTRY,36.1108778,-80.2292066,"rgb(95, 70, 144)"
-Forsyth County,Friendship Resource Center,1317 N Cherry St.,Winston-Salem,27105,PANTRY,36.1110301,-80.25344419999999,"rgb(95, 70, 144)"
-Forsyth County,H.O.P.E. of Winston-Salem,355 N Crawford Pl,Winston-Salem,27105,PANTRY,36.1175083,-80.2512775,"rgb(95, 70, 144)"
-Forsyth County,H.O.P.E. of Winston-Salem,355 Crawford Pl,Winston-Salem,27101,SOUP KITCHEN,36.1175083,-80.2512775,"rgb(15, 133, 84)"
-Forsyth County,Holy Trinity,5307 Peters Creek Parkway,Winston-Salem,27127,PANTRY,35.9967104,-80.26591909999999,"rgb(95, 70, 144)"
-Forsyth County,Hope Community Church,4660 Brownsboro Rd,Winston-Salem,27106,PANTRY,36.1483281,-80.2771808,"rgb(95, 70, 144)"
-Forsyth County,Iglesia Nueva Vida,4423 S Main St,Winston-Salem,27127,PANTRY,36.0298843,-80.2429348,"rgb(95, 70, 144)"
-Forsyth County,Iglesia Wesleyana el Buen Samaritano,2800 Ludwig St,Winston-Salem,27107,PANTRY,36.0599034,-80.2122904,"rgb(95, 70, 144)"
-Forsyth County,Ivylin Kellyman Food Pantry,4832 Morningside Dr.,Winston-Salem,27106,PANTRY,36.1670853,-80.32971959999999,"rgb(95, 70, 144)"
-Forsyth County,Love Community Development,3980 N Liberty St,Winston-Salem,27105,PANTRY,36.150538,-80.221188,"rgb(95, 70, 144)"
-Forsyth County,Maple Springs United Methodist Church,2569 Reynolda Rd,Winston-Salem,27106,PANTRY,36.1341404,-80.2903176,"rgb(95, 70, 144)"
-Forsyth County,MBL - City Lights Ministry,1600 Williamson St,Winston-Salem,27107,PANTRY,36.0803324,-80.2219302,"rgb(95, 70, 144)"
-Forsyth County,MBL - Enterprise Shared Use Kitchen,1922 S MLK Jr Dr,Winston-Salem,27107,SOUP KITCHEN,36.0104644,-80.1651854,"rgb(15, 133, 84)"
-Forsyth County,MBL - One Love Strong Foundation,717 S. Marshall St.,Winston-Salem,27101,PANTRY,36.0853508,-80.24449469999999,"rgb(95, 70, 144)"
-Forsyth County,Ministerio Fil 4 13,1526 Bruce St,Winston-Salem,27107,PANTRY,36.080127,-80.22643699999999,"rgb(95, 70, 144)"
-Forsyth County,Ministry of Fullness Word of Faith,735 E Devonshire St.,Winston-Salem,27107,PANTRY,36.0673061,-80.2228986,"rgb(95, 70, 144)"
-Forsyth County,Neighborhoods Hands Inc,1713 N Liberty Street,Winston-Salem,27105,PANTRY,36.1155749,-80.2342008,"rgb(95, 70, 144)"
-Forsyth County,New Jerusalem Baptist Church,1227 N Dunleith Ave,Winston-Salem,27101,PANTRY,36.1103684,-80.2265054,"rgb(95, 70, 144)"
-Forsyth County,New Story Church,1401 Trade Mart Blvd,Winston-Salem,27106,PANTRY,36.0600619,-80.2628903,"rgb(95, 70, 144)"
-Forsyth County,One Love Strong Foundation Pantry,717 S. Marshall St.,Winston-Salem,27101,PANTRY,36.0853508,-80.24449469999999,"rgb(95, 70, 144)"
-Forsyth County,Our Fathers House Ministries,20 Rink Rd,Winston-Salem,27107,PANTRY,35.9987026,-80.2311477,"rgb(95, 70, 144)"
-Forsyth County,Piney Grove Baptist Church,4633 Grove Garden Dr,Winston-Salem,27106,PANTRY,36.1538092,-80.27111,"rgb(95, 70, 144)"
-Forsyth County,Positive Wellness Alliance,3504 Vest Mill Rd,Winston-Salem,27103,PANTRY,36.072832,-80.30615689999999,"rgb(95, 70, 144)"
-Forsyth County,Samaritan Ministries,414 E Northwest Blvd.,Winston-Salem,27101,SOUP KITCHEN,36.1104908,-80.240297,"rgb(15, 133, 84)"
-Forsyth County,Senior Services - Meals on Wheels,2895 Shorefair Dr,Winston-Salem,27105,PANTRY,36.1282187,-80.25016190000001,"rgb(95, 70, 144)"
-Forsyth County,St Paul United Methodist Church,2400 Dellabrook,Winston-Salem,27105,PANTRY,36.1114447,-80.2134161,"rgb(95, 70, 144)"
-Forsyth County,St Peter's World Outreach,3683 Old Lexington Rd,Winston-Salem,27107,PANTRY,36.0497049,-80.22062869999999,"rgb(95, 70, 144)"
-Forsyth County,St Stephen Missionary Baptist,5000 Noble St,Winston-Salem,27105,PANTRY,36.1440175,-80.2090521,"rgb(95, 70, 144)"
-Forsyth County,St. John CME Church,350 NW Crawford Place,Winston-Salem,27105,PANTRY,36.1167731,-80.2516819,"rgb(95, 70, 144)"
-Forsyth County,Star of Bethlehem Lutheran Church,1355 Jonestown Rd,Winston-Salem,27103,PANTRY,36.0499335,-80.3449632,"rgb(95, 70, 144)"
-Forsyth County,Sunnyside Ministry,319 Haled St,Winston-Salem,27127,PANTRY,36.0721847,-80.2327468,"rgb(95, 70, 144)"
-Forsyth County,The Dwelling,502 N Broad St,Winston-Salem,27101,SOUP KITCHEN,36.0999725,-80.25447849999999,"rgb(15, 133, 84)"
-Forsyth County,The Salvation Army - Trade St - Winston Salem,1255 N Trade St,Winston-Salem,27101,SOUP KITCHEN,36.109862,-80.2458285,"rgb(15, 133, 84)"
-Forsyth County,The Shalom Project,639 Green St,Winston-Salem,27101,PANTRY,36.0852106,-80.2494591,"rgb(29, 105, 150)"
-Forsyth County,The Shalom Project,639 Green St,Winston-Salem,27101,SOUP KITCHEN,36.0852106,-80.2494591,"rgb(29, 105, 150)"
-Forsyth County,The Ultimate Sacrifice,2285 Premier Park Ln,Winston-Salem,27105,PANTRY,36.1114302,-80.2173998,"rgb(95, 70, 144)"
-Forsyth County,Una Bendicion,4456 Old Walkertown Rd,Winston-Salem,27105,PANTRY,36.1511695,-80.2189211,"rgb(95, 70, 144)"
-Forsyth County,Union Baptist Church,406 Northwest Blvd,Winston-Salem,27105,PANTRY,36.110338,-80.2485646,"rgb(95, 70, 144)"
-Forsyth County,Whole Man Ministries,3916 Old Lexington Rd,Winston-Salem,27107,PANTRY,36.0380298,-80.21799519999999,"rgb(95, 70, 144)"
-Forsyth County,Winston-Salem Rescue Mission,710 Trade St.,Winston-Salem,27101,PANTRY,36.1032231,-80.2466599,"rgb(95, 70, 144)"
-Forsyth County,Winston-Salem Rescue Mission,717 Oak St,Winston-Salem,27101,SHELTER,36.1033668,-80.247007,"rgb(56, 166, 165)"
-Guilford County,Locust Grove,4707 NC Hwy 150,Browns Summit,27214,PANTRY,35.9124915,-80.32791309999999,"rgb(95, 70, 144)"
-Guilford County,Cappadocia Intergrowth Enrichment,600 W. Minneola Street,Gibsonsville,27249,PANTRY,36.1085621,-79.5517398,"rgb(95, 70, 144)"
-Guilford County,180 turn Ch.- Jean & Dean Food Pantry,1379 Lees Chapel Rd,Greensboro,27407,PANTRY,36.1404477,-79.7773632,"rgb(95, 70, 144)"
-Guilford County,Alamance Presbyterian Church,4000 Presbyterian Rd,Greensboro,27406,PANTRY,36.0227905,-79.7079646,"rgb(95, 70, 144)"
-Guilford County,Cathedral of His Glory,4501 Lake Jeanette Rd,Greensboro,27455,PANTRY,36.1351803,-79.8275894,"rgb(95, 70, 144)"
-Guilford County,Cedar Grove Tabernacle of Praise,612 Norwalk St,Greensboro,27407,PANTRY,36.0616865,-79.8712406,"rgb(95, 70, 144)"
-Guilford County,Celia Phelps Memorial UMC,3709 Groometown Road,Greensboro,27407,PANTRY,36.0135333,-79.8646077,"rgb(95, 70, 144)"
-Guilford County,Divine Intervention - Care Link,1214 Grove Street,Greensboro,27402,PANTRY,36.0535,-79.8119547,"rgb(95, 70, 144)"
-Guilford County,Divine Intervention - Care Link,1214 Grove Street,Greensboro,27402,SOUP KITCHEN,36.0535,-79.8119547,"rgb(15, 133, 84)"
-Guilford County,Free Indeed Food Pantry,2400 S Holden Rd,Greensboro,27407,PANTRY,36.0359137,-79.8507599,"rgb(95, 70, 144)"
-Guilford County,Free Indeed Outreach Ministry,4615-A Hill Top Road,Greensboro,27405,SOUP KITCHEN,36.0329324,-79.88110309999999,"rgb(15, 133, 84)"
-Guilford County,Gate City Vineyard Christian Fellowship / Gate City Grocery GiveAway,204 S Westgate Dr,Greensboro,27407,PANTRY,36.0672378,-79.8609721,"rgb(95, 70, 144)"
-Guilford County,Genesis Baptist Church Food Pantry,2812 E. Bessemer Ave,Greensboro,27405,PANTRY,36.084431,-79.7487043,"rgb(95, 70, 144)"
-Guilford County,Grace Life Church,2317 Stanley Rd,Greensboro,27407,PANTRY,36.0421544,-79.8898099,"rgb(95, 70, 144)"
-Guilford County,Greensboro Urban Ministry,305 West Gate City Blvd,Greensboro,27406,PANTRY,36.064017,-79.79437779999999,"rgb(95, 70, 144)"
-Guilford County,HTH-Cone Health-Heart & Vascular,1121 N Church St Ent. C,Greensboro,27401,PANTRY,36.0906859,-79.7876326,"rgb(95, 70, 144)"
-Guilford County,HTH-Cone Health-Infectious Disease,"301 E Wendover Ave, Suite 111",Greensboro,27401,PANTRY,36.0887226,-79.7858961,"rgb(95, 70, 144)"
-Guilford County,Jewish Family Services,5509-C W Friendly Ave,Greensboro,27410,PANTRY,36.0892515,-79.8800181,"rgb(95, 70, 144)"
-Guilford County,Lebanon Baptist Church Pantry,4635 Hicone Rd,Greensboro,27405,PANTRY,36.1540805,-79.7114488,"rgb(95, 70, 144)"
-Guilford County,Lutheran Church of Our Father,3304 Groometown Rd,Greensboro,27407,PANTRY,36.0216393,-79.8669455,"rgb(95, 70, 144)"
-Guilford County,Manna House of Coliseum Blvd,1906 Bailiff St,Greensboro,27403,PANTRY,36.0487613,-79.8231741,"rgb(95, 70, 144)"
-Guilford County,MBL - World Victory Int'l Christian Center,1414 Cliffwood Dr,Greensboro,27406,PANTRY,36.0389802,-79.8172768,"rgb(95, 70, 144)"
-Guilford County,MBL-Greensboro Police Dept,100 E Police Plaza,Greensboro,27401,PANTRY,36.0694636,-79.7931624,"rgb(95, 70, 144)"
-Guilford County,MBL-Out of the Garden,300 NC Hwy 68S,Greensboro,27405,PANTRY,36.068708,-79.96141159999999,"rgb(95, 70, 144)"
-Guilford County,MBL-PD&Y,2270 East Cone Blvd,Greensboro,27405,PANTRY,36.1123363,-79.7372595,"rgb(95, 70, 144)"
-Guilford County,Mount Zion Baptist Church,1301 Alamance Church Rd.,Greensboro,27406,PANTRY,36.0373095,-79.7614478,"rgb(95, 70, 144)"
-Guilford County,New Zion Missionary Baptist Church,408 Martin Luther King Jr. Dr.,Greensboro,27406,PANTRY,36.0640556,-79.7870243,"rgb(95, 70, 144)"
-Guilford County,One Step Further,1900 W Market Street,Greensboro,27401,PANTRY,36.074502,-79.81812479999999,"rgb(95, 70, 144)"
-Guilford County,One Step Further,1806 Merritt Dr,Greensboro,27407,PANTRY,36.0489495,-79.8566939,"rgb(95, 70, 144)"
-Guilford County,Out of the Garden Project,300 NC Hwy 68S,Greensboro,27409,PANTRY,36.068708,-79.96141159999999,"rgb(95, 70, 144)"
-Guilford County,Positive Direction for Youth & Families,1523 Barto Pl. Suite E,Greensboro,27405,PANTRY,36.09695610000001,-79.75153999999999,"rgb(95, 70, 144)"
-Guilford County,Recovery Café - Greensboro,1810 Phillips Ave.,Greensboro,27405,SOUP KITCHEN,36.0972342,-79.75645829999999,"rgb(15, 133, 84)"
-Guilford County,Safer Cities,2523 E Phillips Ave,Greensboro,27405,PANTRY,36.0962713,-79.7439526,"rgb(95, 70, 144)"
-Guilford County,St Paul Baptist Church,1309 Larkin St,Greensboro,27406,PANTRY,36.055257,-79.7799373,"rgb(95, 70, 144)"
-Guilford County,The Redeemed Christian Church,1808 Mack Street,Greensboro,27406,PANTRY,36.02635679999999,-79.8208226,"rgb(95, 70, 144)"
-Guilford County,The Salvation Army - Center of Hope,1311 S Eugene St,Greensboro,27406,PANTRY,36.0571238,-79.792987,"rgb(95, 70, 144)"
-Guilford County,True Salvation Outreach Ministry,1901 Spencer St,Greensboro,27401,PANTRY,36.0683186,-79.761141,"rgb(95, 70, 144)"
-Guilford County,Vandalia Presbyterian Church,101 W Vandalia Road,Greensboro,27406,PANTRY,36.0146089,-79.7943871,"rgb(95, 70, 144)"
-Guilford County,W.D. Mohammed Islamic Center,3015 E. Bessemer Ave.,Greensboro,27406,PANTRY,36.0854717,-79.7449683,"rgb(95, 70, 144)"
-Guilford County,We Are One Christian Fellowship,1951 Brightwood School,Greensboro,27405,PANTRY,36.1474233,-79.74900720000001,"rgb(95, 70, 144)"
-Guilford County,Wells Memorial - We Care Pantry,1001 E Washington Street,Greensboro,27401,PANTRY,36.06964019999999,-79.7767284,"rgb(95, 70, 144)"
-Guilford County,5 Loaves 2 Fish Food Pantry,2066 Deep River Rd,High Point,27265,PANTRY,36.0146224,-79.97405909999999,"rgb(95, 70, 144)"
-Guilford County,A Gift of Giving,1309 Leonard Ave,High Point,27260,PANTRY,35.9591948,-79.9890673,"rgb(95, 70, 144)"
-Guilford County,A Shared Blessing Food Pantry - First UMC - HPT,335 N Wrenn St.,High Point,27260,PANTRY,35.9611,-80.00771999999999,"rgb(95, 70, 144)"
-Guilford County,Emerywood Baptist Church,1300 Country Club Dr,High Point,27262,PANTRY,35.9657031,-80.03536609999999,"rgb(95, 70, 144)"
-Guilford County,Grace Point Pantry,5934 Surrett Dr.,High Point,27263,PANTRY,35.9018383,-79.9988599,"rgb(95, 70, 144)"
-Guilford County,Helping Hands,2301 S Main St,High Point,27263,PANTRY,35.931866,-79.9888386,"rgb(95, 70, 144)"
-Guilford County,High Point Christian Center,234 Dorothy St,High Point,27262,PANTRY,35.9342649,-80.04278660000001,"rgb(95, 70, 144)"
-Guilford County,Julian United Methodist Church,2105 NC Hwy 62 E,Julian,27283,PANTRY,35.9096075,-79.6576736,"rgb(95, 70, 144)"
-Guilford County,Kingdom Building Church International,203 Lindsay St.,High Point,27262,PANTRY,35.9567654,-80.0120311,"rgb(95, 70, 144)"
-Guilford County,MANNA Box Ministry,4400 Alamance Church Rd,Liberty,27298,PANTRY,35.9511567,-79.5533633,"rgb(95, 70, 144)"
-Guilford County,MBL-The Salv Army-HP,301 W Green Dr,High Point,27260,PANTRY,35.9528173,-80.0074734,"rgb(95, 70, 144)"
-Guilford County,New Beginnings Full Gospel Ministries,215 Fourth St,High Point,27260,PANTRY,35.9622104,-80.0014496,"rgb(95, 70, 144)"
-Guilford County,One Step Further,1012 Leonard St,High Point,27401,PANTRY,35.9588165,-79.9931746,"rgb(95, 70, 144)"
-Guilford County,Open Door Ministries - Father's Table,400 N Centennial St,High Point,27260,SOUP KITCHEN,35.9638304,-80.0018539,"rgb(15, 133, 84)"
-Guilford County,Open Door Ministries - Pantry,400 N Centennial St,High Point,27260,PANTRY,35.9638304,-80.0018539,"rgb(95, 70, 144)"
-Guilford County,Piedmont Health Services & Sickle Cell Agency,401 Taylor Ave,High Point,27260,PANTRY,35.9477732,-80.0086946,"rgb(95, 70, 144)"
-Guilford County,Renaissance Road Church,5114 Harvey Rd.,Jamestown,27282,PANTRY,35.9687269,-79.9314217,"rgb(29, 105, 150)"
-Guilford County,Renaissance Road Church,5114 Harvey Rd.,Jamestown,27282,SOUP KITCHEN,35.9687269,-79.9314217,"rgb(29, 105, 150)"
-Guilford County,Solid Rock Baptist Church,903 E Kearns Ave,High Point,27260,PANTRY,35.9445208,-79.9917212,"rgb(95, 70, 144)"
-Guilford County,Stokesdale Church of God,7835 Anthony Rd.,Stokesdale,27357,PANTRY,36.2287245,-80.01676970000001,"rgb(95, 70, 144)"
-Guilford County,The Salvation Army,301 W Green Dr,High Point,27260,PANTRY,35.9528173,-80.0074734,"rgb(95, 70, 144)"
-Guilford County,Triad Adult Day Care,409 E Fairfield Rd,High Point,27263,PANTRY,35.9253642,-79.9767725,"rgb(95, 70, 144)"
-Guilford County,Triad Food Pantry,1311 Johnson St,High Point,27262,PANTRY,35.9735695,-80.01650579999999,"rgb(95, 70, 144)"
-Guilford County,Ward Street Community Resource Center,1619 W Ward Avenue,High Point,27260,PANTRY,35.9372805,-80.0250563,"rgb(95, 70, 144)"
-Guilford County,West End Ministries - Pantry,903 English Rd.,High Point,27261,PANTRY,35.9538081,-80.01445869999999,"rgb(29, 105, 150)"
-Guilford County,West End Ministries - Pantry,903 English Rd.,High Point,27261,SOUP KITCHEN,35.9538081,-80.01445869999999,"rgb(29, 105, 150)"
-Iredell County,Matthew 25 Ministries,3223 Harmony Hwy,Harmony,28634,PANTRY,35.9497522,-80.77348169999999,"rgb(95, 70, 144)"
-Iredell County,Cornerstone Church,650 Glover St,Statesville,28625,PANTRY,35.7820492,-80.85636920000002,"rgb(95, 70, 144)"
-Iredell County,Diakonos- Fifth Street Shelter,1421 Fifth St,Statesville,28677,SOUP KITCHEN,35.765375,-80.88956639999999,"rgb(15, 133, 84)"
-Iredell County,First Church of Nazarene,506 Medlin St,Statesville,28677,PANTRY,35.7891044,-80.9109064,"rgb(95, 70, 144)"
-Iredell County,Iredell Christian Ministries,752 Old Salisbury Road,Statesville,28677,PANTRY,35.7761889,-80.8731217,"rgb(95, 70, 144)"
-Iredell County,Landmark Relief,2200 E Broad St,Statesville,28625,PANTRY,35.7927726,-80.8446823,"rgb(95, 70, 144)"
-Iredell County,Ministerio de Compasion,214 Shumaker Dr,Statesville,28625,PANTRY,35.8400875,-80.8767755,"rgb(95, 70, 144)"
-Iredell County,The Salvation Army - Statesville,1361 Caldwell St,Statesville,28677,PANTRY,35.765904,-80.886699,"rgb(95, 70, 144)"
-Iredell County,Yokefellow Ministry of Statesville,1380 Shelton Ave,Statesville,28677,PANTRY,35.7676365,-80.8857276,"rgb(95, 70, 144)"
-Iredell County,Union Grove UMC,1331 Sloans Mill Rd,Union Grove,28689,PANTRY,36.0231066,-80.8666372,"rgb(95, 70, 144)"
-Randolph County,Asheboro Shelter of Hope,133 W. Wainman Ave,Asheboro,27203,SHELTER,35.7019108,-79.81561289999999,"rgb(56, 166, 165)"
-Randolph County,Brandie's Pantry,1063 Walden Rd.,Asheboro,27205,PANTRY,35.6625662,-79.7881488,"rgb(95, 70, 144)"
-Randolph County,Christians United Outreach Center,930 S. Fayetteville St.,Asheboro,27203,PANTRY,35.6949746,-79.8156182,"rgb(95, 70, 144)"
-Randolph County,First Assembly - Caring Place,909 Meadowbrook Rd,Asheboro,27203,PANTRY,35.7206077,-79.80356739999999,"rgb(95, 70, 144)"
-Randolph County,The Salvation Army - Asheboro,345 N Church St,Asheboro,27203,PANTRY,35.71141070000001,-79.8170238,"rgb(95, 70, 144)"
-Randolph County,Beulah Baptist Church,7239 NC Hwy 22-42,Bennett,27208,PANTRY,35.5959536,-79.5798432,"rgb(95, 70, 144)"
-Randolph County,Liberty Association of Churches,329 B West Bowman Avenue,Liberty,27298,PANTRY,35.8559881,-79.5767618,"rgb(95, 70, 144)"
-Randolph County,Midway United Missionary Church,307 S Stout St,Randleman,27317,PANTRY,35.8152285,-79.8124705,"rgb(95, 70, 144)"
-Randolph County,Hope Baptist Church of NC,4872 Old Edgar Rd,Sophia,27350,PANTRY,35.845528,-79.89574999999999,"rgb(95, 70, 144)"
-Rockingham County,The Salvation Army - Eden,314 Morgan Rd.,Eden,27360,PANTRY,36.509659,-79.75866189999999,"rgb(95, 70, 144)"
-Rockingham County,Draper PHC - Hope Outreach Ctr,204 S. Bethel St,Eden,27288,PANTRY,36.51391419999999,-79.6889839,"rgb(95, 70, 144)"
-Rockingham County,Samaritan's Cupboard ,220 E Meadow Rd,Eden,27288,PANTRY,36.5074664,-79.73980139999999,"rgb(95, 70, 144)"
-Rockingham County,The Salvation Army - Eden,314 Morgan Rd,Eden,27288,SOUP KITCHEN,36.509659,-79.75866189999999,"rgb(15, 133, 84)"
-Rockingham County,Grace Baptist Church - Madison - Gracefully Giving,3097 US Hwy 311,Madison,27025,PANTRY,36.3653141,-80.02887129999999,"rgb(95, 70, 144)"
-Rockingham County,"LOT 2540, Inc.",411 S. 2nd Avenue,Mayodan,27025,PANTRY,36.4054995,-79.9697393,"rgb(95, 70, 144)"
-Rockingham County,"LOT 2540, Inc.",411 S. 2nd Avenue,Mayodan,27025,SOUP KITCHEN,36.4054995,-79.9697393,"rgb(15, 133, 84)"
-Rockingham County,The Salvation Army - Reidsville,704 Barnes Street,Reidsville,27320,PANTRY,36.35337000000001,-79.65660799999999,"rgb(95, 70, 144)"
-Rockingham County,"Men In Christ, Inc.",200 S Main Street,Reidsville,27320,PANTRY,36.3602559,-79.6661434,"rgb(95, 70, 144)"
-Rockingham County,Rockingham Hope ,3692 NC Hwy 14,Reidsville,27288,PANTRY,36.4335003,-79.7036244,"rgb(95, 70, 144)"
-Rockingham County,Reidsville Outreach Center,435 SW Market St,Reidsville,27320,PANTRY,36.35669,-79.6624317,"rgb(95, 70, 144)"
-Rockingham County,In His Name Christian Services,1863 S Park Dr,Reidsville,27320,PANTRY,36.330997,-79.67371200000001,"rgb(95, 70, 144)"
-Rockingham County,Cornerstone Christian Center Food Pantry,516 N Scales St,Reidsville,27320,PANTRY,36.3680021,-79.6658666,"rgb(95, 70, 144)"
-Rockingham County,CORMII CDC,1309-D Northup St,Reidsville,27320,PANTRY,36.345332,-79.665905,"rgb(95, 70, 144)"
-Rockingham County,God's Helping Hands Pantry,4933 NC Highway 770,Stoneville,27048,PANTRY,36.4664527,-79.9062141,"rgb(95, 70, 144)"
-Stokes County,King Outreach Ministry,413 Kingsway Dr,King,27021,PANTRY,36.2750518,-80.37882139999999,"rgb(95, 70, 144)"
-Stokes County,The Rock Church,416 W King Street,King,27021,PANTRY,36.286535,-80.3674075,"rgb(95, 70, 144)"
-Stokes County,East Stokes Outreach Ministry,301 West Third St,Walnut Cove,27052,PANTRY,36.295184,-80.1432509,"rgb(95, 70, 144)"
-Stokes County,Francisco Presbyterian Church,7257 NC Hwy 89 W,Westfield,27053,PANTRY,36.4483674,-80.28546229999999,"rgb(95, 70, 144)"
-Surry County,Foothills Food Pantry,233 Cooper St,Dobson,27017,PANTRY,36.391397,-80.72432189999999,"rgb(95, 70, 144)"
-Surry County,ECHO Ministry-The Ark Homeless,130 Hill Street,Elkin,28621,SHELTER,36.2648482,-80.8468261,"rgb(56, 166, 165)"
-Surry County,Tri-County Christian Crisis Ministry,290 N Bridge St.,Elkin,28642,PANTRY,36.2479611,-80.8513795,"rgb(95, 70, 144)"
-Surry County,Greater Mt Airy Ministry of Hospitality - Shepherd's House,227 Rockford St,Mt. Airy,27030,SHELTER,36.4971673,-80.6087642,"rgb(56, 166, 165)"
-Surry County,Helping Hands Foundation of Surry,114 W Lebanon St,Mt. Airy,27030,PANTRY,36.5108093,-80.6096432,"rgb(95, 70, 144)"
-Surry County,Iglesia Pentecostal Cristo Viene,126 Lynnhaven Rd.,Mt. Airy,27030,PANTRY,36.4645293,-80.62411639999999,"rgb(95, 70, 144)"
-Surry County,The Salvation Army - Mt Airy,651 S South Street,Mt. Airy,27030,PANTRY,36.4923601,-80.614299,"rgb(95, 70, 144)"
-Surry County,Trinity Episcopal Church,427 N Main St,Mt. Airy,27030,PANTRY,36.5024167,-80.60886260000001,"rgb(95, 70, 144)"
-Surry County,Yokefellow Ministry of Mt Airy,461 South St.,Mt Airy,27030,PANTRY,36.4999641,-80.6053793,"rgb(95, 70, 144)"
-Surry County,SEAMS - Pilot Mountain Outreach,407 Old US 52 Bypass,Pilot Mountain,27041,PANTRY,36.3867516,-80.459672,"rgb(95, 70, 144)"
-Watauga County,Blowing Rock Cares Food Pantry,1218 Main St,Blowing Rock,28605,PANTRY,36.1307064,-81.6792153,"rgb(95, 70, 144)"
-Watauga County,Casting Bread Food Market,194 Aho Rd.,Blowing Rock,28605,PANTRY,36.153281,-81.645341,"rgb(95, 70, 144)"
-Watauga County,Greenway Baptist Church,880 Greenway Rd,Boone,28607,PANTRY,36.1977035,-81.6642596,"rgb(95, 70, 144)"
-Watauga County,Hospitality House,338 Brook Hollow Road,Boone,28607,PANTRY,36.2140537,-81.641138,"rgb(29, 105, 150)"
-Watauga County,Hospitality House,338 Brook Hollow Road,Boone,28607,SOUP KITCHEN,36.2140537,-81.641138,"rgb(29, 105, 150)"
-Watauga County,The Hunger & Health Coalition,141 Health Center Dr,Boone,28607,PANTRY,36.2146035,-81.64129539999999,"rgb(95, 70, 144)"
-Watauga County,The Hunger & Health Coalition - Western Watauga,1081 Old US Highway 421,Sugar Grove,28679,PANTRY,36.2656859,-81.7835395,"rgb(95, 70, 144)"
-Wilkes County,Brushy Mtn Baptist - Boomer Food Pantry,149 Boomer Church Road,Boomer,28606,PANTRY,36.0672199,-81.2581897,"rgb(95, 70, 144)"
-Wilkes County,Anchor Ridge,1137 River Rd Liberty Grove Rd,North Wilkesboro,28659,PANTRY,36.1781978,-81.10350249999999,"rgb(95, 70, 144)"
-Wilkes County,BROC: Wilkes Community Action,710 Veterans Drive,North Wilkesboro,28659,PANTRY,36.1659326,-81.1307188,"rgb(95, 70, 144)"
-Wilkes County,Brushy Mtn Baptist - Wilkes Min of Hope,514 Elkin Highway,North Wilkesboro,28659,PANTRY,36.1831504,-81.13104400000002,"rgb(95, 70, 144)"
-Wilkes County,Maple Springs United Methodist Church,15733 Elkin Hwy,Ronda,28670,PANTRY,36.2436677,-80.8909224,"rgb(95, 70, 144)"
-Wilkes County,MBL- Antioch Baptist Church,12164 Elkin Hwy #268,Ronda,28670,PANTRY,36.2186333,-80.94135070000002,"rgb(95, 70, 144)"
-Wilkes County,Antioch Baptist Church,1298 Antioch Church Rd,Wilkesboro,28697,PANTRY,36.166298,-81.02800110000001,"rgb(95, 70, 144)"
-Wilkes County,New Damascus Baptist Church,161 Damascus Church Rd,Wilkesboro,28697,PANTRY,36.150761,-81.120859,"rgb(95, 70, 144)"
-Wilkes County,Pilgrim Baptist Church - Outreach Center,493 Pilgrim Baptist Church Rd,Wilkesboro,28697,PANTRY,36.1510867,-81.27591799999999,"rgb(95, 70, 144)"
-Wilkes County,Samaritan Kitchen of Wilkes,4187 US Highway 421,Wilkesboro,28697,PANTRY,36.1492951,-81.23498620000001,"rgb(95, 70, 144)"
-Yadkin County,Divino Redentor Catholic Church,209 Lon Ave,Boonville,27011,PANTRY,36.2421405,-80.7096299,"rgb(95, 70, 144)"
-Yadkin County,Yadkin Christian Ministries - East Bend,118 Hwy 67,East Bend,27018,PANTRY,36.2165279,-80.512558,"rgb(95, 70, 144)"
-Yadkin County,Yadkin Christian Ministries,117 Woodlyn Dr,Yadkinville,27055,PANTRY,36.1175723,-80.6537421,"rgb(95, 70, 144)"
+County,Facility,Address,City,Zip,Program Type,lat,lon
+Alamance County,Alamance County Community Services,N. Mebane St,Burlington,27217,PANTRY,36.0927311,-79.43052039999999
+Alamance County,Allied Churches of Alamance County,206 N Fisher Street,Burlington,27217,SHELTER,36.0995233,-79.437028
+Alamance County,Allied Churches of Alamance County,206 N Fisher Street,Burlington,27217,SOUP KITCHEN,36.0995233,-79.437028
+Alamance County,Amos of Alamance,617 Rauhut St,Burlington,27217,PANTRY,36.1040202,-79.4339191
+Alamance County,Blessed Sacrament - Little Portion Food Pantry,328 W David St.,Burlington,27215,PANTRY,36.0955555,-79.4379412
+Alamance County,Burlington Assembly of God,903 Tucker St,Burlington,27215,SOUP KITCHEN,36.0813476,-79.4400536
+Alamance County,Ebenezer UCC Food Pantry,734 Apple St.,Burlington,27217,PANTRY,36.1055563,-79.4288105
+Alamance County,Fresh Manna Food Ministries,802 Chapel Hill Rd,Burlington,27253,PANTRY,36.0739418,-79.44026559999999
+Alamance County,Harvest Baptist Church,3741 S Church St,Burlington,27215,PANTRY,36.0818586,-79.5190691
+Alamance County,Piedmont Rescue Mission,1519 N Mebane St,Burlington,27217,PANTRY,36.0928411,-79.4110103
+Alamance County,The Salvation Army - Alamance,812 N. Anthony Street,Burlington,27217,SOUP KITCHEN,36.0850546,-79.4243185
+Alamance County,Trinity Worship Center,3157 S Church Street,Burlington,27215,PANTRY,36.0813336,-79.5001247
+Alamance County,Elon First Baptist Church,113 Lynn St,Elon,27244,PANTRY,36.0974517,-79.51341769999999
+Alamance County,Burnett's Chapel Christian Church,1957 Burnett's Church Rd,Graham,27253,PANTRY,35.8775967,-79.3653215
+Alamance County,DreamAlign Ministries,124 East Pine Street,Graham,27253,PANTRY,36.0680299,-79.3990929
+Alamance County,S.A.F.E - Southern Alamance Family Empowerment,5950 US 89 S,Graham,27340,PANTRY,36.0679541,-79.40039209999999
+Alamance County,S.A.F.E. @ The Bridge,615 W. Harden St.,Graham,27340,PANTRY,36.0698658,-79.41243759999999
+Alamance County,"Stone Soup Menus, INC ",1307 E. Main St.,Graham,27253,SOUP KITCHEN,36.0242826,-79.3573498
+Alamance County,We Care / Bridging the Gap CDC,2414 Swann Rd,Green Level,27217,PANTRY,36.1174223,-79.345637
+Alamance County,Breakthrough Community Church,703 S Third Street,Mebane,27302,PANTRY,36.0867938,-79.27317180000001
+Alamance County,Melfield United Church of Christ,2144 Melfield Dr,Haw River,27258,PANTRY,36.035398,-79.335167
+Alexander County,Mt Pisgah - Good Samaritan Food Pantry,9379 NC Hwy 127,Hickory,28601,PANTRY,35.8179708,-81.306313
+Alexander County,Hiddenite Community Helpers,45 Fire Dept CT.,Hiddenite,28636,PANTRY,35.902077,-81.09109509999999
+Alexander County,Stony Point Christian Ministries,411 Ruritan Park Rd,Stony Point,28678,PANTRY,35.8622033,-81.0459017
+Alexander County,Christian Crisis Center,215 5th Ave SW,Taylorsville,28681,PANTRY,35.9147461,-81.18183359999999
+Alleghany County,Solid Rock Food Closet,71 Womble St,Sparta,28675,PANTRY,36.50436,-81.12406
+Ashe,Ashe Outreach Ministries,11719 Highway 88 West,Creston,28615,PANTRY,36.451619,-81.602423
+Ashe,Ashe Outreach Ministries-Riverview,11719 Highway 88 West,Creston,28615,SOUP KITCHEN,36.451619,-81.602423
+Ashe,Ashe Food Pantry,115 Colvard St,Jefferson,28640,PANTRY,36.4195767,-81.4778706
+Ashe,Jefferson United Methodist Church,115 E Main St,Jefferson,28640,PANTRY,36.4210939,-81.4732659
+Ashe,Warrensville Baptist Church,130 Church St,Warrensville,28693,PANTRY,36.4617524,-81.51658069999999
+Ashe,Ashe Really Cares,204 Beaver Creek School Road,West Jefferson,28694,PANTRY,36.3782872,-81.4908279
+Ashe,Ashe Harvest Ministries,515 Idlewild Rd,West Jefferson,28694,PANTRY,36.3034789,-81.39070699999999
+Caldwell,Covenant Fellowship Ministries,6062 Petra Mill Rd,Granite Falls,28630,PANTRY,35.8585482,-81.3613688
+Caldwell,South Caldwell Christian Ministry,5 Quarry Rd,Granite Falls,28630,PANTRY,35.8021466,-81.4207251
+Caldwell,The Salvation Army - Lenoir,4370 Hickory Blvd,Granite Falls,28630,PANTRY,35.7936042,-81.4151614
+Caldwell,Dulatown Outreach - Kwanzaa Family Inn,1631 Old North Rd,Lenoir,28645,SHELTER,35.9366421,-81.56439859999999
+Caldwell,First Baptist Church Whitnel,1201 Connelly Springs Rd SW,Lenoir,28645,PANTRY,35.8769083,-81.5354231
+Caldwell,Lenoir Soup Kitchen,1113 College Avenue SW,Lenoir,28645,SOUP KITCHEN,35.9105882,-81.5431921
+Caldwell,Mountain View Baptist Food Pantry,2820 Lum Davis Lane,Lenoir,28645,PANTRY,35.95279420000001,-81.5889818
+Caldwell,Mtn Grove--Bags of Blessings,1808 Union Grove Rd.,Lenoir,28645,PANTRY,35.8276012,-81.5585146
+Caldwell,Pay It Forward Food Pantry,2058 Harper Avenue NW,Lenoir,28645,PANTRY,35.900616,-81.5647394
+Caldwell,Shelter Home of Caldwell County,515 Scroggs St NW,Lenoir,28645,SHELTER,35.9174664,-81.5426768
+Caswell,Shady Grove United Methodist Church,1705 Shady Grove Rd,Providence,27315,PANTRY,36.51561239999999,-79.4173332
+Caswell,Locust Hill UMC,281 Stoney Creek School Road,Reidsville,27320,PANTRY,36.3608138,-79.44154549999999
+Caswell,"Caswell County Parish, Inc",1038 Main Street,Yanceyville,27379,PANTRY,36.41284419999999,-79.3478392
+Caswell,County Outreach Ministry,225 Third Street,Yanceyville,27379,PANTRY,36.4054625,-79.3402342
+Davidson County,South Davidson Family Resource Center,338 W Salisbury St,Denton,27239,PANTRY,35.6334765,-80.1193328
+Davidson County,Abbotts Creek - Labor of Love,2817 Abbotts Creek Church Rd,High Point,27265,PANTRY,36.0044835,-80.08558889999999
+Davidson County,Davidson Community Action,911 S Talbert Blvd,Lexington,27292,PANTRY,35.8139078,-80.25963159999999
+Davidson County,First Assembly of God,382 Walser Road,Lexington,27295,PANTRY,35.8518759,-80.2600317
+Davidson County,Grace Episcopal Church,419 S. Main St.,Lexington,27292,SOUP KITCHEN,35.8202249,-80.25689589999999
+Davidson County,Greater Things Outreach,6282 Old US Hwy 52,Lexington,27374,PANTRY,35.910943,-80.25396959999999
+Davidson County,JCF Ministries Full Gospel Church,1700 S Main Street,Lexington,27292,PANTRY,35.8081158,-80.2740764
+Davidson County,Least of These Ministries,4600 W Old Highway 64,Lexington,27295,PANTRY,35.8450979,-80.3323994
+Davidson County,Loaves and Fishes Food Ministry,902 South Main St.,Lexington,27292,PANTRY,35.8163122,-80.2624925
+Davidson County,North Lexington Baptist Church,201 Mize Rd,Lexington,27295,PANTRY,35.8482902,-80.2646287
+Davidson County,Pastors Pantry,307 N State St,Lexington,27292,PANTRY,35.8271723,-80.251679
+Davidson County,Services for the Deaf,8 Franklin St,Lexington,27292,PANTRY,35.8306277,-80.2438504
+Davidson County,The Salvation Army-Davidson,314 W 9th Ave,Lexington,27292,PANTRY,35.8197265,-80.2663889
+Davidson County,The Salvation Army-Davidson,314 W 9th Ave,Lexington,27292,SOUP KITCHEN,35.8197265,-80.2663889
+Davidson County,"Upper Room Food Ministry, Inc.",11185 NC Highway 8,Lexington,27292,PANTRY,35.6567556,-80.2615125
+Davidson County,Fairgrove Family Resource,159 Myrtle Drive,Thomasville,27360,PANTRY,35.83687219999999,-80.1067473
+Davidson County,First Pentecostal-Servant's Table,509 Cloniger Road,Thomasville,27360,PANTRY,35.8676635,-80.054081
+Davidson County,"He Cares, Inc.",12 W Guildford St.,Thomasville,27360,SOUP KITCHEN,35.884639,-80.084058
+Davidson County,New Temple House of Provisions,403 National Highway,Thomasville,27360,PANTRY,35.892854,-80.0714464
+Davidson County,The Father's Storehouse,609 National Hwy,Thomasville,27360,PANTRY,35.8968764,-80.0692451
+Davidson County,The Father's Storehouse,609 National Hwy,Thomasville,27360,SOUP KITCHEN,35.8968764,-80.0692451
+Davidson County,Thomasville Community Ministry,10 W Guilford St,Thomasville,27360,PANTRY,35.8847031,-80.0838522
+Davie County,Army of Hope,2121 Cornatzer Rd,Advance,27006,PANTRY,35.9396235,-80.4575593
+Davie County,Ascension Food Pantry,183 Fork-Bixby Rd,Advance,27006,PANTRY,35.8824797,-80.4446597
+Davie County,First Baptist Church - Cooleemee,204 Marginal Street,Cooleemee,27014,PANTRY,35.8157286,-80.5552074
+Davie County,A Storehouse for Jesus,675 E Lexington Rd,Mocksville,27028,PANTRY,35.8907535,-80.5562599
+Forsyth County,Clemmons Food Pantry,2660 Neudorf Road,Clemmons,27012,PANTRY,36.0242846,-80.3844122
+Forsyth County,Mt. Moriah - Bread of Life,317 Jefferson St,Kernersville,27284,PANTRY,36.1203979,-80.0659874
+Forsyth County,Project RE3 Hope Center,3801 Old Hollow Rd,Kernersville,27284,PANTRY,36.1575694,-80.1300308
+Forsyth County,The Salvation Army-Kernersville,130 E. Mountain St.,Kernersville,27284,PANTRY,36.11927379999999,-80.07256269999999
+Forsyth County,St James UMC Community Food Pantry,165 Bethania Rural Hall Rd,Rural Hall,27045,PANTRY,36.2396958,-80.2944007
+Forsyth County,Morris Chapel UMC,2715 Darrow Road,Walkertown,27051,PANTRY,36.1635545,-80.14594129999999
+Forsyth County,"Agape Care & Share, Inc.",3650-G Patterson Ave,Winston-Salem,27105,PANTRY,36.1396172,-80.2439909
+Forsyth County,Ardmore United Methodist Church,630 S Hawthorne Rd,Winston-Salem,27103,PANTRY,36.0841449,-80.2702068
+Forsyth County,Beloved Community Food Pantry,3205 S. Main Street,Winston-Salem,27127,PANTRY,36.0537735,-80.23914959999999
+Forsyth County,Catholic Charities,1612 14th st,Winston-Salem,27105,PANTRY,36.1125353,-80.22471209999999
+Forsyth County,Centenary United Methodist Church,633 W Fourth 1/2 St.,Winston-Salem,27101,PANTRY,36.0982006,-80.250964
+Forsyth County,Central Triad Church,2935 Cole Rd,Winston-Salem,27107,PANTRY,36.0542079,-80.16861639999999
+Forsyth County,Christ Rescue Temple,1500 N. Dunleith Ave.,Winston-Salem,27105,PANTRY,36.1134,-80.2272978
+Forsyth County,Christ Rescue Temple,1500 N. Dunleith Ave.,Winston-Salem,27105,SOUP KITCHEN,36.1134,-80.2272978
+Forsyth County,Crisis Control Ministry,200 E 10th St,Winston-Salem,27101,PANTRY,36.1068493,-80.2250536
+Forsyth County,Ephesus Seventh Day Adventist,1225 N Cleveland Ave,Winston-Salem,27101,PANTRY,36.1108778,-80.2292066
+Forsyth County,Friendship Resource Center,1317 N Cherry St.,Winston-Salem,27105,PANTRY,36.1110301,-80.25344419999999
+Forsyth County,H.O.P.E. of Winston-Salem,355 N Crawford Pl,Winston-Salem,27105,PANTRY,36.1175083,-80.2512775
+Forsyth County,H.O.P.E. of Winston-Salem,355 Crawford Pl,Winston-Salem,27101,SOUP KITCHEN,36.1175083,-80.2512775
+Forsyth County,Holy Trinity,5307 Peters Creek Parkway,Winston-Salem,27127,PANTRY,35.9967104,-80.26591909999999
+Forsyth County,Hope Community Church,4660 Brownsboro Rd,Winston-Salem,27106,PANTRY,36.1483281,-80.2771808
+Forsyth County,Iglesia Nueva Vida,4423 S Main St,Winston-Salem,27127,PANTRY,36.0298843,-80.2429348
+Forsyth County,Iglesia Wesleyana el Buen Samaritano,2800 Ludwig St,Winston-Salem,27107,PANTRY,36.0599034,-80.2122904
+Forsyth County,Ivylin Kellyman Food Pantry,4832 Morningside Dr.,Winston-Salem,27106,PANTRY,36.1670853,-80.32971959999999
+Forsyth County,Love Community Development,3980 N Liberty St,Winston-Salem,27105,PANTRY,36.150538,-80.221188
+Forsyth County,Maple Springs United Methodist Church,2569 Reynolda Rd,Winston-Salem,27106,PANTRY,36.1341404,-80.2903176
+Forsyth County,MBL - City Lights Ministry,1600 Williamson St,Winston-Salem,27107,PANTRY,36.0803324,-80.2219302
+Forsyth County,MBL - Enterprise Shared Use Kitchen,1922 S MLK Jr Dr,Winston-Salem,27107,SOUP KITCHEN,36.0104644,-80.1651854
+Forsyth County,MBL - One Love Strong Foundation,717 S. Marshall St.,Winston-Salem,27101,PANTRY,36.0853508,-80.24449469999999
+Forsyth County,Ministerio Fil 4 13,1526 Bruce St,Winston-Salem,27107,PANTRY,36.080127,-80.22643699999999
+Forsyth County,Ministry of Fullness Word of Faith,735 E Devonshire St.,Winston-Salem,27107,PANTRY,36.0673061,-80.2228986
+Forsyth County,Neighborhoods Hands Inc,1713 N Liberty Street,Winston-Salem,27105,PANTRY,36.1155749,-80.2342008
+Forsyth County,New Jerusalem Baptist Church,1227 N Dunleith Ave,Winston-Salem,27101,PANTRY,36.1103684,-80.2265054
+Forsyth County,New Story Church,1401 Trade Mart Blvd,Winston-Salem,27106,PANTRY,36.0600619,-80.2628903
+Forsyth County,One Love Strong Foundation Pantry,717 S. Marshall St.,Winston-Salem,27101,PANTRY,36.0853508,-80.24449469999999
+Forsyth County,Our Fathers House Ministries,20 Rink Rd,Winston-Salem,27107,PANTRY,35.9987026,-80.2311477
+Forsyth County,Piney Grove Baptist Church,4633 Grove Garden Dr,Winston-Salem,27106,PANTRY,36.1538092,-80.27111
+Forsyth County,Positive Wellness Alliance,3504 Vest Mill Rd,Winston-Salem,27103,PANTRY,36.072832,-80.30615689999999
+Forsyth County,Samaritan Ministries,414 E Northwest Blvd.,Winston-Salem,27101,SOUP KITCHEN,36.1104908,-80.240297
+Forsyth County,Senior Services - Meals on Wheels,2895 Shorefair Dr,Winston-Salem,27105,PANTRY,36.1282187,-80.25016190000001
+Forsyth County,St Paul United Methodist Church,2400 Dellabrook,Winston-Salem,27105,PANTRY,36.1114447,-80.2134161
+Forsyth County,St Peter's World Outreach,3683 Old Lexington Rd,Winston-Salem,27107,PANTRY,36.0497049,-80.22062869999999
+Forsyth County,St Stephen Missionary Baptist,5000 Noble St,Winston-Salem,27105,PANTRY,36.1440175,-80.2090521
+Forsyth County,St. John CME Church,350 NW Crawford Place,Winston-Salem,27105,PANTRY,36.1167731,-80.2516819
+Forsyth County,Star of Bethlehem Lutheran Church,1355 Jonestown Rd,Winston-Salem,27103,PANTRY,36.0499335,-80.3449632
+Forsyth County,Sunnyside Ministry,319 Haled St,Winston-Salem,27127,PANTRY,36.0721847,-80.2327468
+Forsyth County,The Dwelling,502 N Broad St,Winston-Salem,27101,SOUP KITCHEN,36.0999725,-80.25447849999999
+Forsyth County,The Salvation Army - Trade St - Winston Salem,1255 N Trade St,Winston-Salem,27101,SOUP KITCHEN,36.109862,-80.2458285
+Forsyth County,The Shalom Project,639 Green St,Winston-Salem,27101,PANTRY,36.0852106,-80.2494591
+Forsyth County,The Shalom Project,639 Green St,Winston-Salem,27101,SOUP KITCHEN,36.0852106,-80.2494591
+Forsyth County,The Ultimate Sacrifice,2285 Premier Park Ln,Winston-Salem,27105,PANTRY,36.1114302,-80.2173998
+Forsyth County,Una Bendicion,4456 Old Walkertown Rd,Winston-Salem,27105,PANTRY,36.1511695,-80.2189211
+Forsyth County,Union Baptist Church,406 Northwest Blvd,Winston-Salem,27105,PANTRY,36.110338,-80.2485646
+Forsyth County,Whole Man Ministries,3916 Old Lexington Rd,Winston-Salem,27107,PANTRY,36.0380298,-80.21799519999999
+Forsyth County,Winston-Salem Rescue Mission,710 Trade St.,Winston-Salem,27101,PANTRY,36.1032231,-80.2466599
+Forsyth County,Winston-Salem Rescue Mission,717 Oak St,Winston-Salem,27101,SHELTER,36.1033668,-80.247007
+Guilford County,Locust Grove,4707 NC Hwy 150,Browns Summit,27214,PANTRY,35.9124915,-80.32791309999999
+Guilford County,Cappadocia Intergrowth Enrichment,600 W. Minneola Street,Gibsonsville,27249,PANTRY,36.1085621,-79.5517398
+Guilford County,180 turn Ch.- Jean & Dean Food Pantry,1379 Lees Chapel Rd,Greensboro,27407,PANTRY,36.1404477,-79.7773632
+Guilford County,Alamance Presbyterian Church,4000 Presbyterian Rd,Greensboro,27406,PANTRY,36.0227905,-79.7079646
+Guilford County,Cathedral of His Glory,4501 Lake Jeanette Rd,Greensboro,27455,PANTRY,36.1351803,-79.8275894
+Guilford County,Cedar Grove Tabernacle of Praise,612 Norwalk St,Greensboro,27407,PANTRY,36.0616865,-79.8712406
+Guilford County,Celia Phelps Memorial UMC,3709 Groometown Road,Greensboro,27407,PANTRY,36.0135333,-79.8646077
+Guilford County,Divine Intervention - Care Link,1214 Grove Street,Greensboro,27402,PANTRY,36.0535,-79.8119547
+Guilford County,Divine Intervention - Care Link,1214 Grove Street,Greensboro,27402,SOUP KITCHEN,36.0535,-79.8119547
+Guilford County,Free Indeed Food Pantry,2400 S Holden Rd,Greensboro,27407,PANTRY,36.0359137,-79.8507599
+Guilford County,Free Indeed Outreach Ministry,4615-A Hill Top Road,Greensboro,27405,SOUP KITCHEN,36.0329324,-79.88110309999999
+Guilford County,Gate City Vineyard Christian Fellowship / Gate City Grocery GiveAway,204 S Westgate Dr,Greensboro,27407,PANTRY,36.0672378,-79.8609721
+Guilford County,Genesis Baptist Church Food Pantry,2812 E. Bessemer Ave,Greensboro,27405,PANTRY,36.084431,-79.7487043
+Guilford County,Grace Life Church,2317 Stanley Rd,Greensboro,27407,PANTRY,36.0421544,-79.8898099
+Guilford County,Greensboro Urban Ministry,305 West Gate City Blvd,Greensboro,27406,PANTRY,36.064017,-79.79437779999999
+Guilford County,HTH-Cone Health-Heart & Vascular,1121 N Church St Ent. C,Greensboro,27401,PANTRY,36.0906859,-79.7876326
+Guilford County,HTH-Cone Health-Infectious Disease,"301 E Wendover Ave, Suite 111",Greensboro,27401,PANTRY,36.0887226,-79.7858961
+Guilford County,Jewish Family Services,5509-C W Friendly Ave,Greensboro,27410,PANTRY,36.0892515,-79.8800181
+Guilford County,Lebanon Baptist Church Pantry,4635 Hicone Rd,Greensboro,27405,PANTRY,36.1540805,-79.7114488
+Guilford County,Lutheran Church of Our Father,3304 Groometown Rd,Greensboro,27407,PANTRY,36.0216393,-79.8669455
+Guilford County,Manna House of Coliseum Blvd,1906 Bailiff St,Greensboro,27403,PANTRY,36.0487613,-79.8231741
+Guilford County,MBL - World Victory Int'l Christian Center,1414 Cliffwood Dr,Greensboro,27406,PANTRY,36.0389802,-79.8172768
+Guilford County,MBL-Greensboro Police Dept,100 E Police Plaza,Greensboro,27401,PANTRY,36.0694636,-79.7931624
+Guilford County,MBL-Out of the Garden,300 NC Hwy 68S,Greensboro,27405,PANTRY,36.068708,-79.96141159999999
+Guilford County,MBL-PD&Y,2270 East Cone Blvd,Greensboro,27405,PANTRY,36.1123363,-79.7372595
+Guilford County,Mount Zion Baptist Church,1301 Alamance Church Rd.,Greensboro,27406,PANTRY,36.0373095,-79.7614478
+Guilford County,New Zion Missionary Baptist Church,408 Martin Luther King Jr. Dr.,Greensboro,27406,PANTRY,36.0640556,-79.7870243
+Guilford County,One Step Further,1900 W Market Street,Greensboro,27401,PANTRY,36.074502,-79.81812479999999
+Guilford County,One Step Further,1806 Merritt Dr,Greensboro,27407,PANTRY,36.0489495,-79.8566939
+Guilford County,Out of the Garden Project,300 NC Hwy 68S,Greensboro,27409,PANTRY,36.068708,-79.96141159999999
+Guilford County,Positive Direction for Youth & Families,1523 Barto Pl. Suite E,Greensboro,27405,PANTRY,36.09695610000001,-79.75153999999999
+Guilford County,Recovery Café - Greensboro,1810 Phillips Ave.,Greensboro,27405,SOUP KITCHEN,36.0972342,-79.75645829999999
+Guilford County,Safer Cities,2523 E Phillips Ave,Greensboro,27405,PANTRY,36.0962713,-79.7439526
+Guilford County,St Paul Baptist Church,1309 Larkin St,Greensboro,27406,PANTRY,36.055257,-79.7799373
+Guilford County,The Redeemed Christian Church,1808 Mack Street,Greensboro,27406,PANTRY,36.02635679999999,-79.8208226
+Guilford County,The Salvation Army - Center of Hope,1311 S Eugene St,Greensboro,27406,PANTRY,36.0571238,-79.792987
+Guilford County,True Salvation Outreach Ministry,1901 Spencer St,Greensboro,27401,PANTRY,36.0683186,-79.761141
+Guilford County,Vandalia Presbyterian Church,101 W Vandalia Road,Greensboro,27406,PANTRY,36.0146089,-79.7943871
+Guilford County,W.D. Mohammed Islamic Center,3015 E. Bessemer Ave.,Greensboro,27406,PANTRY,36.0854717,-79.7449683
+Guilford County,We Are One Christian Fellowship,1951 Brightwood School,Greensboro,27405,PANTRY,36.1474233,-79.74900720000001
+Guilford County,Wells Memorial - We Care Pantry,1001 E Washington Street,Greensboro,27401,PANTRY,36.06964019999999,-79.7767284
+Guilford County,5 Loaves 2 Fish Food Pantry,2066 Deep River Rd,High Point,27265,PANTRY,36.0146224,-79.97405909999999
+Guilford County,A Gift of Giving,1309 Leonard Ave,High Point,27260,PANTRY,35.9591948,-79.9890673
+Guilford County,A Shared Blessing Food Pantry - First UMC - HPT,335 N Wrenn St.,High Point,27260,PANTRY,35.9611,-80.00771999999999
+Guilford County,Emerywood Baptist Church,1300 Country Club Dr,High Point,27262,PANTRY,35.9657031,-80.03536609999999
+Guilford County,Grace Point Pantry,5934 Surrett Dr.,High Point,27263,PANTRY,35.9018383,-79.9988599
+Guilford County,Helping Hands,2301 S Main St,High Point,27263,PANTRY,35.931866,-79.9888386
+Guilford County,High Point Christian Center,234 Dorothy St,High Point,27262,PANTRY,35.9342649,-80.04278660000001
+Guilford County,Julian United Methodist Church,2105 NC Hwy 62 E,Julian,27283,PANTRY,35.9096075,-79.6576736
+Guilford County,Kingdom Building Church International,203 Lindsay St.,High Point,27262,PANTRY,35.9567654,-80.0120311
+Guilford County,MANNA Box Ministry,4400 Alamance Church Rd,Liberty,27298,PANTRY,35.9511567,-79.5533633
+Guilford County,MBL-The Salv Army-HP,301 W Green Dr,High Point,27260,PANTRY,35.9528173,-80.0074734
+Guilford County,New Beginnings Full Gospel Ministries,215 Fourth St,High Point,27260,PANTRY,35.9622104,-80.0014496
+Guilford County,One Step Further,1012 Leonard St,High Point,27401,PANTRY,35.9588165,-79.9931746
+Guilford County,Open Door Ministries - Father's Table,400 N Centennial St,High Point,27260,SOUP KITCHEN,35.9638304,-80.0018539
+Guilford County,Open Door Ministries - Pantry,400 N Centennial St,High Point,27260,PANTRY,35.9638304,-80.0018539
+Guilford County,Piedmont Health Services & Sickle Cell Agency,401 Taylor Ave,High Point,27260,PANTRY,35.9477732,-80.0086946
+Guilford County,Renaissance Road Church,5114 Harvey Rd.,Jamestown,27282,PANTRY,35.9687269,-79.9314217
+Guilford County,Renaissance Road Church,5114 Harvey Rd.,Jamestown,27282,SOUP KITCHEN,35.9687269,-79.9314217
+Guilford County,Solid Rock Baptist Church,903 E Kearns Ave,High Point,27260,PANTRY,35.9445208,-79.9917212
+Guilford County,Stokesdale Church of God,7835 Anthony Rd.,Stokesdale,27357,PANTRY,36.2287245,-80.01676970000001
+Guilford County,The Salvation Army,301 W Green Dr,High Point,27260,PANTRY,35.9528173,-80.0074734
+Guilford County,Triad Adult Day Care,409 E Fairfield Rd,High Point,27263,PANTRY,35.9253642,-79.9767725
+Guilford County,Triad Food Pantry,1311 Johnson St,High Point,27262,PANTRY,35.9735695,-80.01650579999999
+Guilford County,Ward Street Community Resource Center,1619 W Ward Avenue,High Point,27260,PANTRY,35.9372805,-80.0250563
+Guilford County,West End Ministries - Pantry,903 English Rd.,High Point,27261,PANTRY,35.9538081,-80.01445869999999
+Guilford County,West End Ministries - Pantry,903 English Rd.,High Point,27261,SOUP KITCHEN,35.9538081,-80.01445869999999
+Iredell County,Matthew 25 Ministries,3223 Harmony Hwy,Harmony,28634,PANTRY,35.9497522,-80.77348169999999
+Iredell County,Cornerstone Church,650 Glover St,Statesville,28625,PANTRY,35.7820492,-80.85636920000002
+Iredell County,Diakonos- Fifth Street Shelter,1421 Fifth St,Statesville,28677,SOUP KITCHEN,35.765375,-80.88956639999999
+Iredell County,First Church of Nazarene,506 Medlin St,Statesville,28677,PANTRY,35.7891044,-80.9109064
+Iredell County,Iredell Christian Ministries,752 Old Salisbury Road,Statesville,28677,PANTRY,35.7761889,-80.8731217
+Iredell County,Landmark Relief,2200 E Broad St,Statesville,28625,PANTRY,35.7927726,-80.8446823
+Iredell County,Ministerio de Compasion,214 Shumaker Dr,Statesville,28625,PANTRY,35.8400875,-80.8767755
+Iredell County,The Salvation Army - Statesville,1361 Caldwell St,Statesville,28677,PANTRY,35.765904,-80.886699
+Iredell County,Yokefellow Ministry of Statesville,1380 Shelton Ave,Statesville,28677,PANTRY,35.7676365,-80.8857276
+Iredell County,Union Grove UMC,1331 Sloans Mill Rd,Union Grove,28689,PANTRY,36.0231066,-80.8666372
+Randolph County,Asheboro Shelter of Hope,133 W. Wainman Ave,Asheboro,27203,SHELTER,35.7019108,-79.81561289999999
+Randolph County,Brandie's Pantry,1063 Walden Rd.,Asheboro,27205,PANTRY,35.6625662,-79.7881488
+Randolph County,Christians United Outreach Center,930 S. Fayetteville St.,Asheboro,27203,PANTRY,35.6949746,-79.8156182
+Randolph County,First Assembly - Caring Place,909 Meadowbrook Rd,Asheboro,27203,PANTRY,35.7206077,-79.80356739999999
+Randolph County,The Salvation Army - Asheboro,345 N Church St,Asheboro,27203,PANTRY,35.71141070000001,-79.8170238
+Randolph County,Beulah Baptist Church,7239 NC Hwy 22-42,Bennett,27208,PANTRY,35.5959536,-79.5798432
+Randolph County,Liberty Association of Churches,329 B West Bowman Avenue,Liberty,27298,PANTRY,35.8559881,-79.5767618
+Randolph County,Midway United Missionary Church,307 S Stout St,Randleman,27317,PANTRY,35.8152285,-79.8124705
+Randolph County,Hope Baptist Church of NC,4872 Old Edgar Rd,Sophia,27350,PANTRY,35.845528,-79.89574999999999
+Rockingham County,The Salvation Army - Eden,314 Morgan Rd.,Eden,27360,PANTRY,36.509659,-79.75866189999999
+Rockingham County,Draper PHC - Hope Outreach Ctr,204 S. Bethel St,Eden,27288,PANTRY,36.51391419999999,-79.6889839
+Rockingham County,Samaritan's Cupboard,220 E Meadow Rd,Eden,27288,PANTRY,36.5074664,-79.73980139999999
+Rockingham County,The Salvation Army - Eden,314 Morgan Rd,Eden,27288,SOUP KITCHEN,36.509659,-79.75866189999999
+Rockingham County,Grace Baptist Church - Madison - Gracefully Giving,3097 US Hwy 311,Madison,27025,PANTRY,36.3653141,-80.02887129999999
+Rockingham County,"LOT 2540, Inc.",411 S. 2nd Avenue,Mayodan,27025,PANTRY,36.4054995,-79.9697393
+Rockingham County,"LOT 2540, Inc.",411 S. 2nd Avenue,Mayodan,27025,SOUP KITCHEN,36.4054995,-79.9697393
+Rockingham County,The Salvation Army - Reidsville,704 Barnes Street,Reidsville,27320,PANTRY,36.35337000000001,-79.65660799999999
+Rockingham County,"Men In Christ, Inc.",200 S Main Street,Reidsville,27320,PANTRY,36.3602559,-79.6661434
+Rockingham County,Rockingham Hope,3692 NC Hwy 14,Reidsville,27288,PANTRY,36.4335003,-79.7036244
+Rockingham County,Reidsville Outreach Center,435 SW Market St,Reidsville,27320,PANTRY,36.35669,-79.6624317
+Rockingham County,In His Name Christian Services,1863 S Park Dr,Reidsville,27320,PANTRY,36.330997,-79.67371200000001
+Rockingham County,Cornerstone Christian Center Food Pantry,516 N Scales St,Reidsville,27320,PANTRY,36.3680021,-79.6658666
+Rockingham County,CORMII CDC,1309-D Northup St,Reidsville,27320,PANTRY,36.345332,-79.665905
+Rockingham County,God's Helping Hands Pantry,4933 NC Highway 770,Stoneville,27048,PANTRY,36.4664527,-79.9062141
+Stokes County,King Outreach Ministry,413 Kingsway Dr,King,27021,PANTRY,36.2750518,-80.37882139999999
+Stokes County,The Rock Church,416 W King Street,King,27021,PANTRY,36.286535,-80.3674075
+Stokes County,East Stokes Outreach Ministry,301 West Third St,Walnut Cove,27052,PANTRY,36.295184,-80.1432509
+Stokes County,Francisco Presbyterian Church,7257 NC Hwy 89 W,Westfield,27053,PANTRY,36.4483674,-80.28546229999999
+Surry County,Foothills Food Pantry,233 Cooper St,Dobson,27017,PANTRY,36.391397,-80.72432189999999
+Surry County,ECHO Ministry-The Ark Homeless,130 Hill Street,Elkin,28621,SHELTER,36.2648482,-80.8468261
+Surry County,Tri-County Christian Crisis Ministry,290 N Bridge St.,Elkin,28642,PANTRY,36.2479611,-80.8513795
+Surry County,Greater Mt Airy Ministry of Hospitality - Shepherd's House,227 Rockford St,Mt. Airy,27030,SHELTER,36.4971673,-80.6087642
+Surry County,Helping Hands Foundation of Surry,114 W Lebanon St,Mt. Airy,27030,PANTRY,36.5108093,-80.6096432
+Surry County,Iglesia Pentecostal Cristo Viene,126 Lynnhaven Rd.,Mt. Airy,27030,PANTRY,36.4645293,-80.62411639999999
+Surry County,The Salvation Army - Mt Airy,651 S South Street,Mt. Airy,27030,PANTRY,36.4923601,-80.614299
+Surry County,Trinity Episcopal Church,427 N Main St,Mt. Airy,27030,PANTRY,36.5024167,-80.60886260000001
+Surry County,Yokefellow Ministry of Mt Airy,461 South St.,Mt Airy,27030,PANTRY,36.4999641,-80.6053793
+Surry County,SEAMS - Pilot Mountain Outreach,407 Old US 52 Bypass,Pilot Mountain,27041,PANTRY,36.3867516,-80.459672
+Watauga County,Blowing Rock Cares Food Pantry,1218 Main St,Blowing Rock,28605,PANTRY,36.1307064,-81.6792153
+Watauga County,Casting Bread Food Market,194 Aho Rd.,Blowing Rock,28605,PANTRY,36.153281,-81.645341
+Watauga County,Greenway Baptist Church,880 Greenway Rd,Boone,28607,PANTRY,36.1977035,-81.6642596
+Watauga County,Hospitality House,338 Brook Hollow Road,Boone,28607,PANTRY,36.2140537,-81.641138
+Watauga County,Hospitality House,338 Brook Hollow Road,Boone,28607,SOUP KITCHEN,36.2140537,-81.641138
+Watauga County,The Hunger & Health Coalition,141 Health Center Dr,Boone,28607,PANTRY,36.2146035,-81.64129539999999
+Watauga County,The Hunger & Health Coalition - Western Watauga,1081 Old US Highway 421,Sugar Grove,28679,PANTRY,36.2656859,-81.7835395
+Wilkes County,Brushy Mtn Baptist - Boomer Food Pantry,149 Boomer Church Road,Boomer,28606,PANTRY,36.0672199,-81.2581897
+Wilkes County,Anchor Ridge,1137 River Rd Liberty Grove Rd,North Wilkesboro,28659,PANTRY,36.1781978,-81.10350249999999
+Wilkes County,BROC: Wilkes Community Action,710 Veterans Drive,North Wilkesboro,28659,PANTRY,36.1659326,-81.1307188
+Wilkes County,Brushy Mtn Baptist - Wilkes Min of Hope,514 Elkin Highway,North Wilkesboro,28659,PANTRY,36.1831504,-81.13104400000002
+Wilkes County,Maple Springs United Methodist Church,15733 Elkin Hwy,Ronda,28670,PANTRY,36.2436677,-80.8909224
+Wilkes County,MBL- Antioch Baptist Church,12164 Elkin Hwy #268,Ronda,28670,PANTRY,36.2186333,-80.94135070000002
+Wilkes County,Antioch Baptist Church,1298 Antioch Church Rd,Wilkesboro,28697,PANTRY,36.166298,-81.02800110000001
+Wilkes County,New Damascus Baptist Church,161 Damascus Church Rd,Wilkesboro,28697,PANTRY,36.150761,-81.120859
+Wilkes County,Pilgrim Baptist Church - Outreach Center,493 Pilgrim Baptist Church Rd,Wilkesboro,28697,PANTRY,36.1510867,-81.27591799999999
+Wilkes County,Samaritan Kitchen of Wilkes,4187 US Highway 421,Wilkesboro,28697,PANTRY,36.1492951,-81.23498620000001
+Yadkin County,Divino Redentor Catholic Church,209 Lon Ave,Boonville,27011,PANTRY,36.2421405,-80.7096299
+Yadkin County,Yadkin Christian Ministries - East Bend,118 Hwy 67,East Bend,27018,PANTRY,36.2165279,-80.512558
+Yadkin County,Yadkin Christian Ministries,117 Woodlyn Dr,Yadkinville,27055,PANTRY,36.1175723,-80.6537421
