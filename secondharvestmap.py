@@ -268,7 +268,6 @@ with st.sidebar:
                     "opacity": program_marker_opacity,
                     "size": program_marker_size,
                 },
-                program_swatch=program_color_scale,
             )
             st.session_state["config"] = config
 
