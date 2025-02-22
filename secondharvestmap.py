@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
 
 from map_utils import make_map
 from utils import (
@@ -21,7 +22,7 @@ if "config" not in st.session_state:
     get_missing_defaults(st.session_state["config"])
     st.session_state.df = pd.DataFrame()
 
-
+st.session_state["config"]["program_swatch"] = px.colors.qualitative.Dark2
 config = st.session_state["config"]
 updated_marker_opacity = config["client_marker"]["opacity"]
 updated_marker_size = config["client_marker"]["size"]
@@ -267,6 +268,7 @@ with st.sidebar:
                     "opacity": program_marker_opacity,
                     "size": program_marker_size,
                 },
+                program_swatch=program_color_scale,
             )
             st.session_state["config"] = config
 

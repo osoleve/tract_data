@@ -122,7 +122,7 @@ def make_map(df: pd.DataFrame, col: str, config: dict):
         legend=None,
     )
 
-    palette = px.colors.qualitative.Bold
+    palette = [px.colors.qualitative.T10_r[0], px.colors.qualitative.Plotly[5], px.colors.qualitative.Set2_r[2]]
     program_df = pd.read_csv(config["file_paths"]["programs"])
     program_df["color"] = program_df["Program Type"].astype("category").cat.codes
     program_df["color"] = program_df["color"].map(
@@ -142,9 +142,9 @@ def make_map(df: pd.DataFrame, col: str, config: dict):
             },
             name=prog,
             showlegend=True,
-            customdata=group["Facility"],
-            hovertemplate="%{customdata}<extra></extra>",)
-
+            customdata=group[["Facility", "Program Type"]],
+            hovertemplate="%{customdata[0]} (%{customdata[1]})<extra></extra>",
+        )
     if (
         st.session_state.get("client_coordinates") is not None
         or not st.session_state.df.empty
