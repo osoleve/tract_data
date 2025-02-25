@@ -33,17 +33,36 @@ st.session_state["map_type"] = config.get("map_type", "Scatter Map")
 st.set_page_config(layout="wide")
 info, title, *x = st.columns([0.1, 2], gap="small", vertical_alignment="bottom")
 with info.popover("", icon=":material/question_mark:", use_container_width=True):
-    col1, roadmap = st.tabs(["Tuning the Calculation", "Roadmap"])
-    with col1:
-        st.markdown("""
+    tab1, roadmap = st.tabs(["Using the Map", "Roadmap"])
+    with tab1:
+        cols = st.columns(2)
+        cols[0].markdown("""
         #### Weights  
         Use the sliders in the sidebar to adjust how much each factor matters in the calculation. This lets you focus on specific concerns or balance all factors equally.
         Note that the weights are normalized to add up to 1.0 before the calculation.
         
+        - **Food Insecurity Weight**: Affects the impact of food insecurity rates in the combined score
+        - **Poverty Weight**: Affects the impact of poverty rates in the combined score
+        - **Vehicle Access Weight**: Affects the impact of lacking vehicle access in the combined score
+        
+        #### Normalize Scores
+        When enabled, this option equalizes the range of each factor before combining them. This prevents factors with naturally larger numeric ranges from dominating the calculation.
+                    
         #### Access to a Vehicle
         You can choose to measure:
-        - Households with no vehicles
-        - Households with fewer vehicles than members 
+        - Households with no vehicles (default)
+        - Households with fewer vehicles than members
+        """)
+        cols[1].markdown("""                
+        #### Program Markers
+        - **Toggle visibility**: Click on items in the legend to show/hide specific program types
+        - **Adjust appearance**: Control marker size and opacity in the Map Details sidebar
+        
+        #### Color Scale
+        Adjusting the color scale maximum value can help highlight differences between areas more effectively. A lower maximum makes moderate-need areas more visually distinct.
+        
+        #### Map Opacity
+        Controls how transparent the census tract colors appear on the map. 
         """)
     with roadmap:
         done, todo = st.columns([1, 1])
