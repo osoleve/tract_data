@@ -8,7 +8,7 @@
     "food_weight": 1.0,
     "vehicle_weight": 1.0,
     "vehicle_num_toggle": false,
-    "scale_max": "auto",
+    "scale_max": 35,
     "map_height": 800,
     "map_style": "satellite-streets",
     "map_zoom": 8.5,
