@@ -85,7 +85,7 @@ title.title("Census Tract Analysis")
 
 with st.sidebar:
     tabs = st.tabs(
-        [":material/discover_tune: Map Details", ":material/home_pin: Addresses"]
+        [":material/discover_tune: Control", ":material/home_pin: Addresses"]
     )
 
     st.session_state["address_tab"] = tabs[1]
@@ -153,51 +153,73 @@ with st.sidebar:
                         )
 
     with tabs[0]:
-        slider_config = config["sliders"]["weight"]
+        with st.expander("Program Overlay", icon=":material/home:"):
+            show_programs = st.checkbox(
+            "Overlay Program Locations",
+            value=config.get("show_programs", False),
+            help="Toggle visibility of program markers on the map",
+            key="show_programs"
+            )
+            st.caption("Visualize the locations of SHNWNC programs on the map.")
+            st.header("Settings")
+            program_marker_opacity = st.slider(
+                "Program Marker Opacity",
+                0.1,
+                1.0,
+                config["program_marker"]["opacity"],
+                step=0.05,
+                key="pmo",
+            )
+            program_marker_size = st.slider(
+            "Program Marker Size",
+            config["sliders"]["marker_size"]["min"],
+            config["sliders"]["marker_size"]["max"],
+            config["program_marker"]["size"],
+            step=1,
+            key="pms",
+            )
+        with st.expander("Calculation Controls", expanded=True, icon=":material/tune:"):
+            slider_config = config["sliders"]["weight"]
 
-        sliders = st.container()
-        sliders.write("### Weights")
-        sliders.caption("Adjust how each factor influences the combined score.")
-        st.session_state["config"]["normalize"] = sliders.checkbox(
-            "Normalize Scores",
-            value=config.get("normalize", True),
-            help="Equalize the range of each factor before combining them.",
-        )
-        food_weight = sliders.slider(
-            "Food Insecurity Weight",
-            slider_config["min"],
-            slider_config["max"],
-            config.get("food_weight", 1.0),
-            step=slider_config["step"],
-            key="fw",
-            help="The weight of food insecurity in the calculation.",
-        )
-        poverty_weight = sliders.slider(
-            "Poverty Weight",
-            slider_config["min"],
-            slider_config["max"],
-            config.get("poverty_weight", 1.0),
-            step=slider_config["step"],
-            key="pw",
-            help="The weight of poverty in the calculation.",
-        )
-        vehicle_weight = sliders.slider(
-            "Vehicle Access Weight",
-            slider_config["min"],
-            slider_config["max"],
-            config.get("vehicle_weight", 0.33),
-            step=slider_config["step"],
-            key="vw",
-            help="The weight of not having a vehicle in the calculation.",
-        )
-        vehicle_num_toggle = st.checkbox(
-            "Include Households with Fewer Vehicles than Members",
-            key="vnt",
-            value=config.get("vehicle_num_toggle", False),
-        )
-        if vehicle_num_toggle:
-            st.caption(
-                ":material/warning: __This option changes the vehicle rate by an order of magnitude, mind your weights__"
+            sliders = st.container()
+            st.session_state["config"]["normalize"] = sliders.checkbox(
+                "Normalize Variables",
+                value=config.get("normalize", True),
+                help="Turn this off to use raw scores opposed to relative scores.",
+            )
+            sliders.write("#### Factor Weights")
+            sliders.caption("Adjust how each factor influences the combined score.")
+            food_weight = sliders.slider(
+                "Food Insecurity Weight",
+                slider_config["min"],
+                slider_config["max"],
+                config.get("food_weight", 1.0),
+                step=slider_config["step"],
+                key="fw",
+                help="The weight of food insecurity in the calculation.",
+            )
+            poverty_weight = sliders.slider(
+                "Poverty Weight",
+                slider_config["min"],
+                slider_config["max"],
+                config.get("poverty_weight", 1.0),
+                step=slider_config["step"],
+                key="pw",
+                help="The weight of poverty in the calculation.",
+            )
+            vehicle_weight = sliders.slider(
+                "Vehicle Access Weight",
+                slider_config["min"],
+                slider_config["max"],
+                config.get("vehicle_weight", 0.33),
+                step=slider_config["step"],
+                key="vw",
+                help="The weight of not having a vehicle in the calculation.",
+            )
+            vehicle_num_toggle = st.checkbox(
+                "Include Households with Fewer Vehicles than Members",
+                key="vnt",
+                value=config.get("vehicle_num_toggle", False),
             )
 
         if "tracts" not in st.session_state:
@@ -260,37 +282,21 @@ with st.sidebar:
                 step=opacity_config["step"],
                 key="mo",
             )
-            program_marker_opacity = st.slider(
-                "Program Marker Opacity",
-                0.1,
-                1.0,
-                config["program_marker"]["opacity"],
-                step=0.05,
-                key="pmo",
-            )
-            program_marker_size = st.slider(
-                "Program Marker Size",
-                1,
-                20,
-                config["program_marker"]["size"],
-                step=1,
-                key="pms",
-            )
+            
 
+    
 
             config = update_config(
                 config,
                 scale_max=scale_max,
                 map_opacity=map_opacity,
+                show_programs=show_programs,
                 program_marker={
                     "opacity": program_marker_opacity,
                     "size": program_marker_size,
                 },
             )
             st.session_state["config"] = config
-
-    
-
 
 try:
     fig = make_map(st.session_state["tracts"], "combined_pct", config)

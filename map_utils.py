@@ -122,29 +122,30 @@ def make_map(df: pd.DataFrame, col: str, config: dict):
         legend=None,
     )
 
-    palette = [px.colors.qualitative.T10_r[0], px.colors.qualitative.Plotly[5], px.colors.qualitative.Set2_r[2]]
-    program_df = pd.read_csv(config["file_paths"]["programs"])
-    program_df["color"] = program_df["Program Type"].astype("category").cat.codes
-    program_df["color"] = program_df["color"].map(
-        lambda x: palette[x % len(palette)]
-    )
-    st.session_state["programdata"] = program_df
-    for prog, group in program_df.groupby("Program Type"):
-        fig.add_scattermap(
-            below="",
-            lat=group["lat"],
-            lon=group["lon"],
-            
-            marker={
-                "color": group.iloc[0]["color"],
-                "size": config["program_marker"]["size"],
-                "opacity": config["program_marker"]["opacity"],
-            },
-            name=prog,
-            showlegend=True,
-            customdata=group[["Facility", "Program Type"]],
-            hovertemplate="%{customdata[0]} (%{customdata[1]})<extra></extra>",
+    if config.get("show_programs", False):
+        palette = [px.colors.qualitative.T10_r[0], px.colors.qualitative.Plotly[5], px.colors.qualitative.Set2_r[2]]
+        program_df = pd.read_csv(config["file_paths"]["programs"])
+        program_df["color"] = program_df["Program Type"].astype("category").cat.codes
+        program_df["color"] = program_df["color"].map(
+            lambda x: palette[x % len(palette)]
         )
+        st.session_state["programdata"] = program_df
+        for prog, group in program_df.groupby("Program Type"):
+            fig.add_scattermap(
+                below="",
+                lat=group["lat"],
+                lon=group["lon"],
+                marker={
+                    "color": group.iloc[0]["color"],
+                    "size": config["program_marker"]["size"],
+                    "opacity": config["program_marker"]["opacity"],
+                },
+                name=prog,
+                showlegend=True,
+                customdata=group[["Facility", "Program Type"]],
+                hovertemplate="%{customdata[0]} (%{customdata[1]})<extra></extra>",
+            )
+
     if (
         st.session_state.get("client_coordinates") is not None
         or not st.session_state.df.empty

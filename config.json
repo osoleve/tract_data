@@ -14,6 +14,7 @@
     "map_zoom": 8.5,
     "map_type": "Scatter Map",
     "normalize": true,
+    "show_programs": false,
     "file_paths": {
         "tract_geo": "data/tracts_new.pkl",
         "food_insecurity": "data/food_insecurity.csv",
@@ -34,13 +35,13 @@
         "allowoverlap": true,
         "color": "#0000CC",
         "size": 16,
-        "opacity": 0.5,
+        "opacity": 0.75,
         "symbol": "circle"
     },
     "program_marker": {
         "allowoverlap": true,
         "size": 16,
-        "opacity": 0.5,
+        "opacity": 0.75,
         "symbol": "circle"
     },
     "sliders": {
