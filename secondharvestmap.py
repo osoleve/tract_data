@@ -268,7 +268,6 @@ with st.sidebar:
 if "tracts" not in st.session_state:
     st.session_state["tracts"] = load_and_process_data(config)
 
-config = st.session_state["config"]
 config = update_config(
     config,
     client_marker={
