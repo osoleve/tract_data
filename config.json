@@ -32,9 +32,9 @@
     },
     "client_marker": {
         "allowoverlap": true,
-        "color": "#0000CC",
-        "size": 16,
-        "opacity": 0.5,
+        "color": "#006af5",
+        "size": 12,
+        "opacity": 0.8,
         "symbol": "circle"
     },
     "program_marker": {

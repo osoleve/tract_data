@@ -10,6 +10,8 @@ import googlemaps
 
 @st.cache_data
 def process_coordinates(uploaded_file):
+    if uploaded_file is None:
+        return None
     if uploaded_file.name.endswith(".xlsx"):
         df = pd.read_excel(uploaded_file)
     else:
@@ -48,7 +50,7 @@ def process_coordinates(uploaded_file):
 def map_hovertext(row):
     # Main header with tract and county
     s = f"<b>Census Tract {row['tract']}</b><br>"
-    s += f"<i>{row['County']} County</i><br>"
+    s += f"<i>{row['County']}</i><br>"
     s += "-------------------<br>"  # Simple text separator instead of hr tag
     
     # Combined score with better contrast for black background
@@ -68,18 +70,16 @@ def map_hovertext(row):
     return s
 
 
-def make_map(df: pd.DataFrame, col: str, config: dict):
+def _prepare_base_map(df, col, config):
+    """Prepare the base choropleth map with tract data."""
     projected = df.geometry.to_crs("EPSG:3857")
     centroids = projected.centroid
     centroids = gpd.GeoSeries(centroids, crs=projected.crs).to_crs("EPSG:4326")
-
-    df["custom_hover"] = df.apply(
-        map_hovertext,
-        axis=1,
-    )
-
+    
+    df["custom_hover"] = df.apply(map_hovertext, axis=1)
+    
     map_config = config["map_display"]
-    map_visualization_options =  {
+    map_visualization_options = {
         "height": map_config["height"],
         "map_style": map_config["map_style"],
         "zoom": map_config["zoom"],
@@ -94,6 +94,7 @@ def make_map(df: pd.DataFrame, col: str, config: dict):
         ),
         "hover_data": {"custom_hover": True},
     }
+    
     fig = px.choropleth_map(
         df,
         geojson=df.geometry,
@@ -101,18 +102,24 @@ def make_map(df: pd.DataFrame, col: str, config: dict):
         color=col,
         **map_visualization_options,
     )
+    
     fig.update_traces(hovertemplate="%{customdata[0]}<extra></extra>")
     fig.update_layout(
         hoverlabel=dict(
             bgcolor="black", font_size=16, font_family="Arial", font_color="white"
         )
     )
+    
+    return fig, centroids
 
+def _add_county_seats(fig, config):
+    """Add county seats to the map."""
     if "county_seats" not in st.session_state:
         st.session_state["county_seats"] = pd.read_csv(
             config["file_paths"]["county_seats"]
         )
     county_seats = st.session_state["county_seats"]
+    
     fig.add_scattermap(
         below="",
         lat=county_seats["lat"],
@@ -133,59 +140,76 @@ def make_map(df: pd.DataFrame, col: str, config: dict):
         name="",
         legend=None,
     )
+    
+    return fig
 
-    if config.get("show_programs", False):
-        palette = px.colors.cyclical.Twilight
-        program_df = pd.read_csv(config["file_paths"]["programs"])
-        program_df["color"] = program_df["Program Type"].astype("category").cat.codes
-        program_df["color"] = program_df["color"].map(
-            lambda x: palette[x % len(palette)]
-        )
-        st.session_state["programdata"] = program_df
-        for prog, group in program_df.groupby("Program Type"):
-            fig.add_scattermap(
-                below="",
-                lat=group["lat"],
-                lon=group["lon"],
-                marker={
-                    "color": group.iloc[0]["color"],
-                    "size": config["program_marker"]["size"],
-                    "opacity": config["program_marker"]["opacity"],
-                },
-                name=prog,
-                showlegend=True,
-                customdata=group[["Facility", "Program Type"]],
-                hovertemplate="%{customdata[0]} (%{customdata[1]})<extra></extra>",
-            )
-
-    if (
-        st.session_state.get("client_coordinates") is not None
-        or not st.session_state.df.empty
-    ):
-        st.session_state.df = process_coordinates(
-            st.session_state["client_coordinates"]
-        )
-        st.session_state["client_coordinates"] = None
-        df = st.session_state.df
-
-        df["color"] = config["client_marker"]["color"]
-        df["Program Type"] = "Client"
-
+def _add_program_data(fig, config):
+    """Add program locations to the map if enabled in config."""
+    if not config.get("show_programs", False):
+        return fig
+        
+    palette = px.colors.cyclical.Twilight
+    program_df = pd.read_csv(config["file_paths"]["programs"])
+    program_df["color"] = program_df["Program Type"].astype("category").cat.codes
+    program_df["color"] = program_df["color"].map(
+        lambda x: palette[x % len(palette)]
+    )
+    st.session_state["programdata"] = program_df
+    
+    for prog, group in program_df.groupby("Program Type"):
         fig.add_scattermap(
             below="",
-            lat=df["lat"],
-            lon=df["lon"],
-            mode="markers",
+            lat=group["lat"],
+            lon=group["lon"],
             marker={
-                "color": config["client_marker"]["color"],
-                "size": config["client_marker"]["size"],
-                "opacity": config["client_marker"]["opacity"],
+                "color": group.iloc[0]["color"],
+                "size": config["program_marker"]["size"],
+                "opacity": config["program_marker"]["opacity"],
             },
-            name="Uploaded Addresses",
+            name=prog,
+            showlegend=True,
+            customdata=group[["Facility", "Program Type"]],
+            hovertemplate="%{customdata[0]} (%{customdata[1]})<extra></extra>",
         )
+    
+    return fig
 
-        st.session_state["mapped_addresses"] = st.session_state.df = df
+def _add_client_data(fig, config):
+    """Add client locations to the map if available."""
+    if (
+        st.session_state.get("client_coordinates") is None
+        and st.session_state.df.empty
+    ):
+        return fig
+        
+    st.session_state.df = process_coordinates(
+        st.session_state["client_coordinates"]
+    )
+    st.session_state["client_coordinates"] = None
+    df = st.session_state.df
 
+    df["color"] = config["client_marker"]["color"]
+    df["Program Type"] = "Client"
+
+    fig.add_scattermap(
+        below="",
+        lat=df["lat"],
+        lon=df["lon"],
+        mode="markers",
+        marker={
+            "color": config["client_marker"]["color"],
+            "size": config["client_marker"]["size"],
+            "opacity": config["client_marker"]["opacity"],
+        },
+        name="Uploaded Addresses",
+    )
+
+    st.session_state["mapped_addresses"] = st.session_state.df = df
+    
+    return fig
+
+def _configure_map_layout(fig, config):
+    """Configure the final map layout."""
     fig.update_layout(
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
         legend_title_text="Program Type",
@@ -200,4 +224,12 @@ def make_map(df: pd.DataFrame, col: str, config: dict):
         ),
         legend_font=dict(size=config["fontsize"] * 1.8),
     )
+    return fig
+
+def make_map(df: pd.DataFrame, col: str, config: dict):
+    fig, _ = _prepare_base_map(df, col, config)
+    fig = _add_county_seats(fig, config)
+    fig = _add_program_data(fig, config)
+    fig = _add_client_data(fig, config)
+    fig = _configure_map_layout(fig, config)
     return fig
