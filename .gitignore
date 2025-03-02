@@ -5,3 +5,4 @@ __pycache__*
 data/counties_bak.csv
 data/geocoded.csv
 data/geocoded_addresses.csv
+uv.lock

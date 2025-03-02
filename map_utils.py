@@ -45,38 +45,46 @@ def process_coordinates(uploaded_file):
         return None
 
 
+def map_hovertext(row):
+    # Main header with tract and county
+    s = f"<b>Census Tract {row['tract']}</b><br>"
+    s += f"<i>{row['County']} County</i><br>"
+    s += "-------------------<br>"  # Simple text separator instead of hr tag
+    
+    # Combined score with better contrast for black background
+    s += f"<b style='color:#00FFFF'>Combined Score:</b> {row['combined_pct']:.2f}<br>"
+    
+    # Component scores section
+    if any(row.get(col, 0) > 0 for col in ["pct_poverty", "pct_food_insecure", "pct_vehicle"]):
+        s += "<br>"
+        
+        if row.get("pct_poverty", 0) > 0:
+            s += f"<b style='color:#FFFF00'>Poverty:</b> {row['pct_poverty']:.2f}<br>"
+        if row.get("pct_food_insecure", 0) > 0:
+            s += f"<b style='color:#FFFF00'>Food Insecurity:</b> {row['pct_food_insecure']:.2f}<br>"
+        if row.get("pct_vehicle", 0) > 0:
+            s += f"<b style='color:#FFFF00'>Lack of Vehicles:</b> {row['pct_vehicle']:.2f}"
+        
+    return s
+
+
 def make_map(df: pd.DataFrame, col: str, config: dict):
     projected = df.geometry.to_crs("EPSG:3857")
     centroids = projected.centroid
     centroids = gpd.GeoSeries(centroids, crs=projected.crs).to_crs("EPSG:4326")
 
     df["custom_hover"] = df.apply(
-        lambda row: f"<b>Census Tract </b>{row['tract']}<br>"
-        f"{row['County']}<br>"
-        f"<b>Combined Score:</b> {row['combined_pct']:0.2f}<br><br>"
-        + (
-            f"<b>Poverty Score:</b> {row['pct_poverty']:0.2f}"
-            if row["pct_poverty"] > 0
-            else ""
-        )
-        + (
-            f"<br><b>Food Insecurity Score:</b> {row['pct_food_insecure']:0.2f}"
-            if row["pct_food_insecure"] > 0
-            else ""
-        )
-        + (
-            f"<br><b>Lack Vehicles Score:</b> {row['pct_vehicle']:0.2f}"
-            if row["pct_vehicle"] > 0
-            else ""
-        ),
+        map_hovertext,
         axis=1,
     )
-    map_config = {
-        "height": config["map_height"],
-        "map_style": config["map_style"],
-        "zoom": config["map_zoom"],
+
+    map_config = config["map_display"]
+    map_visualization_options =  {
+        "height": map_config["height"],
+        "map_style": map_config["map_style"],
+        "zoom": map_config["zoom"],
         "center": {"lat": centroids.y.mean(), "lon": centroids.x.mean() - 0.25},
-        "opacity": config["map_opacity"],
+        "opacity": map_config["opacity"],
         "color_continuous_scale": px.colors.diverging.RdYlGn_r,
         "range_color": (
             0,
@@ -87,7 +95,11 @@ def make_map(df: pd.DataFrame, col: str, config: dict):
         "hover_data": {"custom_hover": True},
     }
     fig = px.choropleth_map(
-        df, geojson=df.geometry, locations=df.index, color=col, **map_config
+        df,
+        geojson=df.geometry,
+        locations=df.index,
+        color=col,
+        **map_visualization_options,
     )
     fig.update_traces(hovertemplate="%{customdata[0]}<extra></extra>")
     fig.update_layout(
@@ -117,13 +129,13 @@ def make_map(df: pd.DataFrame, col: str, config: dict):
         marker={
             **config["county_seat_marker"],
             "size": config["county_seat_marker"].get("size", 10),
-        }, 
-        name="County Seats",
+        },
+        name="",
         legend=None,
     )
 
     if config.get("show_programs", False):
-        palette = [px.colors.qualitative.T10_r[0], px.colors.qualitative.Plotly[5], px.colors.qualitative.Set2_r[2]]
+        palette = px.colors.cyclical.Twilight
         program_df = pd.read_csv(config["file_paths"]["programs"])
         program_df["color"] = program_df["Program Type"].astype("category").cat.codes
         program_df["color"] = program_df["color"].map(

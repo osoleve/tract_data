@@ -209,10 +209,11 @@ with st.sidebar:
             "Map Opacity",
             opacity_config["min"],
             opacity_config["max"],
-            config["map_opacity"],
+            config["map_display"]["opacity"],
             step=opacity_config["step"],
             key="mo",
         )
+        config["map_display"]["opacity"] = map_opacity
 
         st.write("### Client Markers")
         marker_config = config["sliders"]["marker_size"]
