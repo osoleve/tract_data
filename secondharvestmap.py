@@ -85,14 +85,6 @@ title.title("Census Tract Analysis")
 
 with st.sidebar:
     with st.expander("Address Overlay", icon=":material/home:"):
-        st.header("SHNWNC Programs")
-        show_programs = st.checkbox(
-        "Overlay Program Locations",
-        value=config.get("show_programs", False),
-        help="Toggle visibility of program markers on the map",
-        key="show_programs"
-        )
-        st.caption("Visualize the locations of SHNWNC programs on the map.")
        
         st.header("Upload Addresses")
         st.markdown(
