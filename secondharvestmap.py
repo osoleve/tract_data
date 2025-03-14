@@ -251,7 +251,6 @@ with st.sidebar:
             config,
             scale_max=scale_max,
             map_opacity=map_opacity,
-            show_programs=show_programs,
             program_marker={
                 "opacity": program_marker_opacity,
                 "size": program_marker_size,

@@ -17,6 +17,8 @@ def process_coordinates(uploaded_file):
     else:
         df = pd.read_csv(uploaded_file)
     if "lat" in df.columns and "lon" in df.columns:
+        # Add source filename to help identify which file data came from
+        df["source_file"] = uploaded_file.name
         return df
     with st.spinner("Geocoding addresses..."):
         required_fields = {"Address", "City", "Zip"}
@@ -45,6 +47,10 @@ def process_coordinates(uploaded_file):
             if "Program Type" not in df.columns:
                 df["Program Type"] = "Client"
             df.loc[(df["Program Type"].str.len() == 0) | df["Program Type"].isnull(), "Program Type"] = "Client"
+            
+            # Add source filename to help identify which file data came from
+            df["source_file"] = uploaded_file.name
+            
             return df
         st.error(
             "Uploaded file must contain either lat/lon columns or the required address fields."
@@ -150,18 +156,47 @@ def _add_county_seats(fig, config):
 
 def _map_uploaded_addresses(fig, config):
     """Add uploaded locations to the map if available."""
-    if (
-        st.session_state.get("client_coordinates") is None
-        and st.session_state.df.empty
-    ):
+    # Initialize the collection of dataframes if it doesn't exist
+    if "uploaded_dataframes" not in st.session_state:
+        st.session_state["uploaded_dataframes"] = []
+    
+    # Process new coordinates if they exist
+    if st.session_state.get("client_coordinates") is not None:
+        new_df = process_coordinates(st.session_state["client_coordinates"])
+        
+        if new_df is not None:
+            # Check if this file was already uploaded (by filename)
+            existing_files = [df["source_file"].iloc[0] for df in st.session_state["uploaded_dataframes"] 
+                             if not df.empty and "source_file" in df.columns]
+            
+            new_df.drop(columns=[c for c in new_df.columns if c not in ["lat", "lon", "Program Type", "source_file"]], inplace=True, errors='ignore')
+            if "Program Type" not in new_df.columns:
+                new_df["Program Type"] = "Client"
+                
+            
+            if new_df["source_file"].iloc[0] not in existing_files:
+                # Add the new dataframe to our collection
+                st.session_state["uploaded_dataframes"].append(new_df)
+            else:
+                # Replace the existing dataframe with the new one
+                for i, df in enumerate(st.session_state["uploaded_dataframes"]):
+                    if "source_file" in df.columns and df["source_file"].iloc[0] == new_df["source_file"].iloc[0]:
+                        st.session_state["uploaded_dataframes"][i] = new_df
+                        break
+        
+        # Clear the upload to prevent reprocessing
+        st.session_state["client_coordinates"] = None
+    
+    # If we have no data, return the figure unchanged
+    if not st.session_state["uploaded_dataframes"]:
         return fig
-
-    st.session_state.df = process_coordinates(
-        st.session_state["client_coordinates"]
-    )
-    st.session_state["client_coordinates"] = None
-    df = st.session_state.df
-
+    
+    # Combine all dataframes
+    df = pd.concat(st.session_state["uploaded_dataframes"], ignore_index=True)
+    
+    # Save the concatenated dataframe for other components to use
+    st.session_state["mapped_addresses"] = st.session_state.df = df[["lat", "lon", "Program Type" ]]
+    
     # Handle program types from uploaded data
     palette = px.colors.cyclical.Twilight
 
@@ -173,6 +208,21 @@ def _map_uploaded_addresses(fig, config):
 
         # Plot each program type with its own color and legend entry
         for prog, group in df.groupby("Program Type"):
+            # Create customdata array with safe column access
+            customdata_cols = []
+            if "Address" in group.columns:
+                customdata_cols.append(group["Address"])
+            else:
+                customdata_cols.append(group["lat"])
+                
+            customdata_cols.append(group["Program Type"])
+            customdata_cols.append(group["source_file"])  # Add source filename to hover info
+            
+            customdata = list(zip(*customdata_cols))
+            
+            # Use program_marker config for non-client markers
+            marker_config = config["client_marker"] if prog == "Client" else config["program_marker"]
+            
             fig.add_scattermap(
                 below="",
                 lat=group["lat"],
@@ -180,19 +230,30 @@ def _map_uploaded_addresses(fig, config):
                 mode="markers",
                 marker={
                     "color": color_map[prog],
-                    "size": config["client_marker"]["size"],
-                    "opacity": config["client_marker"]["opacity"],
+                    "size": marker_config["size"],
+                    "opacity": marker_config["opacity"],
                 },
                 name=prog,
                 showlegend=True,
-                customdata=group[["Address" if "Address" in group.columns else "lat", "Program Type"]],
-                hovertemplate="%{customdata[0]} (%{customdata[1]})<extra></extra>",
+                customdata=customdata,
+                hovertemplate="%{customdata[0]}<br>%{customdata[1]}<br><i>From: %{customdata[2]}</i><extra></extra>",
             )
     else:
         # Fall back to original behavior for data without Program Type
         df["color"] = config["client_marker"]["color"]
         df["Program Type"] = "Client"
 
+        # Create customdata array with safe column access
+        customdata_cols = []
+        if "Address" in df.columns:
+            customdata_cols.append(df["Address"])
+        else:
+            customdata_cols.append(df["lat"])
+        
+        customdata_cols.append(df["source_file"])  # Add source filename to hover info
+        
+        customdata = list(zip(*customdata_cols))
+        
         fig.add_scattermap(
             below="",
             lat=df["lat"],
@@ -204,9 +265,9 @@ def _map_uploaded_addresses(fig, config):
                 "opacity": config["client_marker"]["opacity"],
             },
             name="Uploaded Addresses",
+            customdata=customdata,
+            hovertemplate="%{customdata[0]}<br><i>From: %{customdata[1]}</i><extra></extra>",
         )
-
-    st.session_state["mapped_addresses"] = st.session_state.df = df
 
     return fig
 
@@ -234,3 +295,25 @@ def make_map(df: pd.DataFrame, col: str, config: dict):
     fig = _map_uploaded_addresses(fig, config)
     fig = _configure_map_layout(fig, config)
     return fig
+
+# Add a function to remove an uploaded file
+def remove_uploaded_file(filename):
+    """Remove a specific uploaded file from the collection by filename."""
+    if "uploaded_dataframes" in st.session_state and st.session_state["uploaded_dataframes"]:
+        # Filter out the file to remove
+        st.session_state["uploaded_dataframes"] = [
+            df for df in st.session_state["uploaded_dataframes"] 
+            if df["source_file"].iloc[0] != filename
+        ]
+        
+        # Regenerate the combined dataframe if files remain
+        if st.session_state["uploaded_dataframes"]:
+            st.session_state["mapped_addresses"] = st.session_state.df = pd.concat(
+                st.session_state["uploaded_dataframes"], ignore_index=True
+            )
+        else:
+            # No files left, clear the dataframes
+            st.session_state["mapped_addresses"] = st.session_state.df = pd.DataFrame()
+        
+        return True
+    return False
