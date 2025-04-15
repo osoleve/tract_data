@@ -195,7 +195,7 @@ def _map_uploaded_addresses(fig, config):
     df = pd.concat(st.session_state["uploaded_dataframes"], ignore_index=True)
     
     # Save the concatenated dataframe for other components to use
-    st.session_state["mapped_addresses"] = st.session_state.df = df[["lat", "lon", "Program Type" ]]
+    st.session_state["mapped_addresses"] = st.session_state.df = df[["lat", "lon", "Program Type"]]
     
     # Handle program types from uploaded data
     palette = px.colors.cyclical.Twilight
@@ -212,6 +212,8 @@ def _map_uploaded_addresses(fig, config):
             customdata_cols = []
             if "Name" in group.columns:
                 customdata_cols.append(group["Name"])
+            else:
+                customdata_cols.append(group["lon"])
             if "Address" in group.columns:
                 customdata_cols.append(group["Address"])
             else:
