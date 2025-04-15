@@ -210,6 +210,8 @@ def _map_uploaded_addresses(fig, config):
         for prog, group in df.groupby("Program Type"):
             # Create customdata array with safe column access
             customdata_cols = []
+            if "Name" in group.columns:
+                customdata_cols.append(group["Name"])
             if "Address" in group.columns:
                 customdata_cols.append(group["Address"])
             else:
@@ -236,7 +238,7 @@ def _map_uploaded_addresses(fig, config):
                 name=prog,
                 showlegend=True,
                 customdata=customdata,
-                hovertemplate="%{customdata[0]}<br>%{customdata[1]}<br><i>From: %{customdata[2]}</i><extra></extra>",
+                hovertemplate="%{customdata[0]}<br>%{customdata[2]}<br><extra></extra>",
             )
     else:
         # Fall back to original behavior for data without Program Type
