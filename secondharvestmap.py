@@ -32,7 +32,9 @@ st.session_state["map_type"] = config.get("map_type", "Scatter Map")
 # Set Wide Mode
 st.set_page_config(layout="wide")
 info, title, *x = st.columns([0.1, 2], gap="small", vertical_alignment="bottom")
-with info.popover("", icon=":material/question_mark:", use_container_width=True):
+title.title("Census Tract Analysis")
+
+with info.popover("", icon=":material/question_mark:", use_container_width=False):
     tab1, roadmap = st.tabs(["Using the Map", "Roadmap"])
     with tab1:
         cols = st.columns(2)
@@ -80,8 +82,6 @@ with info.popover("", icon=":material/question_mark:", use_container_width=True)
         todo.header("TODO")
         todo.checkbox("Public Transit Overlay", value=False, disabled=True)
         todo.checkbox("Program Impact Overlay", value=False, disabled=True)
-
-title.title("Census Tract Analysis")
 
 with st.sidebar:
     with st.expander("Address Overlay", icon=":material/home:"):
