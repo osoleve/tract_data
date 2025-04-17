@@ -169,7 +169,7 @@ def _map_uploaded_addresses(fig, config):
             existing_files = [df["source_file"].iloc[0] for df in st.session_state["uploaded_dataframes"] 
                              if not df.empty and "source_file" in df.columns]
             
-            new_df.drop(columns=[c for c in new_df.columns if c not in ["lat", "lon", "Program Type", "source_file"]], inplace=True, errors='ignore')
+            new_df.drop(columns=[c for c in new_df.columns if c not in ["lat", "lon", "Program Type", "source_file", "Facility", "Name", "Program Name"]], inplace=True, errors='ignore')
             if "Program Type" not in new_df.columns:
                 new_df["Program Type"] = "Client"
                 
@@ -195,7 +195,7 @@ def _map_uploaded_addresses(fig, config):
     df = pd.concat(st.session_state["uploaded_dataframes"], ignore_index=True)
     
     # Save the concatenated dataframe for other components to use
-    st.session_state["mapped_addresses"] = st.session_state.df = df[["lat", "lon", "Program Type" ]]
+    st.session_state["mapped_addresses"] = st.session_state.df = df#[["lat", "lon", "Program Type"]]
     
     # Handle program types from uploaded data
     palette = px.colors.cyclical.Twilight
@@ -209,34 +209,35 @@ def _map_uploaded_addresses(fig, config):
         # Plot each program type with its own color and legend entry
         for prog, group in df.groupby("Program Type"):
             # Create customdata array with safe column access
-            customdata_cols = []
-            if "Address" in group.columns:
-                customdata_cols.append(group["Address"])
-            else:
-                customdata_cols.append(group["lat"])
-                
-            customdata_cols.append(group["Program Type"])
-            customdata_cols.append(group["source_file"])  # Add source filename to hover info
-            
-            customdata = list(zip(*customdata_cols))
-            
+            # Updated hovertext logic
+            hovertext = []
+            for _, row in group.iterrows():
+                # Show Facility or Name if present, else fallback to lat/lon
+                label = None
+                if "Facility" in row and pd.notnull(row["Facility"]):
+                    label = row["Facility"]
+                elif "Name" in row and pd.notnull(row["Name"]):
+                    label = row["Name"]
+                else:
+                    label = f"({row['lat']:.4f}, {row['lon']:.4f})"
+                hovertext.append(
+                    f"<b>{label}</b><br>Program Type: {row['Program Type']}"
+                )
+
             # Use program_marker config for non-client markers
             marker_config = config["client_marker"] if prog == "Client" else config["program_marker"]
-            
+
             fig.add_scattermap(
                 below="",
                 lat=group["lat"],
                 lon=group["lon"],
                 mode="markers",
-                marker={
-                    "color": color_map[prog],
-                    "size": marker_config["size"],
-                    "opacity": marker_config["opacity"],
-                },
+                marker={**marker_config, "color": color_map[prog]},
+                text=hovertext,
+                hoverinfo="text",
                 name=prog,
+                legendgroup=prog,
                 showlegend=True,
-                customdata=customdata,
-                hovertemplate="%{customdata[0]}<br>%{customdata[1]}<br><i>From: %{customdata[2]}</i><extra></extra>",
             )
     else:
         # Fall back to original behavior for data without Program Type
