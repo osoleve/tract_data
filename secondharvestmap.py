@@ -281,11 +281,19 @@ with st.sidebar:
     config = update_config(config, **calculation_controls_values)
     
     display_controls_values = render_sidebar_display_controls(config)
+    
+    # Get the existing map_display settings from config
+    # Ensure it's a dictionary, even if it was missing before (though config.json should provide it)
+    current_map_display_settings = config.get("map_display", {}).copy()
+    
+    # Update only the opacity
+    current_map_display_settings["opacity"] = display_controls_values["map_opacity"]
+    
     # Update config with display control values, mapping them to the correct config structure
     config = update_config(
         config,
         scale_max=display_controls_values["scale_max"],
-        map_display={"opacity": display_controls_values["map_opacity"]},
+        map_display=current_map_display_settings, # Pass the modified dictionary
         client_marker={
             "opacity": display_controls_values["client_marker_opacity"],
             "size": display_controls_values["client_marker_size"],
