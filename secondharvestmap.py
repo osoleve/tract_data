@@ -290,19 +290,24 @@ with st.sidebar:
     current_map_display_settings["opacity"] = display_controls_values["map_opacity"]
     
     # Update config with display control values, mapping them to the correct config structure
+    
+    # --- client_marker: Preserve other keys ---
+    current_client_marker_settings = config.get("client_marker", {}).copy()
+    current_client_marker_settings["opacity"] = display_controls_values["client_marker_opacity"]
+    current_client_marker_settings["size"] = display_controls_values["client_marker_size"]
+    current_client_marker_settings["color"] = display_controls_values["client_marker_color"]
+    
+    # --- program_marker: Preserve other keys ---
+    current_program_marker_settings = config.get("program_marker", {}).copy()
+    current_program_marker_settings["opacity"] = display_controls_values["program_marker_opacity"]
+    current_program_marker_settings["size"] = display_controls_values["program_marker_size"]
+    
     config = update_config(
         config,
         scale_max=display_controls_values["scale_max"],
         map_display=current_map_display_settings, # Pass the modified dictionary
-        client_marker={
-            "opacity": display_controls_values["client_marker_opacity"],
-            "size": display_controls_values["client_marker_size"],
-            "color": display_controls_values["client_marker_color"],
-        },
-        program_marker={
-            "opacity": display_controls_values["program_marker_opacity"],
-            "size": display_controls_values["program_marker_size"],
-        },
+        client_marker=current_client_marker_settings,  # Use modified dict
+        program_marker=current_program_marker_settings # Use modified dict
     )
     st.session_state["config"] = config
 
