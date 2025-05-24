@@ -10,5 +10,6 @@ dependencies = [
     "googlemaps>=4.10.0",
     "pandas>=2.2.3",
     "plotly>=6.0.0",
+    "pygris>=0.2.0",
     "streamlit>=1.42.2",
 ]

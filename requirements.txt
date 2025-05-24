@@ -6,3 +6,4 @@ census
 geopy
 googlemaps
 openpyxl
+pygris
