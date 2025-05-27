@@ -30,24 +30,30 @@ def debug_api_response(data: Dict) -> None:
 
 
 def get_transit_routes(
-    start_lat: float,
-    start_lng: float,
-    end_lat: float,
-    end_lng: float,
+    start_lat: float = None,
+    start_lng: float = None,
+    end_lat: float = None,
+    end_lng: float = None,
+    start_address: str = None,
+    end_address: str = None,
     departure_time: Optional[str] = None,
-    alternative_routes: bool = True,
+    alternative_routes: bool = False,
     debug: bool = False,
 ) -> List[Dict]:
     """
-    Get public transit route between two coordinates using Google Maps Routes API.
+    Get public transit route between two locations using Google Maps Routes API.
+    Can accept either coordinates or addresses.
 
     Args:
-        start_lat: Starting latitude
-        start_lng: Starting longitude
-        end_lat: Destination latitude
-        end_lng: Destination longitude
+        start_lat: Starting latitude (if using coordinates)
+        start_lng: Starting longitude (if using coordinates)
+        end_lat: Destination latitude (if using coordinates)
+        end_lng: Destination longitude (if using coordinates)
+        start_address: Starting address (if using address)
+        end_address: Destination address (if using address)
         departure_time: Optional departure time in format 'YYYY-MM-DD HH:MM:SS'
                        If None, uses current time
+        alternative_routes: Whether to compute alternative routes
         debug: Whether to print debug information about the API response
 
     Returns:
@@ -58,6 +64,29 @@ def get_transit_routes(
     api_key = os.getenv("MAPS_API_KEY")
     if not api_key:
         raise ValueError("MAPS_API_KEY environment variable not found")
+
+    # Validate input - either coordinates or addresses must be provided
+    if start_address and end_address:
+        # Using addresses
+        origin_location = {"address": start_address}
+        destination_location = {"address": end_address}
+    elif (
+        start_lat is not None
+        and start_lng is not None
+        and end_lat is not None
+        and end_lng is not None
+    ):
+        # Using coordinates
+        origin_location = {
+            "location": {"latLng": {"latitude": start_lat, "longitude": start_lng}}
+        }
+        destination_location = {
+            "location": {"latLng": {"latitude": end_lat, "longitude": end_lng}}
+        }
+    else:
+        raise ValueError(
+            "Must provide either coordinates (start_lat, start_lng, end_lat, end_lng) or addresses (start_address, end_address)"
+        )
 
     # Google Maps Routes API endpoint
     url = "https://routes.googleapis.com/directions/v2:computeRoutes"
@@ -80,31 +109,29 @@ def get_transit_routes(
     headers = {
         "Content-Type": "application/json",
         "X-Goog-Api-Key": api_key,
-        "X-Goog-FieldMask": ",".join([
-            "routes.legs.steps.transitDetails",
-            "routes.legs.steps.travelMode",
-            "routes.legs.steps.startLocation",
-            "routes.legs.steps.endLocation",
-            "routes.legs.steps.navigationInstruction",
-            "routes.legs.steps.distanceMeters",
-            "routes.legs.steps.staticDuration",
-            "routes.legs.startLocation",
-            "routes.legs.endLocation",
-            "routes.legs.duration",
-            "routes.legs.distanceMeters",
-            "routes.duration",
-            "routes.distanceMeters",
-        ]),  # End of field mask
+        "X-Goog-FieldMask": ",".join(
+            [
+                "routes.legs.steps.transitDetails",
+                "routes.legs.steps.travelMode",
+                "routes.legs.steps.startLocation",
+                "routes.legs.steps.endLocation",
+                "routes.legs.steps.navigationInstruction",
+                "routes.legs.steps.distanceMeters",
+                "routes.legs.steps.staticDuration",
+                "routes.legs.startLocation",
+                "routes.legs.endLocation",
+                "routes.legs.duration",
+                "routes.legs.distanceMeters",
+                "routes.duration",
+                "routes.distanceMeters",
+            ]
+        ),  # End of field mask
     }
 
     # Simplified request body for transit
     request_body = {
-        "origin": {
-            "location": {"latLng": {"latitude": start_lat, "longitude": start_lng}}
-        },
-        "destination": {
-            "location": {"latLng": {"latitude": end_lat, "longitude": end_lng}}
-        },
+        "origin": origin_location,
+        "destination": destination_location,
         "travelMode": "TRANSIT",
         "transitPreferences": {
             "allowedTravelModes": ["BUS", "SUBWAY", "TRAIN", "LIGHT_RAIL"],
@@ -224,23 +251,23 @@ def duration_to_seconds(duration_str: str) -> int:
 def get_walking_summary(legs: List[Dict]) -> List[int]:
     """
     Analyze a route and return consecutive walking times as a summary.
-    
+
     Args:
         legs: List of route legs from get_transit_route()
-        
+
     Returns:
         List of walking durations in seconds for each consecutive walking segment.
         For example, if route is walk1->walk2->bus->walk3, returns [walk1+walk2, walk3]
     """
     walking_segments = []
     current_walking_duration = 0
-    
+
     # Iterate through all steps in all legs
     for leg in legs:
         for step in leg["steps"]:
             travel_mode = step.get("travel_mode", "UNKNOWN")
             step_duration = duration_to_seconds(step.get("duration", "0s"))
-            
+
             if travel_mode == "WALK":
                 # Add to current walking segment
                 current_walking_duration += step_duration
@@ -249,11 +276,11 @@ def get_walking_summary(legs: List[Dict]) -> List[int]:
                 if current_walking_duration > 0:
                     walking_segments.append(current_walking_duration)
                     current_walking_duration = 0
-    
+
     # Don't forget the last walking segment if route ends with walking
     if current_walking_duration > 0:
         walking_segments.append(current_walking_duration)
-    
+
     return walking_segments
 
 
@@ -261,12 +288,12 @@ def format_walking_summary(walking_segments: List[int]) -> str:
     """Format walking segments into a readable string."""
     if not walking_segments:
         return "No walking required"
-    
+
     formatted_segments = []
     for i, duration in enumerate(walking_segments, 1):
         formatted_duration = format_duration(f"{duration}s")
         formatted_segments.append(f"Walk {i}: {formatted_duration}")
-    
+
     return " | ".join(formatted_segments)
 
 
@@ -295,27 +322,21 @@ def format_distance(distance_meters: int) -> str:
         return f"{km:.1f} km"
 
 
-def print_route_summary(legs: List[Dict]) -> None:
-    """Print a human-readable summary of the route legs."""
+def print_route_summary(routes: List[Dict]) -> None:
+    """Print a human-readable summary of the routes."""
 
-    if not legs:
+    if not routes:
         print("No routes found.")
         return
 
-    current_route = -1
-
-    for leg in legs:
-        if leg["route_index"] != current_route:
-            current_route = leg["route_index"]
-            print(f"\n=== ROUTE {current_route + 1} ===")
-
-        print(f"\nLeg {leg['leg_index'] + 1}")
+    for route_index, route in enumerate(routes):
+        print(f"\n=== ROUTE {route_index + 1} ===")
         print(
-            f"Total distance: {format_distance(leg['distance_meters'])}, "
-            f"Duration: {format_duration(leg['duration'])}"
+            f"Total distance: {format_distance(route['distance_meters'])}, "
+            f"Duration: {format_duration(route['duration'])}"
         )
 
-        for step in leg["steps"]:
+        for step in route["steps"]:
             distance_text = format_distance(step["distance_meters"])
             duration_text = format_duration(step["duration"])
 
@@ -370,23 +391,29 @@ def print_route_summary(legs: List[Dict]) -> None:
 
 # Example usage
 if __name__ == "__main__":
-    # Example coordinates (replace with actual lat/lng)
-    start_lat = 36.1474233
-    start_lng = -79.7490072
-    end_lat = 36.06964019999999
-    end_lng = -79.7767284
+    # Example using addresses
+    start_address = "100 N Greene St, Greensboro, NC 27401"
+    end_address = "1002 S Elm St, Greensboro, NC 27406"
 
     try:
-        # Get transit route with debug enabled
-        routes = get_transit_routes(start_lat, start_lng, end_lat, end_lng, alternative_routes=False, debug=False, departure_time="2025-06-01 13:00:00")
+        # Get transit route using addresses
+        routes = get_transit_routes(
+            start_address=start_address,
+            end_address=end_address,
+            alternative_routes=False,
+            debug=False,
+            departure_time="2025-06-01 13:00:00",
+        )
 
         # Print summary
         print_route_summary(routes)
 
-        # Get walking summary
-        for route in routes:
+        # Get walking summary for each route
+        for route_index, route in enumerate(routes):
             walking_segments = get_walking_summary([route])
-            print(f"\nWalking Summary, Route {route['route_index'] + 1}: {format_walking_summary(walking_segments)}")
+            print(
+                f"\nWalking Summary, Route {route_index + 1}: {format_walking_summary(walking_segments)}"
+            )
 
     except Exception as e:
         print(f"Error: {e}")

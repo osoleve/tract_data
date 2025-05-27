@@ -5,6 +5,7 @@ description = "Census-tract level needs map for SHNWNC"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "aiohttp>=3.12.1",
     "census>=0.8.23",
     "geopandas>=1.0.1",
     "googlemaps>=4.10.0",
