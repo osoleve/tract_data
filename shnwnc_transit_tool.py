@@ -126,12 +126,12 @@ def get_route_metrics(legs: List[Dict]) -> Dict:
     }
 
 
-def format_route_directions(legs: List[Dict]) -> str:
-    """Format route directions into a readable string."""
+def format_route_directions(legs: List[Dict]) -> List[Dict]:
+    """Format route directions into structured data for table display."""
     if not legs:
-        return "No route found"
+        return []
 
-    directions = []
+    steps_data = []
     step_num = 1
 
     for leg_idx, leg in enumerate(legs):
@@ -142,9 +142,23 @@ def format_route_directions(legs: List[Dict]) -> str:
             instructions = step.get("instructions", "")
 
             if travel_mode == "WALK":
-                directions.append(f"{step_num}. Walk {distance} ({duration})")
-                if instructions:
-                    directions.append(f"   → {instructions}")
+                # Clean up HTML tags from instructions
+                clean_instructions = (
+                    instructions.replace("<b>", "")
+                    .replace("</b>", "")
+                    .replace("<div>", " ")
+                    .replace("</div>", "")
+                )
+
+                steps_data.append(
+                    {
+                        "Step": step_num,
+                        "Type": "🚶 Walk",
+                        "Distance": distance,
+                        "Instructions": clean_instructions or "Walk to next location",
+                        "Duration": duration,
+                    }
+                )
             elif travel_mode == "TRANSIT":
                 transit_details = step.get("transit_details", {})
                 line_info = transit_details.get("transit_line", {})
@@ -160,16 +174,26 @@ def format_route_directions(legs: List[Dict]) -> str:
                     "name", "Unknown Stop"
                 )
 
-                directions.append(f"{step_num}. Take {line_name} ({duration})")
-                directions.append(f"   → From: {dep_stop}")
-                directions.append(f"   → To: {arr_stop}")
+                stop_count = transit_details.get("stop_count", "")
+                stop_text = f" ({stop_count} stops)" if stop_count else ""
 
-                if transit_details.get("stop_count"):
-                    directions.append(f"   → {transit_details['stop_count']} stops")
+                instructions_text = (
+                    f"Take {line_name} from {dep_stop} to {arr_stop}{stop_text}"
+                )
+
+                steps_data.append(
+                    {
+                        "Step": step_num,
+                        "Type": "🚌 Transit",
+                        "Distance": distance,
+                        "Instructions": instructions_text,
+                        "Duration": duration,
+                    }
+                )
 
             step_num += 1
 
-    return "\n".join(directions)
+    return steps_data
 
 
 def initialize_session_state():
@@ -351,7 +375,7 @@ def main():
                     start_lat, start_lon, filtered_facilities, n_facilities
                 )
 
-            st.markdown("### Getting Transit Routes")
+            st.markdown("### Transit Routes")
             route_results = []
             route_details = {}
             progress_bar = st.progress(0)
@@ -461,11 +485,9 @@ def main():
             st.session_state.route_results = route_results
             st.session_state.route_details = route_details
             st.session_state.search_completed = True
-            st.success("Route search completed")
 
         # Display results
         if st.session_state.search_completed and st.session_state.route_results:
-            st.markdown("### Results")
             st.info(f"Starting from: {st.session_state.location_display}")
 
             # Summary statistics
@@ -475,7 +497,7 @@ def main():
                 if r["_walk_time_s"] != float("inf")
             ]
             if valid_results:
-                col1, col2, col3, col4 = st.columns(4)
+                col1, col2, col3 = st.columns(3)
                 with col1:
                     avg_walk = sum(r["_walk_time_s"] for r in valid_results) / len(
                         valid_results
@@ -491,11 +513,6 @@ def main():
                         valid_results
                     )
                     st.metric("Avg Travel Time", format_duration(f"{int(avg_travel)}s"))
-                with col4:
-                    success_rate = (
-                        len(valid_results) / len(st.session_state.route_results) * 100
-                    )
-                    st.metric("Success Rate", f"{success_rate:.0f}%")
 
             # Results table
             results_df = pd.DataFrame(st.session_state.route_results)
@@ -504,10 +521,9 @@ def main():
             display_cols = [
                 "Facility",
                 "Program Type",
-                "Walk Time",
                 "Walk Distance",
+                "Walk Time",
                 "Travel Time",
-                "Direct Distance",
             ]
 
             st.dataframe(
@@ -551,9 +567,40 @@ def main():
                             with col3:
                                 st.metric("Total Distance", result["Distance"])
 
-                            # Directions
-                            st.markdown("**Directions:**")
-                            st.code(route_info["directions"], language=None)
+                            # Directions table
+                            st.markdown("**Step-by-Step Directions:**")
+                            directions_data = route_info["directions"]
+
+                            if directions_data:
+                                # Create DataFrame for better display
+                                directions_df = pd.DataFrame(directions_data)
+
+                                # Display as a clean table
+                                st.dataframe(
+                                    directions_df,
+                                    use_container_width=True,
+                                    hide_index=True,
+                                    column_config={
+                                        "Step": st.column_config.NumberColumn(
+                                            "Step", width="small"
+                                        ),
+                                        "Type": st.column_config.TextColumn(
+                                            "Type", width="small"
+                                        ),
+                                        "Distance": st.column_config.TextColumn(
+                                            "Distance", width="small"
+                                        ),
+                                        "Instructions": st.column_config.TextColumn(
+                                            "Instructions", width="large"
+                                        ),
+                                        "Duration": st.column_config.TextColumn(
+                                            "Duration", width="small"
+                                        ),
+                                    },
+                                )
+                            else:
+                                st.info("No detailed directions available")
+
                 else:
                     st.info("No valid routes found")
 
