@@ -14,6 +14,7 @@ from transit import (
     print_route_summary,
 )
 import requests
+import pytz
 
 
 # Configure page
@@ -258,13 +259,20 @@ def main():
             key="n_facilities",
         )
 
+        # Set default timezone to US/Eastern
+        eastern = pytz.timezone("US/Eastern")
+        now_eastern = datetime.now(eastern)
+
         departure_time = st.time_input(
             "Departure time",
             key="departure_time",
+            value=now_eastern.time(),
         )
-        departure_time = datetime.combine(datetime.today(), departure_time).strftime(
-            "%Y-%m-%d %H:%M:%S"
+        # Combine with today's date in Eastern time
+        departure_time_dt = eastern.localize(
+            datetime.combine(now_eastern.date(), departure_time)
         )
+        departure_time = departure_time_dt.strftime("%Y-%m-%d %H:%M:%S %Z")
 
     with left_col:
         # Location input
