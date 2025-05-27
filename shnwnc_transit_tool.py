@@ -224,7 +224,7 @@ def main():
     initialize_session_state()
 
     # Header
-    st.title("SHNWNC - Public Transit Routes")
+    st.header("SHNWNC - Public Transit Routes")
 
     # Check for API key
     if not os.getenv("MAPS_API_KEY"):
@@ -241,12 +241,32 @@ def main():
     # Create two-column layout for compact design
     left_col, right_col = st.columns([1, 2])
 
-    with left_col:
+    with st.sidebar:
         st.markdown("### Configuration")
 
         # Success message for loaded facilities
         st.success(f"Loaded {len(facilities_df)} facilities from sample data.")
 
+        # Settings
+        st.markdown("#### Settings")
+
+        n_facilities = st.slider(
+            "Number of facilities",
+            min_value=1,
+            max_value=20,
+            value=5,
+            key="n_facilities",
+        )
+
+        departure_time = st.time_input(
+            "Departure time",
+            key="departure_time",
+        )
+        departure_time = datetime.combine(datetime.today(), departure_time).strftime(
+            "%Y-%m-%d %H:%M:%S"
+        )
+
+    with left_col:
         # Location input
         st.markdown("#### Starting Location")
         input_method = st.radio(
@@ -271,7 +291,7 @@ def main():
                 try:
                     with st.spinner("Geocoding..."):
                         start_lat, start_lon = geocode_address(start_address)
-                    st.success("Address recognized")
+                    st.toast("Address recognized")
                 except Exception as e:
                     st.error(f"Could not find address: {e}")
                     st.stop()
@@ -297,24 +317,6 @@ def main():
 
         if (start_lat is None or start_lon is None) and not start_address:
             st.info("Please enter a starting location")
-            st.stop()
-
-        # Settings
-        st.markdown("#### Settings")
-
-        n_facilities = st.slider(
-            "Number of facilities",
-            min_value=1,
-            max_value=20,
-            value=5,
-            key="n_facilities",
-        )
-
-        departure_time = st.text_input(
-            "Departure time",
-            value=datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            key="departure_time",
-        )
 
         # Program type filter
         program_types = facilities_df["Program Type"].unique()
