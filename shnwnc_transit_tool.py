@@ -209,6 +209,8 @@ def initialize_session_state():
         st.session_state.location_display = ""
     if "search_params" not in st.session_state:
         st.session_state.search_params = {}
+    if "selected_facility" not in st.session_state:
+        st.session_state.selected_facility = None
 
 
 def clear_search_results():
@@ -218,6 +220,7 @@ def clear_search_results():
     st.session_state.route_details = {}
     st.session_state.location_display = ""
     st.session_state.search_params = {}
+    st.session_state.selected_facility = None
 
 
 def main():
@@ -263,16 +266,29 @@ def main():
         eastern = pytz.timezone("US/Eastern")
         now_eastern = datetime.now(eastern)
 
+        trip_date = st.date_input(
+            "Departure date",
+            key="departure_date",
+            value=now_eastern.date(),
+        )
+
         departure_time = st.time_input(
             "Departure time",
             key="departure_time",
             value=now_eastern.time(),
         )
-        # Combine with today's date in Eastern time
+        # Combine with selected date in Eastern time
         departure_time_dt = eastern.localize(
-            datetime.combine(now_eastern.date(), departure_time)
+            datetime.combine(trip_date, departure_time)
         )
         departure_time = departure_time_dt.strftime("%Y-%m-%d %H:%M:%S %Z")
+
+        sort_option = st.radio(
+            "Sort results by",
+            ["Trip Time", "Total Distance", "Walk Distance"],
+            index=0,
+            key="sort_option",
+        )
 
     with left_col:
         # Location input
@@ -524,9 +540,17 @@ def main():
                     )
                     st.metric("Avg Travel Time", format_duration(f"{int(avg_travel)}s"))
 
-            # Results table
+            # Results table and sorting
+            sort_option = st.session_state.get("sort_option", "Trip Time")
+            metric_map = {
+                "Trip Time": ("_travel_time_s", "Travel Time"),
+                "Total Distance": ("_travel_distance_m", "Distance"),
+                "Walk Distance": ("_walk_distance_m", "Walk Distance"),
+            }
+            sort_key, primary_metric = metric_map[sort_option]
+
             results_df = pd.DataFrame(st.session_state.route_results)
-            sorted_df = results_df.sort_values("_walk_distance_m", ascending=True)
+            sorted_df = results_df.sort_values(sort_key, ascending=True)
 
             display_cols = [
                 "Facility",
@@ -534,6 +558,7 @@ def main():
                 "Walk Distance",
                 "Walk Time",
                 "Travel Time",
+                "Distance",
             ]
 
             st.dataframe(
@@ -554,62 +579,73 @@ def main():
                 ]
 
                 if valid_routes:
-                    # Create tabs for routes
-                    tab_names = [
-                        r["Facility"][:30] + "..."
-                        if len(r["Facility"]) > 30
-                        else r["Facility"]
-                        for r in valid_routes
+                    valid_routes_sorted = sorted(valid_routes, key=lambda r: r[sort_key])
+                    option_labels = [
+                        f"{r['Facility']} - {r[primary_metric]}" for r in valid_routes_sorted
                     ]
-                    tabs = st.tabs(tab_names)
 
-                    for tab, result in zip(tabs, valid_routes):
-                        with tab:
-                            facility_key = result["facility_key"]
-                            route_info = st.session_state.route_details[facility_key]
+                    default_index = 0
+                    if st.session_state.selected_facility:
+                        for i, r in enumerate(valid_routes_sorted):
+                            if r["facility_key"] == st.session_state.selected_facility:
+                                default_index = i
+                                break
 
-                            # Route metrics
-                            col1, col2, col3 = st.columns(3)
-                            with col1:
-                                st.metric("Travel Time", result["Travel Time"])
-                            with col2:
-                                st.metric("Walk Time", result["Walk Time"])
-                            with col3:
-                                st.metric("Total Distance", result["Distance"])
+                    selected_label = st.radio(
+                        "Select destination",
+                        option_labels,
+                        index=default_index,
+                        key="destination_select",
+                    )
 
-                            # Directions table
-                            st.markdown("**Step-by-Step Directions:**")
-                            directions_data = route_info["directions"]
+                    selected_route = valid_routes_sorted[
+                        option_labels.index(selected_label)
+                    ]
+                    st.session_state.selected_facility = selected_route["facility_key"]
+                    route_info = st.session_state.route_details[
+                        selected_route["facility_key"]
+                    ]
 
-                            if directions_data:
-                                # Create DataFrame for better display
-                                directions_df = pd.DataFrame(directions_data)
+                    # Route metrics
+                    col1, col2, col3 = st.columns(3)
+                    with col1:
+                        st.metric("Travel Time", selected_route["Travel Time"])
+                    with col2:
+                        st.metric("Walk Time", selected_route["Walk Time"])
+                    with col3:
+                        st.metric("Total Distance", selected_route["Distance"])
 
-                                # Display as a clean table
-                                st.dataframe(
-                                    directions_df,
-                                    use_container_width=True,
-                                    hide_index=True,
-                                    column_config={
-                                        "Step": st.column_config.NumberColumn(
-                                            "Step", width="small"
-                                        ),
-                                        "Type": st.column_config.TextColumn(
-                                            "Type", width="small"
-                                        ),
-                                        "Distance": st.column_config.TextColumn(
-                                            "Distance", width="small"
-                                        ),
-                                        "Instructions": st.column_config.TextColumn(
-                                            "Instructions", width="large"
-                                        ),
-                                        "Duration": st.column_config.TextColumn(
-                                            "Duration", width="small"
-                                        ),
-                                    },
-                                )
-                            else:
-                                st.info("No detailed directions available")
+                    # Directions table
+                    st.markdown("**Step-by-Step Directions:**")
+                    directions_data = route_info["directions"]
+
+                    if directions_data:
+                        directions_df = pd.DataFrame(directions_data)
+
+                        st.dataframe(
+                            directions_df,
+                            use_container_width=True,
+                            hide_index=True,
+                            column_config={
+                                "Step": st.column_config.NumberColumn(
+                                    "Step", width="small"
+                                ),
+                                "Type": st.column_config.TextColumn(
+                                    "Type", width="small"
+                                ),
+                                "Distance": st.column_config.TextColumn(
+                                    "Distance", width="small"
+                                ),
+                                "Instructions": st.column_config.TextColumn(
+                                    "Instructions", width="large"
+                                ),
+                                "Duration": st.column_config.TextColumn(
+                                    "Duration", width="small"
+                                ),
+                            },
+                        )
+                    else:
+                        st.info("No detailed directions available")
 
                 else:
                     st.info("No valid routes found")
