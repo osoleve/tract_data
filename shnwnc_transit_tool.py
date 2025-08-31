@@ -336,6 +336,9 @@ def main():
 
         # Action buttons
         st.markdown("---")
+        sort_key = st.selectbox(
+            "Sort by", ["Distance", "Travel Time", "Walk Time"], index=0
+        )
         col1, col2 = st.columns(2)
         with col1:
             search_button = st.button(
@@ -503,8 +506,14 @@ def main():
 
             # Results table
             results_df = pd.DataFrame(st.session_state.route_results)
-            sorted_df = results_df.sort_values("_walk_distance_m", ascending=True)
+            if sort_key == "Distance":
+                _sort_key = "_walk_distance_m"
+            elif sort_key == "Travel Time":
+                _sort_key = "_travel_time_s"
+            elif sort_key == "Walk Time":
+                _sort_key = "_walk_time_s"
 
+            sorted_df = results_df.sort_values(_sort_key, ascending=True)
             display_cols = [
                 "Facility",
                 "Program Type",
@@ -525,7 +534,7 @@ def main():
 
                 valid_routes = [
                     r
-                    for r in st.session_state.route_results
+                    for r in sorted_df.to_dict("records")
                     if r["facility_key"]
                     and r["facility_key"] in st.session_state.route_details
                 ]
