@@ -15,6 +15,7 @@ from transit import (
 )
 import requests
 import pytz
+from io import BytesIO  # NEW: for in-memory Excel export
 
 
 # Configure page
@@ -195,6 +196,15 @@ def format_route_directions(legs: List[Dict]) -> List[Dict]:
             step_num += 1
 
     return steps_data
+
+
+# NEW: Helper to convert a DataFrame to Excel bytes (now supports sheet name)
+def df_to_excel_bytes(df: pd.DataFrame, sheet_name: str = "Results") -> bytes:
+    output = BytesIO()
+    with pd.ExcelWriter(output) as writer:
+        df.to_excel(writer, index=False, sheet_name=sheet_name)
+    output.seek(0)
+    return output.getvalue()
 
 
 def initialize_session_state():
@@ -528,6 +538,8 @@ def main():
                 hide_index=True,
             )
 
+            # REMOVED: global export of full results
+
             # Route directions
             if st.session_state.route_details:
                 st.markdown("### Route Details")
@@ -568,8 +580,22 @@ def main():
                             directions_data = route_info["directions"]
 
                             if directions_data:
-                                # Create DataFrame for better display
                                 directions_df = pd.DataFrame(directions_data)
+
+                                # NEW: Export only the selected route directions as Excel
+                                try:
+                                    excel_bytes = df_to_excel_bytes(
+                                        directions_df, sheet_name="Directions"
+                                    )
+                                    st.download_button(
+                                        label=f"Export directions to Excel",
+                                        data=excel_bytes,
+                                        file_name=f"directions_{result['Facility'].replace(' ', '_')}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.xlsx",
+                                        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                        use_container_width=True,
+                                    )
+                                except Exception as e:
+                                    st.warning(f"Could not generate Excel file: {e}")
 
                                 # Display as a clean table
                                 st.dataframe(
