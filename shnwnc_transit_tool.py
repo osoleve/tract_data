@@ -277,51 +277,28 @@ def main():
     with left_col:
         # Location input
         st.markdown("#### Starting Location")
-        input_method = st.radio(
-            "Input method", ["Address", "Coordinates"], index=0, horizontal=True
-        )
 
         start_lat = None
         start_lon = None
         start_address = None
         location_display = ""
 
-        if input_method == "Address":
-            start_address = st.text_input(
-                "Address",
-                placeholder="Corner of 6th and Trade St, Winston-Salem, NC",
-                help="Enter any address format",
-                key="address_input",
-            )
+        start_address = st.text_input(
+            "Address",
+            placeholder="Corner of 6th and Trade St, Winston-Salem, NC",
+            help="Enter any address format",
+            key="address_input",
+        )
 
-            if start_address:
-                location_display = start_address
-                try:
-                    with st.spinner("Geocoding..."):
-                        start_lat, start_lon = geocode_address(start_address)
-                    st.toast("Address recognized")
-                except Exception as e:
-                    st.error(f"Could not find address: {e}")
-                    st.stop()
-        else:
-            col1, col2 = st.columns(2)
-            with col1:
-                start_lat = st.number_input(
-                    "Latitude",
-                    value=36.1474233,
-                    format="%.7f",
-                    step=0.0000001,
-                    key="lat_input",
-                )
-            with col2:
-                start_lon = st.number_input(
-                    "Longitude",
-                    value=-79.7490072,
-                    format="%.7f",
-                    step=0.0000001,
-                    key="lon_input",
-                )
-            location_display = f"{start_lat:.6f}, {start_lon:.6f}"
+        if start_address:
+            location_display = start_address
+            try:
+                with st.spinner("Geocoding..."):
+                    start_lat, start_lon = geocode_address(start_address)
+                st.toast("Address recognized")
+            except Exception as e:
+                st.error(f"Could not find address: {e}")
+                st.stop()
 
         if (start_lat is None or start_lon is None) and not start_address:
             st.info("Please enter a starting location")
