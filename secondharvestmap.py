@@ -102,7 +102,35 @@ with st.sidebar:
             df = pd.DataFrame()
             programs = set()
 
-        
+        if programs:
+            available_programs = sorted(programs)
+            current_filters = config.get("program_filters", [])
+            default_selection = [
+                prog for prog in current_filters if prog in available_programs
+            ]
+            if default_selection != current_filters:
+                config = update_config(config, program_filters=default_selection)
+                st.session_state["config"] = config
+                current_filters = default_selection
+
+            selected_programs = st.multiselect(
+                "Filter Program Types",
+                options=available_programs,
+                default=current_filters,
+                help=(
+                    "Select program types to display on the map. "
+                    "Leave empty to show every uploaded program."
+                ),
+            )
+
+            if selected_programs != current_filters:
+                config = update_config(config, program_filters=selected_programs)
+                st.session_state["config"] = config
+        elif config.get("program_filters"):
+            config = update_config(config, program_filters=[])
+            st.session_state["config"] = config
+
+
 
         if not df.empty:
             # Download df as two files, one with rows with lat/lon and one with ones we couldn't geocode

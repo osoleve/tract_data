@@ -6,6 +6,7 @@
     "vehicle_weight": 1.0,
     "vehicle_num_toggle": false,
     "show_programs": false,
+    "program_filters": [],
     "normalize": true,
     "scale_max": 35,
     "map_display": {

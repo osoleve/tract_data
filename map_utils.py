@@ -169,7 +169,25 @@ def _map_uploaded_addresses(fig, config):
             existing_files = [df["source_file"].iloc[0] for df in st.session_state["uploaded_dataframes"] 
                              if not df.empty and "source_file" in df.columns]
             
-            new_df.drop(columns=[c for c in new_df.columns if c not in ["lat", "lon", "Program Type", "source_file", "Facility", "Name", "Program Name"]], inplace=True, errors='ignore')
+            allowed_columns = {
+                "lat",
+                "lon",
+                "Program Type",
+                "source_file",
+                "Facility",
+                "Name",
+                "Program Name",
+                "Address",
+                "Address Line 2",
+                "City",
+                "Zip",
+                "County",
+            }
+            new_df.drop(
+                columns=[c for c in new_df.columns if c not in allowed_columns],
+                inplace=True,
+                errors="ignore",
+            )
             if "Program Type" not in new_df.columns:
                 new_df["Program Type"] = "Client"
                 
@@ -193,82 +211,180 @@ def _map_uploaded_addresses(fig, config):
     
     # Combine all dataframes
     df = pd.concat(st.session_state["uploaded_dataframes"], ignore_index=True)
-    
+
     # Save the concatenated dataframe for other components to use
-    st.session_state["mapped_addresses"] = st.session_state.df = df#[["lat", "lon", "Program Type"]]
-    
-    # Handle program types from uploaded data
+    st.session_state["mapped_addresses"] = st.session_state.df = df
+
+    # Only rows with coordinates can be shown on the map
+    mappable_df = df.dropna(subset=["lat", "lon"]).copy()
+    if mappable_df.empty:
+        st.session_state["mapped_addresses_grouped"] = pd.DataFrame()
+        st.session_state["available_program_types"] = []
+        return fig
+
+    if "Program Type" not in mappable_df.columns:
+        mappable_df["Program Type"] = "Client"
+    mappable_df["Program Type"] = mappable_df["Program Type"].fillna("Client")
+
     palette = px.colors.cyclical.Twilight
+    program_types = sorted(mappable_df["Program Type"].unique())
+    color_map = {
+        prog: palette[i % len(palette)] for i, prog in enumerate(program_types)
+    }
+    st.session_state["available_program_types"] = program_types
 
-    if "Program Type" in df.columns:
-        # Map program types to colors
-        program_types = df["Program Type"].unique()
-        color_map = {prog: palette[i % len(palette)]
-                     for i, prog in enumerate(program_types)}
+    selected_types = config.get("program_filters") or []
+    valid_selected_types = [prog for prog in selected_types if prog in program_types]
+    if selected_types != valid_selected_types:
+        config["program_filters"] = valid_selected_types
+        if "config" in st.session_state:
+            st.session_state["config"]["program_filters"] = valid_selected_types
 
-        # Plot each program type with its own color and legend entry
-        for prog, group in df.groupby("Program Type"):
-            # Create customdata array with safe column access
-            # Updated hovertext logic
-            hovertext = []
-            for _, row in group.iterrows():
-                # Show Facility or Name if present, else fallback to lat/lon
-                label = None
-                if "Facility" in row and pd.notnull(row["Facility"]):
-                    label = row["Facility"]
-                elif "Name" in row and pd.notnull(row["Name"]):
-                    label = row["Name"]
-                else:
-                    label = f"({row['lat']:.4f}, {row['lon']:.4f})"
-                hovertext.append(
-                    f"<b>{label}</b><br>Program Type: {row['Program Type']}"
-                )
-
-            # Use program_marker config for non-client markers
-            marker_config = config["client_marker"] if prog == "Client" else config["program_marker"]
-
-            fig.add_scattermap(
-                below="",
-                lat=group["lat"],
-                lon=group["lon"],
-                mode="markers",
-                marker={**marker_config, "color": color_map[prog]},
-                text=hovertext,
-                hoverinfo="text",
-                name=prog,
-                legendgroup=prog,
-                showlegend=True,
-            )
+    if valid_selected_types:
+        filtered_df = mappable_df[
+            mappable_df["Program Type"].isin(valid_selected_types)
+        ].copy()
     else:
-        # Fall back to original behavior for data without Program Type
-        df["color"] = config["client_marker"]["color"]
-        df["Program Type"] = "Client"
+        filtered_df = mappable_df.copy()
 
-        # Create customdata array with safe column access
-        customdata_cols = []
-        if "Address" in df.columns:
-            customdata_cols.append(df["Address"])
-        else:
-            customdata_cols.append(df["lat"])
-        
-        customdata_cols.append(df["source_file"])  # Add source filename to hover info
-        
-        customdata = list(zip(*customdata_cols))
-        
-        fig.add_scattermap(
-            below="",
-            lat=df["lat"],
-            lon=df["lon"],
-            mode="markers",
-            marker={
-                "color": config["client_marker"]["color"],
-                "size": config["client_marker"]["size"],
-                "opacity": config["client_marker"]["opacity"],
-            },
-            name="Uploaded Addresses",
-            customdata=customdata,
-            hovertemplate="%{customdata[0]}<br><i>From: %{customdata[1]}</i><extra></extra>",
+    st.session_state["mapped_addresses_filtered"] = filtered_df.copy()
+
+    if filtered_df.empty:
+        st.session_state["mapped_addresses_grouped"] = pd.DataFrame()
+        return fig
+
+    def _clean_text(value):
+        if pd.isna(value):
+            return None
+        text = str(value).strip()
+        return text if text else None
+
+    def _build_address_key(row):
+        parts = []
+        for col in ("Address", "Address Line 2", "City", "Zip"):
+            if col in row:
+                value = _clean_text(row[col])
+                if value:
+                    parts.append(value.lower())
+        if parts:
+            return "|".join(parts)
+        lat = row.get("lat")
+        lon = row.get("lon")
+        if pd.notna(lat) and pd.notna(lon):
+            return f"{round(lat, 6)}_{round(lon, 6)}"
+        return None
+
+    def _format_location_header(group):
+        first = group.iloc[0]
+        header_lines = []
+        address = _clean_text(first.get("Address"))
+        address2 = _clean_text(first.get("Address Line 2"))
+        city = _clean_text(first.get("City"))
+        zip_code = _clean_text(first.get("Zip"))
+
+        if address:
+            header_lines.append(f"<b>{address}</b>")
+        if address2:
+            header_lines.append(address2)
+        city_zip_parts = [part for part in [city, zip_code] if part]
+        if city_zip_parts:
+            header_lines.append(", ".join(city_zip_parts))
+
+        if header_lines:
+            return "<br>".join(header_lines)
+
+        lat = first.get("lat")
+        lon = first.get("lon")
+        if pd.notna(lat) and pd.notna(lon):
+            return f"<b>({lat:.4f}, {lon:.4f})</b>"
+        return "<b>Program Location</b>"
+
+    def _format_program_line(row):
+        label = None
+        for col in ("Program Name", "Facility", "Name"):
+            label = _clean_text(row.get(col))
+            if label:
+                break
+        if not label:
+            lat = row.get("lat")
+            lon = row.get("lon")
+            if pd.notna(lat) and pd.notna(lon):
+                label = f"({lat:.4f}, {lon:.4f})"
+            else:
+                label = "Program"
+
+        program_type = _clean_text(row.get("Program Type")) or "Unknown Program Type"
+        line = f"&bull; <b>{label}</b> — {program_type}"
+
+        source = _clean_text(row.get("source_file"))
+        if source:
+            line += (
+                f"<br>&nbsp;&nbsp;&nbsp;<span style='font-size:11px;'>Source: {source}</span>"
+            )
+        return line
+
+    def _build_hover(group):
+        lines = []
+        header = _format_location_header(group)
+        if header:
+            lines.append(header)
+            lines.append("")
+        lines.append(f"<b>Programs ({len(group)}):</b>")
+        for _, row in group.iterrows():
+            lines.append(_format_program_line(row))
+        return "<br>".join(lines)
+
+    filtered_df["_address_key"] = filtered_df.apply(_build_address_key, axis=1)
+    filtered_df = filtered_df.dropna(subset=["_address_key"])
+
+    aggregated_points = []
+    for _, group in filtered_df.groupby("_address_key"):
+        aggregated_points.append(
+            {
+                "lat": group["lat"].mean(),
+                "lon": group["lon"].mean(),
+                "hover": _build_hover(group),
+                "program_types": sorted(
+                    {ptype for ptype in group["Program Type"].dropna().unique()}
+                ),
+            }
         )
+
+    if not aggregated_points:
+        st.session_state["mapped_addresses_grouped"] = pd.DataFrame()
+        return fig
+
+    aggregated_df = pd.DataFrame(aggregated_points)
+    st.session_state["mapped_addresses_grouped"] = aggregated_df
+
+    marker_config = config["program_marker"].copy()
+    marker_config.setdefault("size", config.get("client_marker", {}).get("size", 12))
+    marker_config.setdefault("opacity", config.get("program_marker", {}).get("opacity", 0.75))
+
+    colors = []
+    for program_list in aggregated_df["program_types"]:
+        if program_list:
+            colors.append(
+                color_map.get(
+                    program_list[0], config.get("client_marker", {}).get("color", "#006af5")
+                )
+            )
+        else:
+            colors.append(config.get("client_marker", {}).get("color", "#006af5"))
+
+    marker_config["color"] = colors
+
+    fig.add_scattermap(
+        below="",
+        lat=aggregated_df["lat"],
+        lon=aggregated_df["lon"],
+        mode="markers",
+        marker=marker_config,
+        text=aggregated_df["hover"],
+        hoverinfo="text",
+        name="Uploaded Programs",
+        showlegend=True,
+    )
 
     return fig
 
@@ -276,7 +392,7 @@ def _configure_map_layout(fig, config):
     """Configure the final map layout."""
     fig.update_layout(
         margin={"r": 0, "t": 0, "l": 0, "b": 0},
-        legend_title_text="Program Type",
+        legend_title_text="Map Layers",
         legend=dict(
             orientation="h",
             yanchor="bottom",
@@ -312,9 +428,15 @@ def remove_uploaded_file(filename):
             st.session_state["mapped_addresses"] = st.session_state.df = pd.concat(
                 st.session_state["uploaded_dataframes"], ignore_index=True
             )
+            st.session_state["mapped_addresses_filtered"] = pd.DataFrame()
+            st.session_state["mapped_addresses_grouped"] = pd.DataFrame()
+            st.session_state["available_program_types"] = []
         else:
             # No files left, clear the dataframes
             st.session_state["mapped_addresses"] = st.session_state.df = pd.DataFrame()
-        
+            st.session_state["mapped_addresses_filtered"] = pd.DataFrame()
+            st.session_state["mapped_addresses_grouped"] = pd.DataFrame()
+            st.session_state["available_program_types"] = []
+
         return True
     return False
