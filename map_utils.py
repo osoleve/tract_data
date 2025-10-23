@@ -16,6 +16,8 @@ def process_coordinates(uploaded_file):
         df = pd.read_excel(uploaded_file)
     else:
         df = pd.read_csv(uploaded_file)
+    # Trim leading/trailing whitespace from column names so downstream logic works reliably
+    df.columns = df.columns.str.strip()
     if "lat" in df.columns and "lon" in df.columns:
         # Add source filename to help identify which file data came from
         df["source_file"] = uploaded_file.name
