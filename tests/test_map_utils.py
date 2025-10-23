@@ -5,7 +5,7 @@ import pandas as pd
 
 sys.path.append(str(Path(__file__).resolve().parents[1]))
 
-from map_utils import process_coordinates
+from map_utils import build_address_key, process_coordinates, _clean_text
 
 
 def test_process_coordinates_trims_column_whitespace(tmp_path):
@@ -36,3 +36,26 @@ def test_process_coordinates_normalizes_column_case(tmp_path):
     assert set(["lat", "lon", "Program Type", "source_file"]).issubset(df.columns)
     expected = pd.Series([35.0, -80.0], index=["lat", "lon"], name=0)
     pd.testing.assert_series_equal(df.loc[0, ["lat", "lon"]].astype(float), expected)
+
+
+def test_clean_text_normalizes_whitespace():
+    assert _clean_text(" 123   Main St \n ") == "123 Main St"
+
+
+def test_build_address_key_uses_cleaned_components():
+    row_a = pd.Series(
+        {
+            "Address": "123   Main St",
+            "City": "Charlotte",
+            "Zip": "28202",
+        }
+    )
+    row_b = pd.Series(
+        {
+            "Address": "\t123 Main   St",
+            "City": "  Charlotte  ",
+            "Zip": "28202\n",
+        }
+    )
+
+    assert build_address_key(row_a) == build_address_key(row_b)
