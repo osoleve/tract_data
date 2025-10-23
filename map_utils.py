@@ -3,9 +3,47 @@ import geopandas as gpd
 import plotly.express as px
 import streamlit as st
 import pandas as pd
-
-
 import googlemaps
+
+_CANONICAL_UPLOAD_COLUMNS = {
+    "lat": "lat",
+    "latitude": "lat",
+    "lon": "lon",
+    "lng": "lon",
+    "longitude": "lon",
+    "address": "Address",
+    "address line 2": "Address Line 2",
+    "city": "City",
+    "zip": "Zip",
+    "zipcode": "Zip",
+    "zip code": "Zip",
+    "program type": "Program Type",
+    "facility": "Facility",
+    "name": "Name",
+    "program name": "Program Name",
+}
+
+
+def _normalize_uploaded_columns(df: pd.DataFrame) -> pd.DataFrame:
+    """Return a copy of *df* with trimmed and case-insensitive canonical column names."""
+    trimmed = {col: col.strip() for col in df.columns}
+    df = df.rename(columns=trimmed)
+
+    rename_map = {}
+    seen_targets = set()
+    for col in df.columns:
+        key = col.casefold()
+        if key in _CANONICAL_UPLOAD_COLUMNS:
+            target = _CANONICAL_UPLOAD_COLUMNS[key]
+            # Avoid overwriting an existing canonical column with the same name
+            if target not in seen_targets:
+                rename_map[col] = target
+                seen_targets.add(target)
+
+    if rename_map:
+        df = df.rename(columns=rename_map)
+
+    return df
 
 
 @st.cache_data
@@ -16,6 +54,9 @@ def process_coordinates(uploaded_file):
         df = pd.read_excel(uploaded_file)
     else:
         df = pd.read_csv(uploaded_file)
+
+    # Normalize column headers once so downstream lookups are reliable and case-insensitive
+    df = _normalize_uploaded_columns(df)
     if "lat" in df.columns and "lon" in df.columns:
         # Add source filename to help identify which file data came from
         df["source_file"] = uploaded_file.name
