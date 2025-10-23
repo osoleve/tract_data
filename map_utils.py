@@ -1,4 +1,7 @@
 import json
+import re
+import unicodedata
+
 import geopandas as gpd
 import plotly.express as px
 import streamlit as st
@@ -22,6 +25,39 @@ _CANONICAL_UPLOAD_COLUMNS = {
     "name": "Name",
     "program name": "Program Name",
 }
+
+
+def _clean_text(value):
+    """Normalize free-form text used in address matching."""
+    if pd.isna(value):
+        return None
+
+    text = unicodedata.normalize("NFKC", str(value))
+    text = re.sub(r"\s+", " ", text).strip()
+
+    return text if text else None
+
+
+_ADDRESS_KEY_COLUMNS = ("Address", "Address Line 2", "City", "Zip")
+
+
+def build_address_key(row: pd.Series) -> str | None:
+    """Create a normalized key for grouping rows by address."""
+    parts = []
+    for col in _ADDRESS_KEY_COLUMNS:
+        if col in row:
+            value = _clean_text(row[col])
+            if value:
+                parts.append(value.lower())
+    if parts:
+        return "|".join(parts)
+
+    lat = row.get("lat")
+    lon = row.get("lon")
+    if pd.notna(lat) and pd.notna(lon):
+        return f"{round(lat, 6)}_{round(lon, 6)}"
+
+    return None
 
 
 def _normalize_uploaded_columns(df: pd.DataFrame) -> pd.DataFrame:
@@ -294,27 +330,6 @@ def _map_uploaded_addresses(fig, config):
         st.session_state["mapped_addresses_grouped"] = pd.DataFrame()
         return fig
 
-    def _clean_text(value):
-        if pd.isna(value):
-            return None
-        text = str(value).strip()
-        return text if text else None
-
-    def _build_address_key(row):
-        parts = []
-        for col in ("Address", "Address Line 2", "City", "Zip"):
-            if col in row:
-                value = _clean_text(row[col])
-                if value:
-                    parts.append(value.lower())
-        if parts:
-            return "|".join(parts)
-        lat = row.get("lat")
-        lon = row.get("lon")
-        if pd.notna(lat) and pd.notna(lon):
-            return f"{round(lat, 6)}_{round(lon, 6)}"
-        return None
-
     def _format_location_header(group):
         first = group.iloc[0]
         header_lines = []
@@ -375,7 +390,7 @@ def _map_uploaded_addresses(fig, config):
             lines.append(_format_program_line(row))
         return "<br>".join(lines)
 
-    filtered_df["_address_key"] = filtered_df.apply(_build_address_key, axis=1)
+    filtered_df["_address_key"] = filtered_df.apply(build_address_key, axis=1)
     filtered_df = filtered_df.dropna(subset=["_address_key"])
 
     aggregated_points = []
