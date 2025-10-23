@@ -370,12 +370,12 @@ def _map_uploaded_addresses(fig, config):
                 label = "Program"
 
         program_type = _clean_text(row.get("Program Type")) or "Unknown Program Type"
-        line = f"&bull; <b>{label}</b> — {program_type}"
+        line = f" - <b>{label}</b> — {program_type}"
 
         source = _clean_text(row.get("source_file"))
         if source:
             line += (
-                f"<br>&nbsp;&nbsp;&nbsp;<span style='font-size:11px;'>Source: {source}</span>"
+                f"<br><span style='font-size:11px;'>Source: {source}</span>"
             )
         return line
 
