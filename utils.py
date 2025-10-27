@@ -1,17 +1,84 @@
+"""Shared utilities for the Streamlit dashboards."""
+
+from __future__ import annotations
+
+from collections.abc import Mapping
+from copy import deepcopy
 import json
 import pickle
+from typing import Any, Iterable
+
 import pandas as pd
 import geopandas as gpd
 import streamlit as st
 
-def load_config(config_path="config.json"):
-    with open(config_path, "r") as f:
-        return json.load(f)
 
-def get_missing_defaults(config):
-    for k, v in config.items():
-        if k not in st.session_state["config"]:
-            st.session_state["config"][k] = v
+def load_config(config_path: str = "config.json") -> dict[str, Any]:
+    """Load the JSON configuration file from *config_path*."""
+    with open(config_path, "r", encoding="utf-8") as config_file:
+        return json.load(config_file)
+
+
+def merge_config_defaults(target: dict[str, Any], defaults: Mapping) -> None:
+    """Populate missing keys in *target* using values from *defaults*.
+
+    This helper performs a deep merge so nested dictionaries are handled
+    recursively. Existing keys in ``target`` are preserved.
+    """
+
+    for key, value in defaults.items():
+        if key not in target:
+            target[key] = deepcopy(value)
+            continue
+
+        existing = target[key]
+        if isinstance(existing, Mapping) and isinstance(value, Mapping):
+            merge_config_defaults(existing, value)
+
+
+def initialize_session_config(defaults: Mapping | None = None) -> dict[str, Any]:
+    """Ensure ``st.session_state['config']`` exists and is populated.
+
+    Parameters
+    ----------
+    defaults:
+        Mapping that provides default values. If ``None`` the defaults are
+        loaded from ``config.json``.
+    """
+
+    if defaults is None:
+        defaults = load_config()
+
+    if "config" not in st.session_state:
+        st.session_state["config"] = deepcopy(defaults)
+    else:
+        merge_config_defaults(st.session_state["config"], defaults)
+
+    st.session_state.setdefault("df", pd.DataFrame())
+    return st.session_state["config"]
+
+
+def update_session_config(updates: Mapping[str, Any] | None = None, **kwargs: Any) -> dict[str, Any]:
+    """Apply shallow updates to ``st.session_state['config']``.
+
+    ``updates`` may be any mapping. Additional keyword arguments are merged on
+    top to provide a convenient call-site API. The updated configuration object
+    is returned for convenience.
+    """
+
+    if "config" not in st.session_state:
+        raise RuntimeError("Session config has not been initialised")
+
+    config = st.session_state["config"]
+    merged_updates: dict[str, Any] = {}
+    if updates:
+        merged_updates.update(updates)
+    merged_updates.update(kwargs)
+
+    for key, value in merged_updates.items():
+        config[key] = value
+
+    return config
 
 def fix_tract(s):
     left_side, right_side = s.split(".") if "." in s else (s, "00")
@@ -21,7 +88,7 @@ def fix_tract(s):
         right_side = right_side + "0"
     return left_side + "." + right_side
 
-def load_and_process_data(config):
+def load_and_process_data(config: Mapping[str, Any]):
     paths = config["file_paths"]
     with open(paths["acs"], "rb") as f:
         tract = pickle.load(f)  # expecting a GeoDataFrame
@@ -40,36 +107,80 @@ def load_and_process_data(config):
     tract = tract.loc[tract["County"].isin(countylist["County"])]
     return tract
 
-def weighted_mean(values, weights):
-    valid_pairs = [(v, w) for v, w in zip(values, weights) if v != 0 and w != 0]
-    if not valid_pairs:
-        return 0
-    values, weights = zip(*valid_pairs)
-    norm_weights = [w / sum(weights) for w in weights]
-    return sum([v * w for v, w in zip(values, norm_weights)])
+def weighted_mean(values: Iterable[float], weights: Iterable[float]) -> float:
+    """Return a weighted mean ignoring weight/value pairs equal to zero."""
 
-def normalize_column(col):
-    if "normalize" in st.session_state["config"] and st.session_state["config"]["normalize"]:
-        return 100 * (col - col.min()) / (col.max() - col.min())
-    return col
+    filtered_pairs = [
+        (float(value), float(weight))
+        for value, weight in zip(values, weights)
+        if value != 0 and weight != 0
+    ]
+    if not filtered_pairs:
+        return 0.0
 
-def post_process_data(_tract_data, vehicle_num_toggle, poverty_weight, vehicle_weight, food_weight):
-    if not vehicle_num_toggle:
-        _tract_data["pct_vehicle"] = _tract_data["pct_no_vehicle"]
-    else:
-        _tract_data["pct_vehicle"] = _tract_data["pct_fewer_vehicles"]
-    _tract_data["pct_poverty"] = normalize_column(_tract_data["pct_poverty"]).fillna(0)
-    _tract_data["pct_vehicle"] = normalize_column(_tract_data["pct_vehicle"]).fillna(0)   
-    _tract_data["pct_food_insecure"] = normalize_column(_tract_data["pct_food_insecure"]).fillna(0) 
-    _tract_data["combined_pct"] = _tract_data[
+    filtered_values, filtered_weights = zip(*filtered_pairs)
+    weight_sum = sum(filtered_weights)
+    if weight_sum == 0:
+        return 0.0
+
+    normalised_weights = [weight / weight_sum for weight in filtered_weights]
+    return float(sum(value * weight for value, weight in zip(filtered_values, normalised_weights)))
+
+
+def normalize_column(column: pd.Series, *, enable: bool) -> pd.Series:
+    """Return ``column`` scaled to 0-100 when *enable* is ``True``.
+
+    The previous implementation read Streamlit session state directly which made
+    the helper awkward to reuse outside the dashboard runtime. Passing the flag
+    explicitly keeps the function deterministic and easier to test while still
+    supporting the original behaviour at the call sites.
+    """
+
+    if not enable:
+        return column
+
+    min_value = column.min()
+    max_value = column.max()
+    range_value = max_value - min_value
+    if pd.isna(range_value) or range_value == 0:
+        return pd.Series(0, index=column.index, dtype="float64")
+
+    normalised = 100 * (column - min_value) / range_value
+    return normalised.astype("float64")
+
+
+def post_process_data(
+    tract_data: gpd.GeoDataFrame,
+    *,
+    vehicle_num_toggle: bool,
+    poverty_weight: float,
+    vehicle_weight: float,
+    food_weight: float,
+    normalize: bool,
+) -> gpd.GeoDataFrame:
+    """Compute weighted and normalised values for the census tract dataset.
+
+    Parameters
+    ----------
+    normalize:
+        When ``True`` the input columns are rescaled to a 0-100 range before
+        applying the weighted mean. When ``False`` the raw percentages are used
+        as-is.
+    """
+
+    tract = tract_data.copy()
+    vehicle_column = "pct_fewer_vehicles" if vehicle_num_toggle else "pct_no_vehicle"
+    tract["pct_vehicle"] = tract[vehicle_column]
+
+    tract["pct_poverty"] = normalize_column(tract["pct_poverty"], enable=normalize).fillna(0)
+    tract["pct_vehicle"] = normalize_column(tract["pct_vehicle"], enable=normalize).fillna(0)
+    tract["pct_food_insecure"] = normalize_column(tract["pct_food_insecure"], enable=normalize).fillna(0)
+
+    weight_vector = [poverty_weight, vehicle_weight, food_weight]
+    tract["combined_pct"] = tract[
         ["pct_poverty", "pct_vehicle", "pct_food_insecure"]
-    ].apply(
-        lambda x: weighted_mean(
-            x, [poverty_weight, vehicle_weight, food_weight]
-        ),
-        axis=1,
-    )
-    # st.write(_tract_data)
-    return _tract_data
+    ].apply(lambda row: weighted_mean(row, weight_vector), axis=1)
+
+    return tract
 
 
